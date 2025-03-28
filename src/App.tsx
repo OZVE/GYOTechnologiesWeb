@@ -137,7 +137,12 @@ function App() {
             <p className="text-xl md:text-2xl mb-12">
               Desarrollo ágil con IA y experiencia humana
             </p>
-            <button className="inline-flex items-center px-6 py-3 text-base font-medium bg-black text-white border border-black rounded-full hover:bg-white hover:text-black transition-all">
+            <button 
+              onClick={() => {
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center px-6 py-3 text-base font-medium bg-black text-white border border-black rounded-full hover:bg-white hover:text-black transition-all"
+            >
               Solicita una consultoría
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
