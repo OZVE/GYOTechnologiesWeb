@@ -23,7 +23,7 @@ import TechnologyCard from './components/TechnologyCard';
 function App() {
   const services = [
     {
-      icon: <Brain className="w-full h-full" />,
+      icon: <Brain className="w-full h-full text-[#252525]" />,
       title: "AI-Driven Web Development",
       description: "Potenciamos el desarrollo web con inteligencia artificial para crear soluciones más rápidas y eficientes.",
       features: [
@@ -33,7 +33,7 @@ function App() {
       ]
     },
     {
-      icon: <Code className="w-full h-full" />,
+      icon: <Code className="w-full h-full text-[#252525]" />,
       title: "Custom Web Applications",
       description: "Desarrollamos aplicaciones web robustas y escalables utilizando las últimas tecnologías.",
       features: [
@@ -43,7 +43,7 @@ function App() {
       ]
     },
     {
-      icon: <MonitorSmartphone className="w-full h-full" />,
+      icon: <MonitorSmartphone className="w-full h-full text-[#252525]" />,
       title: "Mobile Application Development",
       description: "Creamos apps móviles nativas y multiplataforma con rendimiento excepcional.",
       features: [
@@ -53,7 +53,7 @@ function App() {
       ]
     },
     {
-      icon: <Workflow className="w-full h-full" />,
+      icon: <Workflow className="w-full h-full text-[#252525]" />,
       title: "System Integration & Automation",
       description: "Conectamos y automatizamos sistemas empresariales para maximizar la eficiencia.",
       features: [
@@ -63,7 +63,7 @@ function App() {
       ]
     },
     {
-      icon: <Laptop className="w-full h-full" />,
+      icon: <Laptop className="w-full h-full text-[#252525]" />,
       title: "IT Consulting",
       description: "Asesoramiento experto para optimizar su infraestructura tecnológica.",
       features: [
@@ -73,7 +73,7 @@ function App() {
       ]
     },
     {
-      icon: <LineChart className="w-full h-full" />,
+      icon: <LineChart className="w-full h-full text-[#252525]" />,
       title: "Strategic Technology Advisory",
       description: "Guiamos la transformación digital y adopción de nuevas tecnologías.",
       features: [
@@ -86,27 +86,27 @@ function App() {
 
   const technologies = [
     {
-      icon: <Globe />,
+      icon: <Globe className="text-[#252525]" />,
       title: "Frontend",
       technologies: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Vue.js"]
     },
     {
-      icon: <Server />,
+      icon: <Server className="text-[#252525]" />,
       title: "Backend",
       technologies: ["Node.js", "Python", "Django", "Express", "FastAPI"]
     },
     {
-      icon: <Database />,
+      icon: <Database className="text-[#252525]" />,
       title: "Databases",
       technologies: ["PostgreSQL", "MongoDB", "Redis", "MySQL", "Supabase"]
     },
     {
-      icon: <Cpu />,
+      icon: <Cpu className="text-[#252525]" />,
       title: "AI & ML",
       technologies: ["TensorFlow", "PyTorch", "OpenAI", "Scikit-learn"]
     },
     {
-      icon: <Palette />,
+      icon: <Palette className="text-[#252525]" />,
       title: "CMS & Low-Code",
       technologies: ["WordPress", "Webflow", "Strapi", "Contentful"]
     }
@@ -115,21 +115,89 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <header className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1473e6] to-[#1c1c1e] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
+      <header className="relative min-h-screen flex items-center justify-center bg-white text-black overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 z-0">
+          <div className="lines">
+            {[...Array(40)].map((_, i) => (
+              <div key={i} className="wavy-line"></div>
+            ))}
+          </div>
+        </div>
+        {/* Logo */}
+        <div className="absolute top-8 left-8 flex items-center gap-3 z-10">
+          <img src="/gyo-banner.png" alt="GYO Technologies" className="h-16" />
+          <span className="text-xl font-bold">GYO TECHNOLOGIES</span>
+        </div>
         <div className="container mx-auto px-4 py-16 relative z-10 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Transformamos tu visión en software inteligente
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
-            Desarrollo ágil con IA y experiencia humana
-          </p>
-          <a href="#contact" className="inline-flex items-center px-8 py-4 text-lg font-semibold bg-white text-[#1473e6] rounded-full hover:bg-opacity-90 transition-all transform hover:scale-105">
-            Solicita una consultoría
-            <ArrowRight className="ml-2" />
-          </a>
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              Transformamos tu visión en software inteligente
+            </h1>
+            <p className="text-xl md:text-2xl mb-12">
+              Desarrollo ágil con IA y experiencia humana
+            </p>
+            <button className="inline-flex items-center px-6 py-3 text-base font-medium bg-black text-white border border-black rounded-full hover:bg-white hover:text-black transition-all">
+              Solicita una consultoría
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
+          </div>
         </div>
       </header>
+
+      <style>{`
+        .lines {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: white;
+          overflow: hidden;
+        }
+        
+        .wavy-line {
+          position: absolute;
+          width: 200%;
+          height: 1.5px;
+          background: rgba(37, 37, 37, 0.12);
+          left: -50%;
+        }
+
+        ${[...Array(40)].map((_, i) => `
+          .wavy-line:nth-child(${i + 1}) {
+            top: ${(i * 100) / 40}%;
+            animation: wave 12s infinite ease-in-out;
+            animation-delay: ${i * -0.2}s;
+            transform-origin: 0% 50%;
+          }
+        `).join('')}
+
+        @keyframes wave {
+          0% {
+            transform: scaleX(1.2) translateX(-10%) translateY(0)
+              skew(-5deg) rotate(-2deg);
+          }
+          25% {
+            transform: scaleX(1.1) translateX(-5%) translateY(30px)
+              skew(5deg) rotate(2deg);
+          }
+          50% {
+            transform: scaleX(0.9) translateX(10%) translateY(-20px)
+              skew(-8deg) rotate(-3deg);
+          }
+          75% {
+            transform: scaleX(1.1) translateX(-5%) translateY(-40px)
+              skew(8deg) rotate(3deg);
+          }
+          100% {
+            transform: scaleX(1.2) translateX(-10%) translateY(0)
+              skew(-5deg) rotate(-2deg);
+          }
+        }
+
+        .lines:hover .wavy-line {
+          animation-play-state: paused;
+        }
+      `}</style>
 
       {/* About Section */}
       <section className="py-20 bg-gray-50">
@@ -140,21 +208,21 @@ function App() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="p-6">
-                <div className="w-16 h-16 mx-auto mb-4 bg-[#1473e6] rounded-lg flex items-center justify-center text-white">
+                <div className="w-16 h-16 mx-auto mb-4 bg-[#252525] rounded-lg flex items-center justify-center text-white">
                   <Brain size={32} />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">IA Avanzada</h3>
                 <p className="text-gray-600">Soluciones impulsadas por los últimos avances en inteligencia artificial</p>
               </div>
               <div className="p-6">
-                <div className="w-16 h-16 mx-auto mb-4 bg-[#1473e6] rounded-lg flex items-center justify-center text-white">
+                <div className="w-16 h-16 mx-auto mb-4 bg-[#252525] rounded-lg flex items-center justify-center text-white">
                   <Users size={32} />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Experiencia Humana</h3>
                 <p className="text-gray-600">Equipo de expertos senior supervisando cada proyecto</p>
               </div>
               <div className="p-6">
-                <div className="w-16 h-16 mx-auto mb-4 bg-[#1473e6] rounded-lg flex items-center justify-center text-white">
+                <div className="w-16 h-16 mx-auto mb-4 bg-[#252525] rounded-lg flex items-center justify-center text-white">
                   <MessageSquare size={32} />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Comunicación Clara</h3>
