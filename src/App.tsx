@@ -15,7 +15,7 @@ import {
   Server,
   Palette
 } from 'lucide-react';
-import ContactForm from './components/ContactForm';
+import ContactSection from './components/ContactSection';
 import ServiceCard from './components/ServiceCard';
 import CaseStudyCard from './components/CaseStudyCard';
 import TechnologyCard from './components/TechnologyCard';
@@ -309,16 +309,7 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-16 text-[#1c1c1e]">
-              Contacta con Nosotros
-            </h2>
-            <ContactForm />
-          </div>
-        </div>
-      </section>
+      <ContactSection />
 
       {/* Footer */}
       <footer className="bg-[#1c1c1e] text-white py-12">

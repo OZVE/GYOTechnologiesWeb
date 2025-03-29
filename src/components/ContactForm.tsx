@@ -6,18 +6,39 @@ const ContactForm = () => {
     email: '',
     message: ''
   });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically handle form submission
-    console.log('Form submitted:', formData);
-  };
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el mensaje');
+      }
+
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setStatus('error');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -28,12 +49,12 @@ const ContactForm = () => {
         </label>
         <input
           type="text"
-          name="name"
           id="name"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1473e6] focus:ring-[#1473e6] sm:text-sm"
+          name="name"
           value={formData.name}
           onChange={handleChange}
+          required
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
         />
       </div>
 
@@ -43,12 +64,12 @@ const ContactForm = () => {
         </label>
         <input
           type="email"
-          name="email"
           id="email"
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1473e6] focus:ring-[#1473e6] sm:text-sm"
+          name="email"
           value={formData.email}
           onChange={handleChange}
+          required
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
         />
       </div>
 
@@ -57,24 +78,37 @@ const ContactForm = () => {
           Mensaje
         </label>
         <textarea
-          name="message"
           id="message"
-          rows={4}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1473e6] focus:ring-[#1473e6] sm:text-sm"
+          name="message"
           value={formData.message}
           onChange={handleChange}
+          required
+          rows={4}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
         />
       </div>
 
       <div>
         <button
           type="submit"
-          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1473e6] hover:bg-[#1262c4] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1473e6]"
+          disabled={status === 'loading'}
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50"
         >
-          Enviar mensaje
+          {status === 'loading' ? 'Enviando...' : 'Enviar Mensaje'}
         </button>
       </div>
+
+      {status === 'success' && (
+        <div className="text-green-600 text-center">
+          ¡Mensaje enviado correctamente!
+        </div>
+      )}
+
+      {status === 'error' && (
+        <div className="text-red-600 text-center">
+          Error al enviar el mensaje. Por favor, intenta nuevamente.
+        </div>
+      )}
     </form>
   );
 };
