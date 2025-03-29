@@ -346,7 +346,7 @@ function App() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
+            <p>© {new Date().getFullYear()} GYO Technologies.  Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
