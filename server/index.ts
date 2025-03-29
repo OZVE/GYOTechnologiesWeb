@@ -7,7 +7,29 @@ import path from 'path';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+const port = process.env.PORT || 3001;
+
+// Configuración de CORS
+const allowedOrigins = [
+  'http://localhost:5173', // Desarrollo local
+  'https://gyotechnologies.github.io', // GitHub Pages
+  'https://gyotechnologies.github.io/project-bolt' // GitHub Pages con subpath
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Permitir solicitudes sin origen (como las de Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'La política de CORS no permite acceso desde este origen.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Configurar el transportador de correo
@@ -57,7 +79,6 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+app.listen(port, () => {
+  console.log(`Servidor corriendo en puerto ${port}`);
 }); 

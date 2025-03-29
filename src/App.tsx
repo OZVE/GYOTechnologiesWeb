@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ArrowRight,
   Brain,
@@ -87,28 +86,28 @@ function App() {
   const technologies = [
     {
       icon: <Globe className="text-[#252525]" />,
-      title: "Frontend",
-      technologies: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Vue.js"]
+      name: "Frontend",
+      description: "React, TypeScript, Next.js, Tailwind CSS, Vue.js"
     },
     {
       icon: <Server className="text-[#252525]" />,
-      title: "Backend",
-      technologies: ["Node.js", "Python", "Django", "Express", "FastAPI"]
+      name: "Backend",
+      description: "Node.js, Python, Django, Express, FastAPI"
     },
     {
       icon: <Database className="text-[#252525]" />,
-      title: "Databases",
-      technologies: ["PostgreSQL", "MongoDB", "Redis", "MySQL", "Supabase"]
+      name: "Databases",
+      description: "PostgreSQL, MongoDB, Redis, MySQL, Supabase"
     },
     {
       icon: <Cpu className="text-[#252525]" />,
-      title: "AI & ML",
-      technologies: ["TensorFlow", "PyTorch", "OpenAI", "Scikit-learn"]
+      name: "AI & ML",
+      description: "TensorFlow, PyTorch, OpenAI, Scikit-learn"
     },
     {
       icon: <Palette className="text-[#252525]" />,
-      title: "CMS & Low-Code",
-      technologies: ["WordPress", "Webflow", "Strapi", "Contentful"]
+      name: "CMS & Low-Code",
+      description: "WordPress, Webflow, Strapi, Contentful"
     }
   ];
 

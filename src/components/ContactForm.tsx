@@ -21,7 +21,11 @@ const ContactForm = () => {
     setStatus('loading');
 
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
+      const apiUrl = import.meta.env.PROD 
+        ? 'https://GYOTechnologiesWeb.onrender.com' // URL de Render en producción
+        : 'http://localhost:3001';
+
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
