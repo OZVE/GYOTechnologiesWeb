@@ -2,7 +2,7 @@
   "name": "project",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://gyotechnologies.github.io/project-bolt",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,7 +11,7 @@
     "server": "ts-node --project tsconfig.server.json server/index.ts",
     "dev:server": "nodemon --exec ts-node --project tsconfig.server.json server/index.ts",
     "build:server": "tsc --project tsconfig.server.json",
-    "start": "node dist/server/index.js",
+    "start": "node dist/index.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -38,7 +38,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "gh-pages": "^6.3.0",
+    "gh-pages": "^6.1.1",
     "nodemon": "^3.0.1",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",

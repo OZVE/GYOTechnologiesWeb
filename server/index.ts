@@ -1,7 +1,8 @@
 import express from 'express';
-import nodemailer from 'nodemailer';
 import cors from 'cors';
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { Request, Response } from 'express';
 import path from 'path';
 
 dotenv.config();
@@ -17,7 +18,7 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
     // Permitir solicitudes sin origen (como las de Postman)
     if (!origin) return callback(null, true);
     
@@ -50,31 +51,25 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.post('/api/contact', async (req, res) => {
-  const { name, email, message } = req.body;
-
+app.post('/api/contact', async (req: Request, res: Response) => {
   try {
+    const { name, email, message } = req.body;
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'oz@gyotechnologies.com.ar',
+      to: process.env.EMAIL_TO,
       subject: `Nuevo mensaje de contacto de ${name}`,
       text: `
         Nombre: ${name}
         Email: ${email}
         Mensaje: ${message}
-      `,
-      html: `
-        <h3>Nuevo mensaje de contacto</h3>
-        <p><strong>Nombre:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Mensaje:</strong> ${message}</p>
       `
     };
 
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Email enviado correctamente' });
   } catch (error) {
-    console.error('Error al enviar el email:', error);
+    console.error('Error al enviar email:', error);
     res.status(500).json({ error: 'Error al enviar el email' });
   }
 });
