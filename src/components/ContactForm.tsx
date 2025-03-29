@@ -42,39 +42,43 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Nombre
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
-        />
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            Nombre
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
+            placeholder="Tu nombre"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
+            placeholder="tu@email.com"
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
           Mensaje
         </label>
         <textarea
@@ -83,8 +87,9 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           required
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"
+          rows={6}
+          className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
+          placeholder="Tu mensaje..."
         />
       </div>
 
@@ -92,20 +97,20 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50"
+          className="w-full flex justify-center py-3 px-6 text-base font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
         >
           {status === 'loading' ? 'Enviando...' : 'Enviar Mensaje'}
         </button>
       </div>
 
       {status === 'success' && (
-        <div className="text-green-600 text-center">
+        <div className="text-green-600 text-center text-base">
           ¡Mensaje enviado correctamente!
         </div>
       )}
 
       {status === 'error' && (
-        <div className="text-red-600 text-center">
+        <div className="text-red-600 text-center text-base">
           Error al enviar el mensaje. Por favor, intenta nuevamente.
         </div>
       )}
