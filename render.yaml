@@ -8,7 +8,9 @@ services:
       npm run build:server
       mkdir -p /opt/render/project/src/dist
       cp -r dist/* /opt/render/project/src/dist/
+      cp -r dist/server /opt/render/project/src/dist/
       chmod -R 755 /opt/render/project/src/dist
+      ls -la /opt/render/project/src/dist
     startCommand: npm run start
     envVars:
       - key: EMAIL_USER
