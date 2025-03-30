@@ -10,7 +10,7 @@ npm run build:server
 npm run build
 
 # Asegurarse de que la carpeta dist existe en la ubicación correcta
-mkdir -p /opt/render/project/dist
+mkdir -p /opt/render/project/src/dist
 
 # Copiar los archivos compilados a la ubicación correcta
-cp -r dist/* /opt/render/project/dist/ 
+cp -r dist/* /opt/render/project/src/dist/ 
