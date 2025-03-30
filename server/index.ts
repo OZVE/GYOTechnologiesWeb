@@ -101,10 +101,12 @@ if (isProduction) {
       console.log(`Directorio ${distPath} creado exitosamente`);
       
       // Intentar copiar archivos desde la carpeta dist local
-      const localDist = path.join(__dirname, '../../dist');
+      const localDist = path.join(__dirname, '../../../dist');
       if (fs.existsSync(localDist)) {
         console.log('Copiando archivos desde:', localDist);
         fs.cpSync(localDist, distPath, { recursive: true });
+      } else {
+        console.error('No se encontró la carpeta dist local en:', localDist);
       }
     } catch (error) {
       console.error('Error al crear/copiar archivos:', error);
