@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -69,11 +70,51 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
-const rootPath = isProduction ? '/opt/render/project/src' : path.join(__dirname, '../..');
-const distPath = path.join(rootPath, 'dist');
+let distPath;
 
-console.log('Root path:', rootPath);
+if (isProduction) {
+  // En Render, intentamos diferentes rutas posibles
+  const possiblePaths = [
+    '/opt/render/project/dist',
+    path.join(__dirname, '../../dist'),
+    '/opt/render/project/src/dist'
+  ];
+
+  // Encontrar la primera ruta que existe y contiene index.html
+  distPath = possiblePaths.find(p => {
+    try {
+      return fs.existsSync(path.join(p, 'index.html'));
+    } catch {
+      return false;
+    }
+  });
+
+  if (!distPath) {
+    console.error('No se pudo encontrar la carpeta dist. Rutas intentadas:', possiblePaths);
+    // Usar la última opción como fallback
+    distPath = possiblePaths[0];
+  }
+} else {
+  distPath = path.join(__dirname, '../../dist');
+}
+
+console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Dist path:', distPath);
+console.log('__dirname:', __dirname);
+
+// Verificar si el archivo index.html existe
+try {
+  const indexPath = path.join(distPath, 'index.html');
+  const exists = fs.existsSync(indexPath);
+  console.log('index.html exists:', exists);
+  console.log('index.html path:', indexPath);
+  
+  // Listar contenido del directorio dist
+  const files = fs.readdirSync(distPath);
+  console.log('Contenido del directorio dist:', files);
+} catch (error) {
+  console.error('Error verificando archivos:', error);
+}
 
 // Servir archivos estáticos desde la carpeta dist
 app.use(express.static(distPath));
