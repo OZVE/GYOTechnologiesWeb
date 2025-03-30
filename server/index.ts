@@ -72,34 +72,7 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
-let distPath;
-
-if (isProduction) {
-  // En producción, usar la carpeta dist local
-  distPath = path.join(__dirname, '../../dist');
-  
-  // Si no existe, intentar otras ubicaciones
-  if (!fs.existsSync(path.join(distPath, 'index.html'))) {
-    console.log('No se encontró index.html en la ubicación principal, buscando en otras ubicaciones...');
-    
-    const possiblePaths = [
-      '/opt/render/project/src/dist',
-      '/opt/render/project/dist',
-      path.join(__dirname, '../dist'),
-      path.join(process.cwd(), 'dist')
-    ];
-
-    for (const p of possiblePaths) {
-      if (fs.existsSync(path.join(p, 'index.html'))) {
-        console.log(`Encontrado index.html en ${p}`);
-        distPath = p;
-        break;
-      }
-    }
-  }
-} else {
-  distPath = path.join(__dirname, '../../dist');
-}
+let distPath = path.join(__dirname, '../../dist');
 
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Dist path:', distPath);
