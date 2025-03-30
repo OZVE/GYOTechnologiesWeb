@@ -43,10 +43,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Servir archivos estáticos
-const distPath = path.join(__dirname, '../../dist');
-app.use(express.static(distPath));
-
+// API endpoints primero
 app.post('/api/contact', async (req: Request, res: Response) => {
   try {
     const { name, email, message } = req.body;
@@ -70,6 +67,17 @@ app.post('/api/contact', async (req: Request, res: Response) => {
   }
 });
 
+// Configuración para servir archivos estáticos
+const isProduction = process.env.NODE_ENV === 'production';
+const rootPath = isProduction ? '/opt/render/project/src' : path.join(__dirname, '../..');
+const distPath = path.join(rootPath, 'dist');
+
+console.log('Root path:', rootPath);
+console.log('Dist path:', distPath);
+
+// Servir archivos estáticos desde la carpeta dist
+app.use(express.static(distPath));
+
 // Manejar todas las demás rutas
 app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
@@ -77,4 +85,5 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en puerto ${port}`);
+  console.log(`Ambiente: ${process.env.NODE_ENV}`);
 }); 
