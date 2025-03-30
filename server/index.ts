@@ -73,26 +73,23 @@ const isProduction = process.env.NODE_ENV === 'production';
 let distPath;
 
 if (isProduction) {
-  // En Render, intentamos diferentes rutas posibles
-  const possiblePaths = [
-    '/opt/render/project/dist',
-    path.join(__dirname, '../../dist'),
-    '/opt/render/project/src/dist'
-  ];
+  // En Render, usamos la ruta específica donde copiamos los archivos
+  distPath = '/opt/render/project/src/dist';
+  
+  // Verificar si el directorio existe
+  if (!fs.existsSync(distPath)) {
+    console.error(`El directorio ${distPath} no existe`);
+    // Intentar crear el directorio si no existe
+    fs.mkdirSync(distPath, { recursive: true });
+  }
 
-  // Encontrar la primera ruta que existe y contiene index.html
-  distPath = possiblePaths.find(p => {
-    try {
-      return fs.existsSync(path.join(p, 'index.html'));
-    } catch {
-      return false;
-    }
-  });
-
-  if (!distPath) {
-    console.error('No se pudo encontrar la carpeta dist. Rutas intentadas:', possiblePaths);
-    // Usar la última opción como fallback
-    distPath = possiblePaths[0];
+  // Verificar si index.html existe
+  const indexPath = path.join(distPath, 'index.html');
+  if (!fs.existsSync(indexPath)) {
+    console.error(`El archivo index.html no existe en ${distPath}`);
+    console.log('Contenido del directorio:', fs.readdirSync(distPath));
+  } else {
+    console.log(`index.html encontrado en ${indexPath}`);
   }
 } else {
   distPath = path.join(__dirname, '../../dist');
