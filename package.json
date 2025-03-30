@@ -11,7 +11,7 @@
     "server": "ts-node --project tsconfig.server.json server/index.ts",
     "dev:server": "nodemon --exec ts-node --project tsconfig.server.json server/index.ts",
     "build:server": "tsc --project tsconfig.server.json",
-    "start": "node dist/index.js",
+    "start": "node dist/server/index.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

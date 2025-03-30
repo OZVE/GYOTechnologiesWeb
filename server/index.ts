@@ -44,7 +44,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Servir archivos estáticos
-const distPath = path.join(__dirname, '../dist');
+const distPath = path.join(__dirname, '../../dist');
 app.use(express.static(distPath));
 
 app.post('/api/contact', async (req: Request, res: Response) => {
