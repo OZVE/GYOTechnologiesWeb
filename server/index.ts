@@ -80,7 +80,12 @@ if (isProduction) {
   if (!fs.existsSync(distPath)) {
     console.error(`El directorio ${distPath} no existe`);
     // Intentar crear el directorio si no existe
-    fs.mkdirSync(distPath, { recursive: true });
+    try {
+      fs.mkdirSync(distPath, { recursive: true });
+      console.log(`Directorio ${distPath} creado exitosamente`);
+    } catch (error) {
+      console.error('Error al crear el directorio:', error);
+    }
   }
 
   // Verificar si index.html existe
@@ -88,6 +93,22 @@ if (isProduction) {
   if (!fs.existsSync(indexPath)) {
     console.error(`El archivo index.html no existe en ${distPath}`);
     console.log('Contenido del directorio:', fs.readdirSync(distPath));
+    
+    // Intentar encontrar el archivo en otras ubicaciones posibles
+    const possiblePaths = [
+      '/opt/render/project/dist',
+      path.join(__dirname, '../../dist'),
+      path.join(__dirname, '../dist')
+    ];
+    
+    for (const p of possiblePaths) {
+      const testPath = path.join(p, 'index.html');
+      if (fs.existsSync(testPath)) {
+        console.log(`Encontrado index.html en ${testPath}`);
+        distPath = p;
+        break;
+      }
+    }
   } else {
     console.log(`index.html encontrado en ${indexPath}`);
     // Leer y loggear el contenido de index.html para verificar que es correcto
@@ -122,7 +143,13 @@ app.use(express.static(distPath));
 // Manejar todas las demás rutas
 app.get('*', (req, res) => {
   console.log('Requested path:', req.path);
-  res.sendFile(path.join(distPath, 'index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  if (!fs.existsSync(indexPath)) {
+    console.error(`index.html no encontrado en ${indexPath}`);
+    res.status(404).send('File not found');
+    return;
+  }
+  res.sendFile(indexPath);
 });
 
 app.listen(port, () => {
