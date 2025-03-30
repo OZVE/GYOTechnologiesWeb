@@ -18,13 +18,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
         
-      - name: Build Frontend for GitHub Pages
-        run: |
-          export VITE_DEPLOY_TARGET=gh-pages
-          npm run build
+      - name: Build Frontend
+        run: npm run build
         
       - name: Build Server
         run: npm run build:server
+        
+      - name: Create CNAME file
+        run: echo "www.gyotechnologies.com.ar" > dist/CNAME
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -32,4 +33,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          cname: www.gyotechnologies.com.ar 
+          force_orphan: true # Ensures clean deployment 

@@ -127,7 +127,11 @@ try {
 }
 
 // Servir archivos estáticos desde la carpeta dist
-app.use(express.static(distPath));
+app.use(express.static(distPath, {
+  index: false, // Don't serve index.html automatically
+  extensions: ['html', 'htm'], // Handle HTML files without extension
+  maxAge: '1h' // Add cache control
+}));
 
 // Manejar todas las demás rutas
 app.get('*', (req, res) => {
@@ -140,10 +144,14 @@ app.get('*', (req, res) => {
     return;
   }
   
-  // Leer el archivo y enviarlo
+  // Leer el archivo y enviarlo con los headers correctos
   try {
     const content = fs.readFileSync(indexPath, 'utf8');
-    res.send(content);
+    res.set({
+      'Content-Type': 'text/html',
+      'Cache-Control': 'no-cache',
+      'X-Content-Type-Options': 'nosniff'
+    }).send(content);
   } catch (error) {
     console.error('Error leyendo index.html:', error);
     res.status(500).send('Error interno del servidor');

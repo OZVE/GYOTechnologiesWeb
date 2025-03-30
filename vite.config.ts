@@ -5,11 +5,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' 
-    ? process.env.VITE_DEPLOY_TARGET === 'gh-pages'
-      ? '/project-bolt/'
-      : '/'
-    : '/',
+  base: '/',  // Always use root path since we're using a custom domain
   build: {
     outDir: 'dist',
     emptyOutDir: true,
