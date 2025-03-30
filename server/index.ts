@@ -75,43 +75,26 @@ const isProduction = process.env.NODE_ENV === 'production';
 let distPath;
 
 if (isProduction) {
-  // En Render, intentamos diferentes rutas posibles
-  const possiblePaths = [
-    '/opt/render/project/src/dist',
-    '/opt/render/project/dist',
-    path.join(__dirname, '../../dist'),
-    path.join(__dirname, '../dist')
-  ];
+  // En producción, usar la carpeta dist local
+  distPath = path.join(__dirname, '../../dist');
+  
+  // Si no existe, intentar otras ubicaciones
+  if (!fs.existsSync(path.join(distPath, 'index.html'))) {
+    console.log('No se encontró index.html en la ubicación principal, buscando en otras ubicaciones...');
+    
+    const possiblePaths = [
+      '/opt/render/project/src/dist',
+      '/opt/render/project/dist',
+      path.join(__dirname, '../dist'),
+      path.join(process.cwd(), 'dist')
+    ];
 
-  // Encontrar la primera ruta que existe y contiene index.html
-  for (const p of possiblePaths) {
-    const indexPath = path.join(p, 'index.html');
-    if (fs.existsSync(indexPath)) {
-      console.log(`Encontrado index.html en ${indexPath}`);
-      distPath = p;
-      break;
-    }
-  }
-
-  if (!distPath) {
-    console.error('No se pudo encontrar la carpeta dist con index.html');
-    console.log('Rutas intentadas:', possiblePaths);
-    // Intentar crear el directorio y copiar archivos
-    distPath = '/opt/render/project/src/dist';
-    try {
-      fs.mkdirSync(distPath, { recursive: true });
-      console.log(`Directorio ${distPath} creado exitosamente`);
-      
-      // Intentar copiar archivos desde la carpeta dist local
-      const localDist = path.join(__dirname, '../../../dist');
-      if (fs.existsSync(localDist)) {
-        console.log('Copiando archivos desde:', localDist);
-        fs.cpSync(localDist, distPath, { recursive: true });
-      } else {
-        console.error('No se encontró la carpeta dist local en:', localDist);
+    for (const p of possiblePaths) {
+      if (fs.existsSync(path.join(p, 'index.html'))) {
+        console.log(`Encontrado index.html en ${p}`);
+        distPath = p;
+        break;
       }
-    } catch (error) {
-      console.error('Error al crear/copiar archivos:', error);
     }
   }
 } else {
@@ -121,6 +104,7 @@ if (isProduction) {
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Dist path:', distPath);
 console.log('__dirname:', __dirname);
+console.log('Current working directory:', process.cwd());
 
 // Verificar si el archivo index.html existe
 try {
@@ -128,6 +112,12 @@ try {
   const exists = fs.existsSync(indexPath);
   console.log('index.html exists:', exists);
   console.log('index.html path:', indexPath);
+  
+  if (exists) {
+    // Leer y mostrar el contenido del index.html para debug
+    const content = fs.readFileSync(indexPath, 'utf8');
+    console.log('index.html content preview:', content.substring(0, 200));
+  }
   
   // Listar contenido del directorio dist
   const files = fs.readdirSync(distPath);
@@ -143,12 +133,21 @@ app.use(express.static(distPath));
 app.get('*', (req, res) => {
   console.log('Requested path:', req.path);
   const indexPath = path.join(distPath, 'index.html');
+  
   if (!fs.existsSync(indexPath)) {
     console.error(`index.html no encontrado en ${indexPath}`);
     res.status(404).send('File not found');
     return;
   }
-  res.sendFile(indexPath);
+  
+  // Leer el archivo y enviarlo
+  try {
+    const content = fs.readFileSync(indexPath, 'utf8');
+    res.send(content);
+  } catch (error) {
+    console.error('Error leyendo index.html:', error);
+    res.status(500).send('Error interno del servidor');
+  }
 });
 
 app.listen(port, () => {

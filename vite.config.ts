@@ -5,7 +5,11 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/project-bolt/',
+  base: process.env.NODE_ENV === 'production' 
+    ? process.env.VITE_DEPLOY_TARGET === 'gh-pages'
+      ? '/project-bolt/'
+      : '/'
+    : '/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -15,10 +19,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.NODE_ENV === 'production' 
-          ? 'https://ozve.github.io/project-bolt'
+        target: process.env.NODE_ENV === 'production'
+          ? 'https://www.gyotechnologies.com.ar'
           : 'http://localhost:3001',
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   },

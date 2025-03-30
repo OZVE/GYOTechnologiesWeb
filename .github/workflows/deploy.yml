@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and Custom Domain
 
 on:
   push:
@@ -18,8 +18,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
         
-      - name: Build Frontend
-        run: npm run build
+      - name: Build Frontend for GitHub Pages
+        run: |
+          export VITE_DEPLOY_TARGET=gh-pages
+          npm run build
         
       - name: Build Server
         run: npm run build:server
@@ -29,4 +31,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          publish_branch: gh-pages 
+          publish_branch: gh-pages
+          cname: www.gyotechnologies.com.ar 
