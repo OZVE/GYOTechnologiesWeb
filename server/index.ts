@@ -16,7 +16,9 @@ const allowedOrigins = [
   'http://localhost:5173', // Desarrollo local
   'https://gyotechnologies.github.io', // GitHub Pages
   'https://gyotechnologies.github.io/project-bolt', // GitHub Pages con subpath
-  'https://www.gyotechnologies.com.ar' // Dominio personalizado
+  'https://www.gyotechnologies.com.ar', // Dominio personalizado
+  'https://ozve.github.io', // Tu GitHub Pages
+  'https://ozve.github.io/project-bolt' // Tu GitHub Pages con subpath
 ];
 
 app.use(cors({

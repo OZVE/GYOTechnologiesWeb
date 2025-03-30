@@ -5,7 +5,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/project-bolt/' : '/',
+  base: '/project-bolt/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -16,7 +16,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: process.env.NODE_ENV === 'production' 
-          ? 'https://www.gyotechnologies.com.ar'
+          ? 'https://ozve.github.io/project-bolt'
           : 'http://localhost:3001',
         changeOrigin: true
       }
