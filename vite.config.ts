@@ -5,16 +5,19 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: process.env.NODE_ENV === 'production' ? '/project-bolt/' : '/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    sourcemap: true
   },
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: process.env.NODE_ENV === 'production' 
+          ? 'https://www.gyotechnologies.com.ar'
+          : 'http://localhost:3001',
         changeOrigin: true
       }
     }

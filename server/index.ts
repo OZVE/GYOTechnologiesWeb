@@ -90,6 +90,9 @@ if (isProduction) {
     console.log('Contenido del directorio:', fs.readdirSync(distPath));
   } else {
     console.log(`index.html encontrado en ${indexPath}`);
+    // Leer y loggear el contenido de index.html para verificar que es correcto
+    const content = fs.readFileSync(indexPath, 'utf8');
+    console.log('Contenido de index.html:', content.substring(0, 200) + '...');
   }
 } else {
   distPath = path.join(__dirname, '../../dist');
@@ -118,6 +121,7 @@ app.use(express.static(distPath));
 
 // Manejar todas las demás rutas
 app.get('*', (req, res) => {
+  console.log('Requested path:', req.path);
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
