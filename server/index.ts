@@ -72,7 +72,51 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
-let distPath = path.join(__dirname, '../../dist');
+let distPath;
+
+if (isProduction) {
+  // En Render, intentamos diferentes rutas posibles
+  const possiblePaths = [
+    '/opt/render/project/src/dist',
+    '/opt/render/project/dist',
+    path.join(__dirname, '../../dist'),
+    path.join(__dirname, '../dist')
+  ];
+
+  // Encontrar la primera ruta que existe y contiene index.html
+  for (const p of possiblePaths) {
+    const indexPath = path.join(p, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      console.log(`Encontrado index.html en ${indexPath}`);
+      distPath = p;
+      break;
+    }
+  }
+
+  if (!distPath) {
+    console.error('No se pudo encontrar la carpeta dist con index.html');
+    console.log('Rutas intentadas:', possiblePaths);
+    // Intentar crear el directorio y copiar archivos
+    distPath = '/opt/render/project/src/dist';
+    try {
+      fs.mkdirSync(distPath, { recursive: true });
+      console.log(`Directorio ${distPath} creado exitosamente`);
+      
+      // Intentar copiar archivos desde la carpeta dist local
+      const localDist = path.join(__dirname, '../../../dist');
+      if (fs.existsSync(localDist)) {
+        console.log('Copiando archivos desde:', localDist);
+        fs.cpSync(localDist, distPath, { recursive: true });
+      } else {
+        console.error('No se encontró la carpeta dist local en:', localDist);
+      }
+    } catch (error) {
+      console.error('Error al crear/copiar archivos:', error);
+    }
+  }
+} else {
+  distPath = path.join(__dirname, '../../dist');
+}
 
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Dist path:', distPath);
@@ -117,18 +161,7 @@ app.get('*', (req, res) => {
     return;
   }
   
-  // Leer el archivo y enviarlo con los headers correctos
-  try {
-    const content = fs.readFileSync(indexPath, 'utf8');
-    res.set({
-      'Content-Type': 'text/html',
-      'Cache-Control': 'no-cache',
-      'X-Content-Type-Options': 'nosniff'
-    }).send(content);
-  } catch (error) {
-    console.error('Error leyendo index.html:', error);
-    res.status(500).send('Error interno del servidor');
-  }
+  res.sendFile(indexPath);
 });
 
 app.listen(port, () => {

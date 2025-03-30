@@ -283,25 +283,28 @@ function App() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <CaseStudyCard
-              image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
-              title="FinTech Revolution"
-              challenge="Modernización de sistema bancario legacy"
-              solution="Implementación de microservicios con IA"
-              result="50% reducción en tiempo de procesamiento"
+              image="./C-heren.jpg"
+              title="Heren E-commerce" 
+              challenge="Diseñar una plataforma de e-commerce personalizada para una marca de ropa, con experiencia de compra fluida y segura."
+              solution="Desarrollo de tienda online con integración de pasarela de pago y sistema de mailing automatizado para promociones y seguimiento post-compra."
+              result="El sistema en linea fue un éxito, permitiendo a la marca expandir su presencia en el mercado y fortalecer su relación con clientes mediante campañas de correo segmentadas."
+              link="https://www.heren.com.ar/"
             />
             <CaseStudyCard
-              image="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80"
-              title="E-commerce AI"
-              challenge="Personalización de experiencia de usuario"
-              solution="Sistema de recomendaciones basado en IA"
-              result="35% incremento en ventas cruzadas"
+              image="./C-om.jpg"
+              title="OM Consultores"
+              challenge="Diseñar una presencia digital confiable para una consultora especializada en migraciones a la nube (AWS y SAP)."
+              solution="Diseñamos y desarrollamos un sitio web comercial centrado en la propuesta de valor de OM Consultores, destacando su experiencia en migraciones a AWS y SAP."
+              result="El nuevo sitio web permitió a OM Consultores incrementar significativamente la visibilidad de su marca y ganar la confianza de nuevos clientes."
+              link="https://omconsultores.cl/"
             />
             <CaseStudyCard
-              image="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80"
-              title="Healthcare Analytics"
-              challenge="Análisis de datos médicos en tiempo real"
-              solution="Platform de análisis predictivo"
-              result="90% precisión en predicciones"
+              image="./C-laquinta.jpg"
+              title="La Quinta F.C."
+              challenge="Modernizar la imagen y agilizar la gestión de torneos en un predio de canchas de fútbol."
+              solution="Desarrollo de un sitio web comercial con sistema integrado para actualizar resultados de partidos, posiciones y estadísticas de cada liga."
+              result="Mayor interacción con clientes, facilitando la organización de torneos y consolidando la presencia digital de La Quinta F.C."
+              link="https://www.laquintafc.com.ar/"
             />
           </div>
         </div>
@@ -339,9 +342,9 @@ function App() {
             <div>
               <h4 className="font-semibold mb-4">Contacto</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>info@gyo-tech.com</li>
-                <li>+34 900 123 456</li>
-                <li>Madrid, España</li>
+                <li>info@gyotechnologies.com.ar</li>
+                <li>+54 9 11 3948 6971</li>
+                <li>Ciudad Autonoma de Buenos Aires, Argentina</li>
               </ul>
             </div>
           </div>
