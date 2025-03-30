@@ -14,7 +14,8 @@ const port = process.env.PORT || 3001;
 const allowedOrigins = [
   'http://localhost:5173', // Desarrollo local
   'https://gyotechnologies.github.io', // GitHub Pages
-  'https://gyotechnologies.github.io/project-bolt' // GitHub Pages con subpath
+  'https://gyotechnologies.github.io/project-bolt', // GitHub Pages con subpath
+  'https://www.gyotechnologies.com.ar' // Dominio personalizado
 ];
 
 app.use(cors({
@@ -42,14 +43,9 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Servir archivos estáticos en producción
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../dist')));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../dist/index.html'));
-  });
-}
+// Servir archivos estáticos
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
 
 app.post('/api/contact', async (req: Request, res: Response) => {
   try {
@@ -72,6 +68,11 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     console.error('Error al enviar email:', error);
     res.status(500).json({ error: 'Error al enviar el email' });
   }
+});
+
+// Manejar todas las demás rutas
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.listen(port, () => {
