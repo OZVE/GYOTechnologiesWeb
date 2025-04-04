@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   Brain,
   Code,
   Database,
@@ -15,9 +14,7 @@ import {
   Palette
 } from 'lucide-react';
 import ContactSection from './components/ContactSection';
-import ServiceCard from './components/ServiceCard';
 import CaseStudyCard from './components/CaseStudyCard';
-import TechnologyCard from './components/TechnologyCard';
 import PartnerCard from './components/PartnerCard';
 
 function App() {
