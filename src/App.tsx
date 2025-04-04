@@ -13,7 +13,8 @@ import {
   Server,
   Palette,
   Menu,
-  X
+  X,
+  Linkedin
 } from 'lucide-react';
 import { useState } from 'react';
 import ContactSection from './components/ContactSection';
@@ -525,9 +526,21 @@ function App() {
             <div>
               <h4 className="font-semibold mb-4">Contacto</h4>
               <ul className="space-y-2 text-gray-400">
+              <li>
+                  <a 
+                    href="https://www.linkedin.com/company/gyo-technologies" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 hover:text-white transition-colors"
+                  >
+                    <Linkedin size={18} />
+                    <span>LinkedIn</span>
+                  </a>
+                </li>
                 <li>info@gyotechnologies.com.ar</li>
                 <li>+54 9 11 3948 6971</li>
                 <li>Ciudad Autonoma de Buenos Aires, Argentina</li>
+                
               </ul>
             </div>
           </div>
