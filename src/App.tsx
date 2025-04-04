@@ -11,13 +11,18 @@ import {
   Globe,
   Cpu,
   Server,
-  Palette
+  Palette,
+  Menu,
+  X
 } from 'lucide-react';
+import { useState } from 'react';
 import ContactSection from './components/ContactSection';
 import CaseStudyCard from './components/CaseStudyCard';
 import PartnerCard from './components/PartnerCard';
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const services = [
     {
       icon: <Brain className="w-full h-full text-[#252525]" />,
@@ -123,21 +128,35 @@ function App() {
       {/* Hero Section */}
       <header className="relative min-h-screen flex items-center bg-black text-white overflow-hidden">
         {/* Navigation */}
-        <nav className="absolute top-0 left-0 right-0 p-6 z-20">
-          <div className="container mx-auto flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
-              <span className="text-xl font-bold">GYO TECHNOLOGIES</span>
-            </div>
-            <div className="flex items-center gap-6">
+        <nav className="fixed md:absolute top-0 left-0 right-0 p-4 md:p-6 z-20 bg-black/90 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none">
+          {/* Mobile Navigation */}
+          <div className="md:hidden container mx-auto">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
+                <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
+                <span className="text-sm font-bold">GYO TECHNOLOGIES</span>
+              </div>
+              <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 hover:bg-[#222] rounded-lg transition-all"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+            <div 
+              className={`${
+                isMenuOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0'
+              } overflow-hidden transition-all duration-300 ease-in-out`}
+            >
+              <div className="flex flex-col gap-2 mt-4">
                 <a 
                   href="#hero" 
                   onClick={(e) => {
                     e.preventDefault();
                     document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
                   }}
-                  className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
                 >
                   Inicio
                 </a>
@@ -146,8 +165,9 @@ function App() {
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
                   }}
-                  className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
                 >
                   Servicios
                 </a>
@@ -156,8 +176,9 @@ function App() {
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
                   }}
-                  className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
                 >
                   Tecnologías
                 </a>
@@ -166,52 +187,118 @@ function App() {
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
                   }}
-                  className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
                 >
                   Casos
                 </a>
+                <button 
+                  onClick={() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    setIsMenuOpen(false);
+                  }}
+                  className="px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all"
+                >
+                  Contacto
+                </button>
               </div>
-              <button 
-                onClick={() => {
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-4 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
-              >
-                Contacto
-              </button>
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block container mx-auto">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
+                <span className="text-xl font-bold">GYO TECHNOLOGIES</span>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <a 
+                    href="#hero" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  >
+                    Inicio
+                  </a>
+                  <a 
+                    href="#services"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  >
+                    Servicios
+                  </a>
+                  <a 
+                    href="#technologies"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  >
+                    Tecnologías
+                  </a>
+                  <a 
+                    href="#cases"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
+                  >
+                    Casos
+                  </a>
+                </div>
+                <button 
+                  onClick={() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
+                >
+                  Contacto
+                </button>
+              </div>
             </div>
           </div>
         </nav>
 
-        <div className="container mx-auto px-6 flex items-center justify-between relative z-10">
-          <div className="w-1/2">
-            <h1 className="text-7xl font-bold mb-8 leading-tight">
-              TRANSFORMAMOS<br />
-              TU VISIÓN EN<br />
-              SOFTWARE<br />
-              INTELIGENTE
-            </h1>
-            <p className="text-xl mb-12 text-gray-300 max-w-xl">
-              Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
-            </p>
-            <div className="flex gap-8 items-center">
-              <div className="text-center">
-                <span className="text-3xl">🇦🇷</span>
-                <p className="text-sm text-gray-400 mt-2">Buenos Aires<br/>Sede Principal</p>
-              </div>
-              <div className="text-center">
-                <span className="text-3xl">🇨🇱</span>
-                <p className="text-sm text-gray-400 mt-2">Santiago<br/>Partner Regional</p>
+        <div className="container mx-auto px-4 md:px-6 pt-24 md:pt-0">
+          <div className="flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 text-center md:text-left">
+              <h1 className="text-4xl md:text-7xl font-bold mb-6 md:mb-8 leading-tight">
+                TRANSFORMAMOS<br />
+                TU VISIÓN EN<br />
+                SOFTWARE<br />
+                INTELIGENTE
+              </h1>
+              <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
+                Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
+              </p>
+              <div className="flex justify-center md:justify-start gap-8 items-center">
+                <div className="text-center">
+                  <span className="text-2xl md:text-3xl">🇦🇷</span>
+                  <p className="text-xs md:text-sm text-gray-400 mt-2">Buenos Aires<br/>Sede Principal</p>
+                </div>
+                <div className="text-center">
+                  <span className="text-2xl md:text-3xl">🇨🇱</span>
+                  <p className="text-xs md:text-sm text-gray-400 mt-2">Santiago<br/>Partner Regional</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="w-1/2 flex justify-end">
-            <img 
-              src="/gyo-banner.png" 
-              alt="GYO Technologies" 
-              className="w-4/5 object-contain animate-float"
-            />
+            <div className="hidden md:block md:w-1/2">
+              <img 
+                src="/gyo-banner.png" 
+                alt="GYO Technologies" 
+                className="w-4/5 ml-auto object-contain animate-float"
+              />
+            </div>
           </div>
         </div>
 
