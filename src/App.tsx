@@ -384,20 +384,22 @@ function App() {
               Colaboramos con expertos en migraciones a la nube para ofrecer soluciones empresariales de primer nivel
             </p>
             <div className="bg-[#111] p-6 rounded-lg border border-gray-800">
-              <p className="text-gray-300 mb-4">
-                OM Consultores es nuestro partner estratégico en Chile, con quienes compartimos una visión común: 
-                transformar la infraestructura tecnológica de las empresas mediante soluciones cloud avanzadas.
-              </p>
-              <p className="text-gray-300">
-                Juntos ofrecemos servicios especializados en migraciones a AWS y SAP, 
-                garantizando una transición suave y eficiente para nuestros clientes.
-              </p>
+              <div className="w-full">
+                {partners.map((partner, index) => (
+                  <PartnerCard key={index} {...partner} />
+                ))}
+              </div>
+              <div className="mt-8 border-t border-gray-800 pt-8">
+                <p className="text-gray-300 mb-4">
+                  OM Consultores es nuestro partner estratégico en Chile, con quienes compartimos una visión común: 
+                  transformar la infraestructura tecnológica de las empresas mediante soluciones cloud avanzadas.
+                </p>
+                <p className="text-gray-300">
+                  Juntos ofrecemos servicios especializados en migraciones a AWS y SAP, 
+                  garantizando una transición suave y eficiente para nuestros clientes.
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="max-w-md mx-auto">
-            {partners.map((partner, index) => (
-              <PartnerCard key={index} {...partner} />
-            ))}
           </div>
         </div>
       </section>
