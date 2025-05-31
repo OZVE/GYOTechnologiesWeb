@@ -14,7 +14,8 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="font-semibold mb-4">Servicios</h4>
-            <ul className="space-y-2 text-gray-400">
+            <ul className="space-y-2 text-gray-400 flex flex-col flex-wrap break-words">
+              <li>AI Agents</li>
               <li>AI-Driven Development</li>
               <li>IT Consulting</li>
               <li>Project Digitalization</li>
