@@ -18,7 +18,7 @@ import {
   Bot
 } from 'lucide-react';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ContactSection from './components/ContactSection';
 import CaseStudyCard from './components/CaseStudyCard';
 import PartnerCard from './components/PartnerCard';
