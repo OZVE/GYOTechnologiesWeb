@@ -77,10 +77,10 @@ const IAAgentsPage = ({ onPageChange }: IAAgentsPageProps) => {
         <section className="w-full flex flex-col md:flex-row items-center justify-between bg-gradient-to-br from-[#232428] to-[#191A1D] px-6 md:px-24 pt-16 pb-8 md:py-0 min-h-[110vh] gap-4 md:gap-0">
           {/* Columna de texto */}
           <div className="flex flex-col justify-center items-start w-full md:w-1/2 max-w-2xl md:pr-12">
-            <h1 className="font-inter text-3xl md:text-5xl text-gray-200 mb-4 leading-tight">
-              <span className="block">GYO Technologies Agents:</span>
-              <span className="block text-white">Inteligencia Artificial para tu</span>
-              <span className="block text-white">PYME</span>
+            <h1 className="font-inter text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-4 leading-tight">
+              <span className="block whitespace-pre-line">GYO Technologies Agents:
+Inteligencia Artificial para tu
+PYME</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 mb-10 md:mb-12">Impulsa tu negocio con la IA que entiende tus necesidades.</p>
             <button

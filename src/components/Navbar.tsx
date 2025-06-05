@@ -15,7 +15,7 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
-            <span className="text-sm text-white">GYO TECHNOLOGIES</span>
+            <span className="text-sm text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
           </div>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -108,7 +108,7 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
-            <span className="text-xl text-white">GYO TECHNOLOGIES</span>
+            <span className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">

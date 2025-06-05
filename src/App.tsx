@@ -241,7 +241,7 @@ function App() {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
-                      <span className="text-xl font-bold">GYO TECHNOLOGIES</span>
+                      <span className="text-xl text-transparent font-bold bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-2">
@@ -323,11 +323,11 @@ function App() {
               >
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="w-full md:w-1/2 text-center md:text-left">
-                    <h1 className="text-4xl md:text-7xl font-bold mb-6 md:mb-8 leading-tight">
-                      TRANSFORMAMOS<br />
+                    <h1 className="font-inter text-3xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-6 md:mb-8 leading-tight">
+                      <span className="block whitespace-pre-line">TRANSFORMAMOS<br />
                       TU VISIÓN EN<br />
                       SOFTWARE<br />
-                      INTELIGENTE
+                      INTELIGENTE</span>
                     </h1>
                     <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
                       Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
