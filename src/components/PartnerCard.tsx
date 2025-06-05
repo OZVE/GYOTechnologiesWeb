@@ -22,7 +22,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({
           className="max-w-full max-h-full object-contain"
         />
       </div>
-      <h3 className="text-xl font-semibold mb-2">{name}</h3>
+      <h3 className="text-xl mb-2">{name}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
   );

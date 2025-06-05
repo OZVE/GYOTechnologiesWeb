@@ -73,29 +73,35 @@ const IAAgentsPage = ({ onPageChange }: IAAgentsPageProps) => {
     <div className="min-h-screen bg-black flex flex-col">
       <Navbar onPageChange={onPageChange} />
       <div className="flex-grow">
+        {/* Banner principal completamente nuevo */}
+        <section className="w-full flex flex-col md:flex-row items-center justify-between bg-gradient-to-br from-[#232428] to-[#191A1D] px-6 md:px-24 pt-16 pb-8 md:py-0 min-h-[110vh] gap-4 md:gap-0">
+          {/* Columna de texto */}
+          <div className="flex flex-col justify-center items-start w-full md:w-1/2 max-w-2xl md:pr-12">
+            <h1 className="font-inter text-3xl md:text-5xl text-gray-200 mb-4 leading-tight">
+              <span className="block">GYO Technologies Agents:</span>
+              <span className="block text-white">Inteligencia Artificial para tu</span>
+              <span className="block text-white">PYME</span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-300 mb-10 md:mb-12">Impulsa tu negocio con la IA que entiende tus necesidades.</p>
+            <button
+              onClick={() => setIsContactModalOpen(true)}
+              className="px-8 py-4 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors font-bold text-lg shadow-md"
+            >
+              Descubre cómo GYO Agents puede ayudarte
+            </button>
+          </div>
+          {/* Columna de imagen */}
+          <div className="flex justify-center items-center w-full md:w-1/2">
+            <img 
+              src="/gyo-banner.png" 
+              alt="GYO Banner" 
+              className="object-contain max-h-[340px] md:max-h-[480px] w-auto drop-shadow-2xl"
+              style={{ minWidth: '220px', maxWidth: '420px' }}
+            />
+          </div>
+        </section>
+        {/* Fin banner principal */}
         <div className="container mx-auto px-4 py-20 mt-16">
-          <motion.h1 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="text-4xl md:text-5xl font-bold text-center mb-8 text-white"
-          >
-            Agentes de Inteligencia Artificial
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
-            className="text-lg text-gray-300 max-w-3xl mx-auto text-center mb-16"
-          >
-            Ofrecemos desarrollo de agentes de IA personalizados para atención al cliente, 
-            toma de pedidos, automatización de agendas, automatización de procesos internos 
-            como facturación, gestión de tickets y validación de datos. Soluciones a medida 
-            para optimizar la operación de su empresa, mejorar la experiencia del cliente y 
-            reducir costos operativos.
-          </motion.p>
-
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -127,20 +133,6 @@ const IAAgentsPage = ({ onPageChange }: IAAgentsPageProps) => {
                 <p className="text-gray-400">{service.description}</p>
               </motion.div>
             ))}
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="text-center"
-          >
-            <button
-              onClick={() => setIsContactModalOpen(true)}
-              className="px-8 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors font-bold"
-            >
-              Solicitar una demo
-            </button>
           </motion.div>
         </div>
       </div>

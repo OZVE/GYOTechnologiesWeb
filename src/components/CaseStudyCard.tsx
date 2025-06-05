@@ -22,12 +22,12 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       href={link} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="text-xl font-semibold mb-4 text-[#1c1c1e] hover:text-[#1473e6] transition-colors duration-200"
+      className="text-xl mb-4 text-[#1c1c1e] hover:text-[#1473e6] transition-colors duration-200"
     >
       {title}
     </a>
   ) : (
-    <h3 className="text-xl font-semibold mb-4 text-[#1c1c1e]">{title}</h3>
+    <h3 className="text-xl mb-4 text-[#1c1c1e]">{title}</h3>
   );
 
   const imageElement = link ? (
