@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
+        'instrument': ['"Instrument Sans"', 'sans-serif'],
       },
     },
   },
