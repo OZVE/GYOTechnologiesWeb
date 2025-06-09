@@ -241,7 +241,7 @@ function App() {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
-                      <span className="text-xl text-transparent font-bold bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
+                      <span className="text-xl text-transparent font-boldgit aad bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-2">
@@ -559,6 +559,26 @@ function App() {
                 </div>
               </div>
             </section>
+
+            {/* Sección Founders */}
+            <section className="w-full py-16 bg-gradient-to-b from-black to-[#191A1D]">
+              <div className="max-w-6xl mx-auto px-4">
+                <h2 className="font-instrument text-3xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">
+                  Nuestros Founders
+                </h2>
+                <div className="flex flex-col md:flex-row gap-8">
+                  <div className="flex-1">
+                    <h3 className="font-instrument text-2xl font-bold text-gray-100 mb-2">Osman Ramirez</h3>
+                    <p className="font-instrument text-gray-300">CEO & Co-Founder</p>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-instrument text-2xl font-bold text-gray-100 mb-2">Leonardo Vivas</h3>
+                    <p className="font-instrument text-gray-300">CTO & Co-Founder</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            {/* Fin sección Founders */}
 
             {/* Contact Section */}
             <motion.section 
