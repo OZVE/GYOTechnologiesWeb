@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface CaseStudyCardProps {
   image: string;
   title: string;
@@ -9,14 +7,14 @@ interface CaseStudyCardProps {
   link?: string; // Optional link for the case study
 }
 
-const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
+const CaseStudyCard = ({
   image,
   title,
   challenge,
   solution,
   result,
   link
-}) => {
+}: CaseStudyCardProps) => {
   const titleElement = link ? (
     <a 
       href={link} 
