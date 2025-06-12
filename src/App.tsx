@@ -11,11 +11,7 @@ import {
   Globe,
   Cpu,
   Server,
-  Palette,
-  Menu,
-  X,
-  Linkedin,
-  Bot
+  Palette
 } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -24,9 +20,10 @@ import CaseStudyCard from './components/CaseStudyCard';
 import PartnerCard from './components/PartnerCard';
 import IAAgentsPage from './components/IAAgentsPage';
 import PageTransition from './components/PageTransition';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
 
   const services = [
@@ -137,182 +134,7 @@ function App() {
             {/* Hero Section */}
             <header className="relative min-h-screen flex items-center text-white overflow-hidden">
               {/* Navigation */}
-              <motion.nav 
-                initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                className="fixed md:absolute top-0 left-0 right-0 p-4 md:p-6 z-20 bg-black/90 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
-              >
-                {/* Mobile Navigation */}
-                <div className="md:hidden container mx-auto">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img src="/gyo-banner2.png" alt="GYO Technologies" className="h-8" />
-                      <span className="text-sm font-bold">GYO TECHNOLOGIES</span>
-                    </div>
-                    <button 
-                      onClick={() => setIsMenuOpen(!isMenuOpen)}
-                      className="p-2 hover:bg-[#222] rounded-lg transition-all"
-                    >
-                      {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                  </div>
-                  <div 
-                    className={`${
-                      isMenuOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0'
-                    } overflow-hidden transition-all duration-300 ease-in-out`}
-                  >
-                    <div className="flex flex-col gap-2 mt-4">
-                      <a 
-                        href="#hero" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage('home');
-                          document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
-                      >
-                        Inicio
-                      </a>
-                      <a 
-                        href="#services"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage('home');
-                          document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
-                      >
-                        Servicios
-                      </a>
-                      <a 
-                        href="#technologies"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage('home');
-                          document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
-                      >
-                        Tecnologías
-                      </a>
-                      <a 
-                        href="#cases"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage('home');
-                          document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
-                      >
-                        Casos
-                      </a>
-                      <a 
-                        href="#ia-agents"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage('ia-agents');
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
-                      >
-                        <Bot size={16} />
-                        IA Agents
-                      </a>
-                      <button 
-                        onClick={() => {
-                          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all"
-                      >
-                        Contacto
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Desktop Navigation */}
-                <div className="hidden md:block container mx-auto">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
-                      <span className="text-xl text-transparent font-boldgit aad bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <div className="flex items-center gap-2">
-                        <a 
-                          href="#hero" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('home');
-                            document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
-                        >
-                          Inicio
-                        </a>
-                        <a 
-                          href="#services"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('home');
-                            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
-                        >
-                          Servicios
-                        </a>
-                        <a 
-                          href="#technologies"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('home');
-                            document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
-                        >
-                          Tecnologías
-                        </a>
-                        <a 
-                          href="#cases"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('home');
-                            document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
-                        >
-                          Casos
-                        </a>
-                        <a 
-                          href="#ia-agents"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('ia-agents');
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
-                        >
-                          <Bot size={16} />
-                          IA Agents
-                        </a>
-                        <button 
-                          onClick={() => {
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
-                        >
-                          Contacto
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.nav>
+              <Navbar onPageChange={setCurrentPage} />
 
               {/* Hero Content */}
               <motion.div 
@@ -593,60 +415,7 @@ function App() {
             </motion.section>
 
             {/* Footer */}
-            <footer className="bg-[#111] text-white py-12">
-              <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                  <div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
-                      <h3 className="text-2xl font-bold">GYO</h3>
-                    </div>
-                    <p className="text-gray-400">Transformando el futuro con tecnología inteligente</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-4">Servicios</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li>AI-Driven Development</li>
-                      <li>IT Consulting</li>
-                      <li>Project Digitalization</li>
-                      <li>Custom App Development</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-4">Compañía</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li>Sobre Nosotros</li>
-                      <li>Casos de Éxito</li>
-                      <li>Blog</li>
-                      <li>Carreras</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-4">Contacto</h4>
-                    <ul className="space-y-2 text-gray-400">
-                    <li>
-                        <a 
-                          href="https://www.linkedin.com/company/gyo-technologies" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 hover:text-white transition-colors"
-                        >
-                          <Linkedin size={18} />
-                          <span>LinkedIn</span>
-                        </a>
-                      </li>
-                      <li>info@gyotechnologies.com.ar</li>
-                      <li>+54 9 11 3948 6971</li>
-                      <li>Ciudad Autonoma de Buenos Aires, Argentina</li>
-                      
-                    </ul>
-                  </div>
-                </div>
-                <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                  <p>© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
-                </div>
-              </div>
-            </footer>
+            <Footer />
           </>
         ) : (
           <IAAgentsPage onPageChange={setCurrentPage} />
