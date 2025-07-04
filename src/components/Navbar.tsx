@@ -1,4 +1,4 @@
-import { Menu, X, Bot } from 'lucide-react';
+import { Menu, X, Bot, Wrench } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavbarProps {
@@ -79,6 +79,18 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
               Casos
             </a>
             <a 
+              href="#tools"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange('tools');
+                setIsMenuOpen(false);
+              }}
+              className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
+            >
+              <Wrench size={16} />
+              Tools
+            </a>
+            <a 
               href="#ia-agents"
               onClick={(e) => {
                 e.preventDefault();
@@ -155,6 +167,17 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
                 className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all text-white"
               >
                 Casos
+              </a>
+              <a 
+                href="#tools"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onPageChange('tools');
+                }}
+                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2 text-white"
+              >
+                <Wrench size={16} />
+                Tools
               </a>
               <a 
                 href="#ia-agents"

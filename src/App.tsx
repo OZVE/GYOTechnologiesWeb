@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   Linkedin,
-  Bot
+  Bot,
+  Wrench
 } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -23,6 +24,7 @@ import ContactSection from './components/ContactSection';
 import CaseStudyCard from './components/CaseStudyCard';
 import PartnerCard from './components/PartnerCard';
 import IAAgentsPage from './components/IAAgentsPage';
+import ToolsPage from './components/ToolsPage';
 import PageTransition from './components/PageTransition';
 
 function App() {
@@ -212,6 +214,18 @@ function App() {
                         Casos
                       </a>
                       <a 
+                        href="#tools"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentPage('tools');
+                          setIsMenuOpen(false);
+                        }}
+                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
+                      >
+                        <Wrench size={16} />
+                        Tools
+                      </a>
+                      <a 
                         href="#ia-agents"
                         onClick={(e) => {
                           e.preventDefault();
@@ -288,6 +302,17 @@ function App() {
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
                         >
                           Casos
+                        </a>
+                        <a 
+                          href="#tools"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage('tools');
+                          }}
+                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
+                        >
+                          <Wrench size={16} />
+                          Tools
                         </a>
                         <a 
                           href="#ia-agents"
@@ -648,6 +673,10 @@ function App() {
               </div>
             </footer>
           </>
+        ) : currentPage === 'ia-agents' ? (
+          <IAAgentsPage onPageChange={setCurrentPage} />
+        ) : currentPage === 'tools' ? (
+          <ToolsPage onPageChange={setCurrentPage} />
         ) : (
           <IAAgentsPage onPageChange={setCurrentPage} />
         )}
