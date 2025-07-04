@@ -1,13 +1,6 @@
 import { 
   Settings, 
-  Calendar, 
-  FileText, 
-  Users, 
   BarChart3, 
-  CreditCard, 
-  MessageSquare, 
-  Cloud, 
-  Shield, 
   Zap,
   ArrowRight,
   CheckCircle,
