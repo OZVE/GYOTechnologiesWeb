@@ -18,8 +18,9 @@ import {
   Bot,
   Wrench
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { BrowserRouter as Router, useNavigate, useLocation } from 'react-router-dom';
 import ContactSection from './components/ContactSection';
 import CaseStudyCard from './components/CaseStudyCard';
 import PartnerCard from './components/PartnerCard';
@@ -27,9 +28,42 @@ import IAAgentsPage from './components/IAAgentsPage';
 import ToolsPage from './components/ToolsPage';
 import PageTransition from './components/PageTransition';
 
-function App() {
+function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Sincronizar URL con currentPage
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/tools':
+        setCurrentPage('tools');
+        break;
+      case '/agents':
+        setCurrentPage('ia-agents');
+        break;
+      default:
+        setCurrentPage('home');
+        break;
+    }
+  }, [location.pathname]);
+
+  // Función para cambiar página (actualizar tanto state como URL)
+  const handlePageChange = (page: string) => {
+    setCurrentPage(page);
+    switch (page) {
+      case 'tools':
+        navigate('/tools');
+        break;
+      case 'ia-agents':
+        navigate('/agents');
+        break;
+      default:
+        navigate('/');
+        break;
+    }
+  };
 
   const services = [
     {
@@ -169,7 +203,7 @@ function App() {
                         href="#hero" 
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('home');
+                          handlePageChange('home');
                           document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
@@ -181,7 +215,7 @@ function App() {
                         href="#services"
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('home');
+                          handlePageChange('home');
                           document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
@@ -193,7 +227,7 @@ function App() {
                         href="#technologies"
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('home');
+                          handlePageChange('home');
                           document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
@@ -205,7 +239,7 @@ function App() {
                         href="#cases"
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('home');
+                          handlePageChange('home');
                           document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
@@ -214,10 +248,10 @@ function App() {
                         Casos
                       </a>
                       <a 
-                        href="#tools"
+                        href="/tools"
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('tools');
+                          handlePageChange('tools');
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
@@ -226,10 +260,10 @@ function App() {
                         Tools
                       </a>
                       <a 
-                        href="#ia-agents"
+                        href="/agents"
                         onClick={(e) => {
                           e.preventDefault();
-                          setCurrentPage('ia-agents');
+                          handlePageChange('ia-agents');
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
@@ -263,7 +297,7 @@ function App() {
                           href="#hero" 
                           onClick={(e) => {
                             e.preventDefault();
-                            setCurrentPage('home');
+                            handlePageChange('home');
                             document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
@@ -274,7 +308,7 @@ function App() {
                           href="#services"
                           onClick={(e) => {
                             e.preventDefault();
-                            setCurrentPage('home');
+                            handlePageChange('home');
                             document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
@@ -285,7 +319,7 @@ function App() {
                           href="#technologies"
                           onClick={(e) => {
                             e.preventDefault();
-                            setCurrentPage('home');
+                            handlePageChange('home');
                             document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
@@ -296,35 +330,35 @@ function App() {
                           href="#cases"
                           onClick={(e) => {
                             e.preventDefault();
-                            setCurrentPage('home');
+                            handlePageChange('home');
                             document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
                         >
                           Casos
                         </a>
-                        <a 
-                          href="#tools"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('tools');
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
-                        >
-                          <Wrench size={16} />
-                          Tools
-                        </a>
-                        <a 
-                          href="#ia-agents"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage('ia-agents');
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
-                        >
-                          <Bot size={16} />
-                          IA Agents
-                        </a>
+                                              <a 
+                        href="/tools"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange('tools');
+                        }}
+                        className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
+                      >
+                        <Wrench size={16} />
+                        Tools
+                      </a>
+                      <a 
+                        href="/agents"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange('ia-agents');
+                        }}
+                        className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
+                      >
+                        <Bot size={16} />
+                        IA Agents
+                      </a>
                         <button 
                           onClick={() => {
                             document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -674,14 +708,22 @@ function App() {
             </footer>
           </>
         ) : currentPage === 'ia-agents' ? (
-          <IAAgentsPage onPageChange={setCurrentPage} />
+          <IAAgentsPage onPageChange={handlePageChange} />
         ) : currentPage === 'tools' ? (
-          <ToolsPage onPageChange={setCurrentPage} />
+          <ToolsPage onPageChange={handlePageChange} />
         ) : (
-          <IAAgentsPage onPageChange={setCurrentPage} />
+          <IAAgentsPage onPageChange={handlePageChange} />
         )}
       </PageTransition>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
