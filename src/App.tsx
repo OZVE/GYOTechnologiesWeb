@@ -2,23 +2,15 @@ import {
   Brain,
   Code,
   Database,
-  Laptop,
-  MessageSquare,
-  MonitorSmartphone,
   Users,
-  Workflow,
   LineChart,
-  Globe,
-  Cpu,
-  Server,
-  Palette,
   Menu,
   X,
   Linkedin,
   Bot,
   Wrench,
   ArrowRight,
-  User
+  MessageSquare
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';

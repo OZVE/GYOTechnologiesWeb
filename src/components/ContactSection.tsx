@@ -1,5 +1,5 @@
 import ContactForm from './ContactForm';
-import { Mail, Phone, MapPin, Clock, MessageSquare, Send } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const ContactSection = () => {
   return (
