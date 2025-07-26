@@ -273,7 +273,12 @@ function AppContent() {
                       </a>
                       <button 
                         onClick={() => {
-                          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                          // First navigate to home page if not already there
+                          handlePageChange('home');
+                          // Then scroll to contact section after a small delay to ensure page change is complete
+                          setTimeout(() => {
+                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                          }, 100);
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all"
@@ -361,7 +366,12 @@ function AppContent() {
                       </a>
                         <button 
                           onClick={() => {
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            // First navigate to home page if not already there
+                            handlePageChange('home');
+                            // Then scroll to contact section after a small delay to ensure page change is complete
+                            setTimeout(() => {
+                              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            }, 100);
                           }}
                           className="px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
                         >

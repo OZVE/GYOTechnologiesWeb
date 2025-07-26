@@ -84,7 +84,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar onPageChange={onPageChange} />
+      <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
       
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">

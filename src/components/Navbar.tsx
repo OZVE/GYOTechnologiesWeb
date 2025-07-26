@@ -3,9 +3,10 @@ import { useState } from 'react';
 
 interface NavbarProps {
   onPageChange: (page: string) => void;
+  onContactClick?: () => void;
 }
 
-const Navbar = ({ onPageChange }: NavbarProps) => {
+const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -104,7 +105,16 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
             </a>
             <button 
               onClick={() => {
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                if (onContactClick) {
+                  // If onContactClick is provided, use it (for Tools and IA Agents pages)
+                  onContactClick();
+                } else {
+                  // Otherwise, navigate to home and scroll to contact (for home page)
+                  onPageChange('home');
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
                 setIsMenuOpen(false);
               }}
               className="px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all"
@@ -192,7 +202,16 @@ const Navbar = ({ onPageChange }: NavbarProps) => {
               </a>
               <button 
                 onClick={() => {
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  if (onContactClick) {
+                    // If onContactClick is provided, use it (for Tools and IA Agents pages)
+                    onContactClick();
+                  } else {
+                    // Otherwise, navigate to home and scroll to contact (for home page)
+                    onPageChange('home');
+                    setTimeout(() => {
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
                 }}
                 className="px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
               >

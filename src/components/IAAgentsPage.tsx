@@ -71,7 +71,7 @@ const IAAgentsPage = ({ onPageChange }: IAAgentsPageProps) => {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      <Navbar onPageChange={onPageChange} />
+      <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
       <div className="flex-grow">
         {/* Banner principal completamente nuevo */}
         <section className="w-full flex flex-col md:flex-row items-center justify-center bg-black px-6 md:px-24 pt-8 pb-4 md:py-0 min-h-[110vh] gap-8">
