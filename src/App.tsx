@@ -16,21 +16,23 @@ import {
   X,
   Linkedin,
   Bot,
-  Wrench
+  Wrench,
+  ArrowRight,
+  User
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BrowserRouter as Router, useNavigate, useLocation } from 'react-router-dom';
 import ContactSection from './components/ContactSection';
-import CaseStudyCard from './components/CaseStudyCard';
-import PartnerCard from './components/PartnerCard';
-import IAAgentsPage from './components/IAAgentsPage';
 import ToolsPage from './components/ToolsPage';
 import PageTransition from './components/PageTransition';
+import ContactModal from './components/ContactModal';
 
 function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('home');
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,9 +41,6 @@ function AppContent() {
     switch (location.pathname) {
       case '/tools':
         setCurrentPage('tools');
-        break;
-      case '/agents':
-        setCurrentPage('ia-agents');
         break;
       default:
         setCurrentPage('home');
@@ -56,9 +55,6 @@ function AppContent() {
       case 'tools':
         navigate('/tools');
         break;
-      case 'ia-agents':
-        navigate('/agents');
-        break;
       default:
         navigate('/');
         break;
@@ -67,103 +63,57 @@ function AppContent() {
 
   const services = [
     {
-      icon: <Brain className="w-full h-full text-[#252525]" />,
-      title: "AI-Driven Web Development",
-      description: "Potenciamos el desarrollo web con inteligencia artificial para crear soluciones más rápidas y eficientes.",
+      icon: <Bot className="w-full h-full text-[#252525]" />,
+      title: "AI Agents",
+      description: "Agentes de inteligencia artificial que automatizan tareas y optimizan procesos empresariales. Creamos MCP clients personalizados.",
       features: [
-        "Generación automatizada de componentes UI con modelos de IA",
-        "Análisis predictivo de patrones de usuario para optimizar UX",
+        "Desarrollo de MCP clients personalizados para tu negocio",
+        "Automatización inteligente de tareas repetitivas",
+        "Optimización de procesos con análisis predictivo",
+        "Agentes personalizados para cada necesidad empresarial"
+      ]
+    },
+    {
+      icon: <Brain className="w-full h-full text-[#252525]" />,
+      title: "AI-Driven Development",
+      description: "Desarrollo de software potenciado con inteligencia artificial para crear soluciones más rápidas y eficientes.",
+      features: [
+        "Generación automatizada de código con modelos de IA",
+        "Análisis predictivo para optimizar arquitecturas",
         "Testing automatizado y detección de errores con ML"
       ]
     },
     {
-      icon: <Code className="w-full h-full text-[#252525]" />,
-      title: "Custom Web Applications",
-      description: "Desarrollamos aplicaciones web robustas y escalables utilizando las últimas tecnologías.",
+      icon: <Users className="w-full h-full text-[#252525]" />,
+      title: "AI-Adoption Consultant for Business",
+      description: "Asesoramiento especializado para la adopción e implementación de IA en empresas.",
       features: [
-        "Arquitectura moderna con React, Node.js y APIs RESTful",
-        "Integración de bases de datos SQL y NoSQL",
-        "Sistemas de autenticación y autorización seguros"
-      ]
-    },
-    {
-      icon: <MonitorSmartphone className="w-full h-full text-[#252525]" />,
-      title: "Mobile Application Development",
-      description: "Creamos apps móviles nativas y multiplataforma con rendimiento excepcional.",
-      features: [
-        "Desarrollo cross-platform con React Native",
-        "Optimización de rendimiento y experiencia offline",
-        "Integración con servicios en la nube y APIs"
-      ]
-    },
-    {
-      icon: <Workflow className="w-full h-full text-[#252525]" />,
-      title: "System Integration & Automation",
-      description: "Conectamos y automatizamos sistemas empresariales para maximizar la eficiencia.",
-      features: [
-        "Integración de ERPs y CRMs mediante APIs",
-        "Automatización de flujos de trabajo y datos",
-        "Monitoreo en tiempo real y alertas inteligentes"
-      ]
-    },
-    {
-      icon: <Laptop className="w-full h-full text-[#252525]" />,
-      title: "IT Consulting",
-      description: "Asesoramiento experto para optimizar su infraestructura tecnológica.",
-      features: [
-        "Auditorías de arquitectura y rendimiento",
-        "Planificación de escalabilidad y cloud",
-        "Optimización de costes y recursos IT"
-      ]
-    },
-    {
-      icon: <LineChart className="w-full h-full text-[#252525]" />,
-      title: "Strategic Technology Advisory",
-      description: "Guiamos la transformación digital y adopción de nuevas tecnologías.",
-      features: [
-        "Roadmap de transformación digital personalizado",
-        "Evaluación y selección de stack tecnológico",
-        "Estrategias de implementación de IA y ML"
+        "Evaluación de necesidades de IA para tu negocio",
+        "Roadmap de implementación personalizado",
+        "Capacitación y acompañamiento en la transición"
       ]
     }
   ];
 
   const technologies = [
     {
-      icon: <Globe className="text-[#252525]" />,
-      name: "Frontend",
-      description: "React, TypeScript, Next.js, Tailwind CSS, Vue.js"
+      icon: <Brain className="text-[#252525]" />,
+      name: "Inteligencia Artificial",
+      description: "TensorFlow, PyTorch, OpenAI, Anthropic Claude, LangChain, Custom AI Models, RAG, MCP Clients"
     },
     {
-      icon: <Server className="text-[#252525]" />,
-      name: "Backend",
-      description: "Node.js, Python, Django, Express, FastAPI"
+      icon: <Code className="text-[#252525]" />,
+      name: "Desarrollo Web",
+      description: "React, TypeScript, Next.js, Node.js, Python, Django, FastAPI, Tailwind CSS"
     },
     {
       icon: <Database className="text-[#252525]" />,
-      name: "Databases",
-      description: "PostgreSQL, MongoDB, Redis, MySQL, Supabase"
-    },
-    {
-      icon: <Cpu className="text-[#252525]" />,
-      name: "AI & ML",
-      description: "TensorFlow, PyTorch, OpenAI, Scikit-learn"
-    },
-    {
-      icon: <Palette className="text-[#252525]" />,
-      name: "CMS & Low-Code",
-      description: "WordPress, Webflow, Strapi, Contentful"
+      name: "Infraestructura & CMS",
+      description: "PostgreSQL, MongoDB, Redis, Supabase, WordPress, Webflow, Strapi, Contentful"
     }
   ];
 
-  const partners = [
-    {
-      logo: "./partners/om.png",
-      name: "OM Consultores",
-      description: "Nuestro partner estratégico en Chile, especializado en migraciones a la nube (AWS y SAP)",
-      link: "https://omconsultores.cl/"
-    }
-  ];
+
 
   return (
     <div className="min-h-screen bg-black">
@@ -172,6 +122,10 @@ function AppContent() {
           <>
             {/* Hero Section */}
             <header className="relative min-h-screen flex items-center text-white overflow-hidden">
+              {/* Background Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20"></div>
+              <div className="absolute inset-0 z-0 bg-grid-pattern opacity-10"></div>
+              
               {/* Navigation */}
               <motion.nav 
                 initial={{ y: -100, opacity: 0 }}
@@ -180,7 +134,7 @@ function AppContent() {
                 className="fixed md:absolute top-0 left-0 right-0 p-4 md:p-6 z-20 bg-black/90 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
               >
                 {/* Mobile Navigation */}
-                <div className="md:hidden container mx-auto">
+                <div className="md:hidden w-full px-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <img src="/gyo-banner2.png" alt="GYO Technologies" className="h-8" />
@@ -260,10 +214,11 @@ function AppContent() {
                         Tools
                       </a>
                       <a 
-                        href="/agents"
+                        href="#ai-agents"
                         onClick={(e) => {
                           e.preventDefault();
-                          handlePageChange('ia-agents');
+                          handlePageChange('home');
+                          document.getElementById('ai-agents')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
@@ -290,7 +245,7 @@ function AppContent() {
                 </div>
 
                 {/* Desktop Navigation */}
-                <div className="hidden md:block container mx-auto">
+                <div className="hidden md:block w-full px-4">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <img src="/gyo-banner.png" alt="GYO Technologies" className="h-12" />
@@ -354,10 +309,11 @@ function AppContent() {
                         Tools
                       </a>
                       <a 
-                        href="/agents"
+                        href="#ai-agents"
                         onClick={(e) => {
                           e.preventDefault();
-                          handlePageChange('ia-agents');
+                          handlePageChange('home');
+                          document.getElementById('ai-agents')?.scrollIntoView({ behavior: 'smooth' });
                         }}
                         className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
                       >
@@ -388,7 +344,7 @@ function AppContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                className="container mx-auto px-4"
+                className="container mx-auto px-4 relative z-10"
               >
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="w-full md:w-1/2 text-center md:text-left">
@@ -401,16 +357,20 @@ function AppContent() {
                     <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
                       Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
                     </p>
-                    <div className="flex justify-center md:justify-start gap-8 items-center">
-                      <div className="text-center">
-                        <span className="text-2xl md:text-3xl">🇦🇷</span>
-                        <p className="text-xs md:text-sm text-gray-400 mt-2">Buenos Aires<br/>Sede Principal</p>
+                    <div className="mb-8">
+                      
                       </div>
-                      <div className="text-center">
-                        <span className="text-2xl md:text-3xl">🇨🇱</span>
-                        <p className="text-xs md:text-sm text-gray-400 mt-2">Santiago<br/>Partner Regional</p>
-                      </div>
-                    </div>
+                      
+                                          <button 
+                      onClick={() => setIsContactModalOpen(true)}
+                      onMouseEnter={() => setIsButtonHovered(true)}
+                      onMouseLeave={() => setIsButtonHovered(false)}
+                      className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center md:justify-start transform hover:scale-105"
+                    >
+                      {isButtonHovered ? "Tu proyecto te espera" : "Innovemos"} <ArrowRight size={20} />
+                    </button>
+                    
+
                   </div>
                   <div className="hidden md:block md:w-1/2">
                     <img 
@@ -421,10 +381,55 @@ function AppContent() {
                   </div>
                 </div>
               </motion.div>
-
-              {/* Background Effect */}
-              <div className="absolute inset-0 z-0 bg-grid-pattern opacity-10"></div>
             </header>
+
+            {/* Global Presence Cards - Full Width */}
+            <div className="w-full bg-gradient-to-r from-purple-900/20 to-blue-900/20 py-4">
+              <div className="grid grid-cols-6 gap-4 px-4">
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇦🇷</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Buenos Aires</p>
+                    <p className="text-xs text-gray-400">Argentina</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇨🇱</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Santiago</p>
+                    <p className="text-xs text-gray-400">Chile</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇪🇨</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Quito</p>
+                    <p className="text-xs text-gray-400">Ecuador</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇵🇪</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Lima</p>
+                    <p className="text-xs text-gray-400">Perú</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇪🇸</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Ibiza</p>
+                    <p className="text-xs text-gray-400">España</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-lg text-white">🇨🇦</span>
+                  <div>
+                    <p className="text-xs font-medium text-white">Montreal</p>
+                    <p className="text-xs text-gray-400">Canadá</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <style>{`
               .bg-grid-pattern {
@@ -448,33 +453,33 @@ function AppContent() {
             `}</style>
 
             {/* About Section */}
-            <section className="py-20 bg-[#111]">
+            <section className="py-20 bg-gradient-to-r from-gray-900 to-gray-800">
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto text-center">
-                  <h2 className="text-4xl font-bold mb-8 text-white">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
                     Potenciando el futuro con IA y experiencia humana
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                    <div className="p-6">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-lg flex items-center justify-center">
-                        <Brain className="text-black" size={32} />
+                    <div className="border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-8 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Brain className="text-[#252525]" size={32} />
                       </div>
-                      <h3 className="text-xl font-semibold mb-2 text-white">IA Avanzada</h3>
-                      <p className="text-gray-400">Soluciones impulsadas por los últimos avances en inteligencia artificial</p>
+                      <h3 className="text-xl font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">IA Avanzada</h3>
+                      <p className="text-gray-300">Soluciones impulsadas por los últimos avances en inteligencia artificial</p>
                     </div>
-                    <div className="p-6">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-lg flex items-center justify-center">
-                        <Users className="text-black" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Users className="text-[#252525]" size={32} />
                       </div>
                       <h3 className="text-xl font-semibold mb-2 text-white">Experiencia Humana</h3>
-                      <p className="text-gray-400">Equipo de expertos senior supervisando cada proyecto</p>
+                      <p className="text-gray-300">Equipo de expertos supervisando cada proyecto</p>
                     </div>
-                    <div className="p-6">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-lg flex items-center justify-center">
-                        <MessageSquare className="text-black" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <MessageSquare className="text-[#252525]" size={32} />
                       </div>
                       <h3 className="text-xl font-semibold mb-2 text-white">Comunicación Clara</h3>
-                      <p className="text-gray-400">Proceso transparente y comunicación constante</p>
+                      <p className="text-gray-300">Proceso transparente y comunicación constante</p>
                     </div>
                   </div>
                 </div>
@@ -488,29 +493,29 @@ function AppContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               id="services"
-              className="py-20"
+              className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
             >
               <div className="container mx-auto px-6">
                 <div className="max-w-3xl mx-auto text-center mb-16">
-                  <h2 className="text-5xl font-bold mb-6 text-white">
-                    Servicios Especializados
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
+                    Nuestros Servicios
                   </h2>
                   <p className="text-xl text-gray-300">
-                    Combinamos tecnología de vanguardia con experiencia humana para crear soluciones digitales excepcionales
+                    Tres servicios especializados en IA: desde automatización con agentes hasta consultoría de adopción empresarial
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {services.map((service, index) => (
-                    <div key={index} className="bg-[#111] p-8 rounded-2xl hover:bg-[#222] transition-all border border-gray-800">
-                      <div className="w-16 h-16 mb-6 bg-white rounded-xl flex items-center justify-center">
+                    <div key={index} className="border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-8 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border group relative">
+                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
                         {service.icon}
                       </div>
-                      <h3 className="text-2xl font-bold mb-4 text-white">{service.title}</h3>
-                      <p className="text-gray-400 mb-6">{service.description}</p>
+                      <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">{service.title}</h3>
+                      <p className="text-gray-300 mb-6">{service.description}</p>
                       <ul className="space-y-3">
                         {service.features.map((feature, i) => (
                           <li key={i} className="flex items-center gap-2 text-gray-300">
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                            <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"></div>
                             <span>{feature}</span>
                           </li>
                         ))}
@@ -528,126 +533,388 @@ function AppContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               id="technologies"
-              className="py-20"
+              className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
             >
               <div className="container mx-auto px-4">
                 <div className="max-w-3xl mx-auto text-center mb-16">
-                  <h2 className="text-4xl font-bold mb-6 text-white">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight py-2">
                     Tecnologías y Herramientas
                   </h2>
                   <p className="text-xl text-gray-300">
                     Dominamos las últimas tecnologías para crear soluciones modernas y escalables
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {technologies.map((tech, index) => (
-                    <div key={index} className="bg-[#111] p-6 rounded-2xl hover:bg-[#222] transition-all border border-gray-800">
-                      <div className="w-12 h-12 mb-4 bg-white rounded-lg flex items-center justify-center">
+                    <div key={index} className={`${index === 0 ? 'border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20' : 'bg-gradient-to-br from-gray-900 to-gray-800'} p-6 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border ${index === 0 ? 'border-purple-500' : 'border-gray-700 hover:border-purple-500'}`}>
+                      <div className="w-12 h-12 mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
                         {tech.icon}
                       </div>
-                      <h3 className="text-xl font-semibold mb-2 text-white">{tech.name}</h3>
-                      <p className="text-gray-400">{tech.description}</p>
+                      <h3 className={`text-xl font-semibold mb-2 ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400' : 'text-white'}`}>{tech.name}</h3>
+                      <p className="text-gray-300">{tech.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </motion.section>
 
-            {/* Case Studies Section */}
+            {/* AI Agents Section */}
             <motion.section 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-              id="cases"
-              className="py-20"
+              id="ai-agents"
+              className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
             >
               <div className="container mx-auto px-4">
-                <h2 className="text-4xl font-bold text-center mb-16 text-white">
-                  Casos de Éxito
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <CaseStudyCard
-                    image="./C-heren.jpg"
-                    title="Heren E-commerce" 
-                    challenge="Diseñar una plataforma de e-commerce personalizada para una marca de ropa, con experiencia de compra fluida y segura."
-                    solution="Desarrollo de tienda online con integración de pasarela de pago y sistema de mailing automatizado para promociones y seguimiento post-compra."
-                    result="El sistema en linea fue un éxito, permitiendo a la marca expandir su presencia en el mercado y fortalecer su relación con clientes mediante campañas de correo segmentadas."
-                    link="https://www.heren.com.ar/"
-                  />
-                  <CaseStudyCard
-                    image="./C-om.jpg"
-                    title="OM Consultores"
-                    challenge="Diseñar una presencia digital confiable para una consultora especializada en migraciones a la nube (AWS y SAP)."
-                    solution="Diseñamos y desarrollamos un sitio web comercial centrado en la propuesta de valor de OM Consultores, destacando su experiencia en migraciones a AWS y SAP."
-                    result="El nuevo sitio web permitió a OM Consultores incrementar significativamente la visibilidad de su marca y ganar la confianza de nuevos clientes."
-                    link="https://omconsultores.cl/"
-                  />
-                  <CaseStudyCard
-                    image="./C-laquinta.jpg"
-                    title="La Quinta F.C."
-                    challenge="Modernizar la imagen y agilizar la gestión de torneos en un predio de canchas de fútbol."
-                    solution="Desarrollo de un sitio web comercial con sistema integrado para actualizar resultados de partidos, posiciones y estadísticas de cada liga."
-                    result="Mayor interacción con clientes, facilitando la organización de torneos y consolidando la presencia digital de La Quinta F.C."
-                    link="https://www.laquintafc.com.ar/"
-                  />
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight py-2">
+                    ¿Qué son los AI Agents?
+                  </h2>
+                  <p className="text-lg text-gray-300 mb-12">
+                    GYO Agents son programas de IA que automatizan tareas. Optimizan procesos, liberando tu tiempo valioso.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Automatiza <span className="font-normal text-white">tareas</span></h3>
+                      <p className="text-gray-300">Nuestros agentes aumentan la productividad en un 30%.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Optimiza <span className="font-normal text-white">procesos</span></h3>
+                      <p className="text-gray-300">Reducen costos operativos en un 20%.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Libera tu <span className="font-normal text-white">tiempo</span></h3>
+                      <p className="text-gray-300">Enfócate en el crecimiento estratégico de tu negocio.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.section>
 
-            {/* Partners Section */}
-            <section className="py-20 bg-black">
+            {/* Benefits Section */}
+            <motion.section 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
+            >
               <div className="container mx-auto px-4">
-                <div className="max-w-3xl mx-auto text-center mb-16">
-                  <div className="flex items-center justify-center mb-4">
-                    <Users className="w-8 h-8 text-white mr-2" />
-                    <h2 className="text-4xl font-bold text-white">
-                      Nuestro Partner Estratégico
-                    </h2>
-                  </div>
-                  <p className="text-xl text-gray-300 mb-6">
-                    Colaboramos con expertos en migraciones a la nube para ofrecer soluciones empresariales de primer nivel
-                  </p>
-                  <div className="bg-[#111] p-6 rounded-lg border border-gray-800">
-                    <div className="w-full">
-                      {partners.map((partner, index) => (
-                        <PartnerCard key={index} {...partner} />
-                      ))}
+                <div className="max-w-6xl mx-auto">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
+                    Beneficios Clave para tu negocio
+                  </h2>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 2a2 2 0 012 2v2h-4V4a2 2 0 012-2zm6 6V4a6 6 0 00-12 0v4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 8a2 2 0 110-4 2 2 0 010 4z' /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Automatización de tareas</h3>
+                        <p className="text-gray-300">Libera a tu equipo de tareas repetitivas. La automatización de facturación reduce errores en un 15%.</p>
+                      </div>
                     </div>
-                    <div className="mt-8 border-t border-gray-800 pt-8">
-                      <p className="text-gray-300 mb-4">
-                        OM Consultores es nuestro partner estratégico en Chile, con quienes compartimos una visión común: 
-                        transformar la infraestructura tecnológica de las empresas mediante soluciones cloud avanzadas.
-                      </p>
-                      <p className="text-gray-300">
-                        Juntos ofrecemos servicios especializados en migraciones a AWS y SAP, 
-                        garantizando una transición suave y eficiente para nuestros clientes.
-                      </p>
+                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M3 3v18h18M3 9h18M9 21V3' /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Optimización de procesos</h3>
+                        <p className="text-gray-300">Identifica cuellos de botella y mejora la eficiencia. Optimización de cadena de suministro baja los costos un 10%.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 17v-2a4 4 0 018 0v2M9 17a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2m0 0a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2' /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Toma de decisiones inteligentes</h3>
+                        <p className="text-gray-300">Obtén insights valiosos de tus datos. El análisis de datos de ventas aumenta la conversión en un 8%.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 11c0-1.104.896-2 2-2s2 .896 2 2-.896 2-2 2-2-.896-2-2zm0 0V7m0 4v4m0 0a2 2 0 100 4 2 2 0 000-4z' /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Mejora la experiencia del cliente</h3>
+                        <p className="text-gray-300">Ofrece servicio personalizado 24/7. Los chatbots de IA resuelven el 80% de las consultas.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
+            </motion.section>
 
-            {/* Sección Founders */}
-            <section className="w-full py-16 bg-gradient-to-b from-black to-[#191A1D]">
-              <div className="max-w-6xl mx-auto px-4">
-                <h2 className="font-instrument text-3xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">
-                  Nuestros Founders
-                </h2>
-                <div className="flex flex-col md:flex-row gap-8">
-                  <div className="flex-1">
-                    <h3 className="font-instrument text-2xl font-bold text-gray-100 mb-2">Osman Ramirez</h3>
-                    <p className="font-instrument text-gray-300">CEO & Co-Founder</p>
+            {/* AI-Driven Development Section */}
+            <motion.section 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
+            >
+              <div className="container mx-auto px-4">
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
+                    AI-Driven Development
+                  </h2>
+                  <p className="text-lg text-gray-300 mb-12">
+                    Desarrollo de software potenciado con inteligencia artificial para crear soluciones más rápidas y eficientes.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Brain className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Generación Automatizada</h3>
+                      <p className="text-gray-300">Código generado automáticamente con modelos de IA avanzados, reduciendo tiempo de desarrollo en un 60%.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Code className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Análisis Predictivo</h3>
+                      <p className="text-gray-300">Optimización de arquitecturas y detección temprana de problemas con análisis de código inteligente.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Wrench className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Testing Inteligente</h3>
+                      <p className="text-gray-300">Testing automatizado y detección de errores con machine learning, garantizando calidad superior.</p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-instrument text-2xl font-bold text-gray-100 mb-2">Leonardo Vivas</h3>
-                    <p className="font-instrument text-gray-300">CTO & Co-Founder</p>
+                  <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700">
+                    <h3 className="text-2xl font-bold text-white mb-4">¿Por qué AI-Driven Development?</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                      <div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Velocidad</h4>
+                        <p className="text-gray-300">Desarrollo 3x más rápido con generación automática de código y componentes reutilizables.</p>
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Calidad</h4>
+                        <p className="text-gray-300">Código optimizado y libre de errores gracias al análisis predictivo y testing automatizado.</p>
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Escalabilidad</h4>
+                        <p className="text-gray-300">Arquitecturas diseñadas para crecer con tu negocio, adaptándose a nuevas necesidades.</p>
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Innovación</h4>
+                        <p className="text-gray-300">Implementación de las últimas tecnologías y patrones de desarrollo con IA.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </section>
-            {/* Fin sección Founders */}
+            </motion.section>
+
+            {/* AI-Adoption Consultant Section */}
+            <motion.section 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
+            >
+              <div className="container mx-auto px-4">
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
+                    AI-Adoption Consultant for Business
+                  </h2>
+                  <p className="text-lg text-gray-300 mb-12">
+                    Asesoramiento especializado para la adopción e implementación de IA en empresas, maximizando el retorno de inversión.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Users className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Evaluación Estratégica</h3>
+                      <p className="text-gray-300">Análisis completo de tu negocio para identificar oportunidades de implementación de IA con mayor impacto.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <LineChart className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Roadmap Personalizado</h3>
+                      <p className="text-gray-300">Plan de implementación paso a paso adaptado a tus necesidades, presupuesto y cronograma específico.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <MessageSquare className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Capacitación Continua</h3>
+                      <p className="text-gray-300">Acompañamiento y formación para tu equipo durante toda la transición hacia la IA.</p>
+                    </div>
+                  </div>
+                  <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700">
+                    <h3 className="text-2xl font-bold text-white mb-4">Nuestro Proceso de Consultoría</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center">
+                          <span className="text-[#252525] font-bold">1</span>
+                        </div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Diagnóstico</h4>
+                        <p className="text-gray-300 text-sm">Evaluación completa de procesos y oportunidades de IA</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center">
+                          <span className="text-[#252525] font-bold">2</span>
+                        </div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Estrategia</h4>
+                        <p className="text-gray-300 text-sm">Definición de objetivos y roadmap de implementación</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center">
+                          <span className="text-[#252525] font-bold">3</span>
+                        </div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Implementación</h4>
+                        <p className="text-gray-300 text-sm">Desarrollo y despliegue de soluciones de IA</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center">
+                          <span className="text-[#252525] font-bold">4</span>
+                        </div>
+                        <h4 className="text-lg font-semibold text-purple-400 mb-2">Optimización</h4>
+                        <p className="text-gray-300 text-sm">Monitoreo, ajustes y mejora continua</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6 rounded-2xl border border-purple-500/30">
+                    <h4 className="text-xl font-bold text-white mb-3">Resultados Esperados</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-purple-400 mb-1">40%</div>
+                        <div className="text-gray-300 text-sm">Reducción en costos operativos</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-purple-400 mb-1">3x</div>
+                        <div className="text-gray-300 text-sm">Mayor eficiencia en procesos</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-purple-400 mb-1">6 meses</div>
+                        <div className="text-gray-300 text-sm">Tiempo promedio de implementación</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* Why Choose GYO Section */}
+            <motion.section 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
+            >
+              <div className="container mx-auto px-4">
+                <div className="max-w-6xl mx-auto">
+                  <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight py-2">
+                    ¿Por qué elegir GYO Technologies?
+                  </h2>
+                  <p className="text-lg text-gray-300 text-center mb-16 max-w-3xl mx-auto">
+                    Somos expertos en transformar empresas con inteligencia artificial. Nuestra experiencia, metodología probada y resultados medibles nos distinguen en el mercado.
+                  </p>
+                  
+                  {/* Métricas Principales */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-2">50+</div>
+                      <div className="text-gray-300">Proyectos Exitosos</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-2">200%</div>
+                      <div className="text-gray-300">Eficiencia Aumentada</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-2">24/7</div>
+                      <div className="text-gray-300">Soporte Técnico</div>
+                    </div>
+                  </div>
+
+                  {/* Razones Principales */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Brain className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white mb-4">Experiencia Especializada en IA</h3>
+                      <p className="text-gray-300 mb-4">Más de 5 años aplicando IA. Conocemos los desafíos únicos de las empresas medianas y pequeñas.</p>
+                      <ul className="space-y-2 text-gray-300">
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Especialización en automatización y transformación digital</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Metodologías probadas</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Casos de éxito documentados</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Users className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white mb-4">Soluciones 100% Personalizadas</h3>
+                      <p className="text-gray-300 mb-4">Cada proyecto es único. Adaptamos nuestras soluciones a tus necesidades específicas, presupuesto y cronograma.</p>
+                      <ul className="space-y-2 text-gray-300">
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Análisis personalizado</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Desarrollo a medida</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Integración con sistemas existentes</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <MessageSquare className="text-[#252525]" size={32} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white mb-4">Soporte Especializado Continuo</h3>
+                      <p className="text-gray-300 mb-4">No solo desarrollamos, acompañamos. Soporte técnico 24/7 y capacitación continua para tu equipo.</p>
+                      <ul className="space-y-2 text-gray-300">
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Soporte técnico 24/7</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Capacitación del equipo</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          <span>Monitoreo y optimización</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+
+                  </div>
+
+
+                </div>
+              </div>
+            </motion.section>
+
+
 
             {/* Contact Section */}
             <motion.section 
@@ -656,75 +923,77 @@ function AppContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               id="contact"
-              className="py-20"
+              className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
             >
               <ContactSection />
             </motion.section>
 
             {/* Footer */}
-            <footer className="bg-[#111] text-white py-12">
+            <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16 border-t border-gray-700">
               <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
-                      <h3 className="text-2xl font-bold">GYO</h3>
+                      <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO</h3>
                     </div>
-                    <p className="text-gray-400">Transformando el futuro con tecnología inteligente</p>
+                    <p className="text-gray-300">Transformando el futuro con tecnología inteligente</p>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-4">Servicios</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li>AI-Driven Development</li>
-                      <li>IT Consulting</li>
-                      <li>Project Digitalization</li>
-                      <li>Custom App Development</li>
+                    <h4 className="font-semibold mb-4 text-white">Servicios</h4>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="hover:text-purple-400 transition-colors">AI Agents</li>
+                      <li className="hover:text-purple-400 transition-colors">AI-Driven Development</li>
+                      <li className="hover:text-purple-400 transition-colors">AI-Adoption Consultant</li>
+                      <li className="hover:text-purple-400 transition-colors">Custom App Development</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-4">Compañía</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li>Sobre Nosotros</li>
-                      <li>Casos de Éxito</li>
-                      <li>Blog</li>
-                      <li>Carreras</li>
+                    <h4 className="font-semibold mb-4 text-white">Compañía</h4>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="hover:text-purple-400 transition-colors">Sobre Nosotros</li>
+                      <li className="hover:text-purple-400 transition-colors">Blog</li>
+                      <li className="hover:text-purple-400 transition-colors">Carreras</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-4">Contacto</h4>
-                    <ul className="space-y-2 text-gray-400">
-                    <li>
+                    <h4 className="font-semibold mb-4 text-white">Contacto</h4>
+                    <ul className="space-y-2 text-gray-300">
+                      <li>
                         <a 
                           href="https://www.linkedin.com/company/gyo-technologies" 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 hover:text-white transition-colors"
+                          className="flex items-center gap-2 hover:text-purple-400 transition-colors"
                         >
                           <Linkedin size={18} />
                           <span>LinkedIn</span>
                         </a>
                       </li>
-                      <li>info@gyotechnologies.com.ar</li>
-                      <li>+54 9 11 3948 6971</li>
-                      <li>Ciudad Autonoma de Buenos Aires, Argentina</li>
-                      
+                      <li className="hover:text-purple-400 transition-colors">info@gyotechnologies.com.ar</li>
+                      <li className="hover:text-purple-400 transition-colors">+54 9 11 3948 6971</li>
+                      <li className="hover:text-purple-400 transition-colors">Ciudad Autónoma de Buenos Aires, Argentina</li>
                     </ul>
                   </div>
                 </div>
-                <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                  <p>© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
+                <div className="border-t border-gray-700 pt-8 text-center">
+                  <p className="text-gray-400">© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
                 </div>
               </div>
             </footer>
           </>
-        ) : currentPage === 'ia-agents' ? (
-          <IAAgentsPage onPageChange={handlePageChange} />
         ) : currentPage === 'tools' ? (
           <ToolsPage onPageChange={handlePageChange} />
         ) : (
-          <IAAgentsPage onPageChange={handlePageChange} />
+          <ToolsPage onPageChange={handlePageChange} />
         )}
       </PageTransition>
+      
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </div>
   );
 }
