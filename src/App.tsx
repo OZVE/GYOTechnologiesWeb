@@ -123,7 +123,7 @@ function AppContent() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                className="fixed md:absolute top-0 left-0 right-0 p-4 md:p-6 z-20 bg-black/90 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"
+                className="fixed md:absolute top-0 left-0 right-0 p-4 md:p-6 z-50 bg-black/95 backdrop-blur-md md:bg-transparent md:backdrop-blur-none"
               >
                 {/* Mobile Navigation */}
                 <div className="md:hidden w-full px-4">
@@ -141,10 +141,10 @@ function AppContent() {
                   </div>
                   <div 
                     className={`${
-                      isMenuOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0'
+                      isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
                     } overflow-hidden transition-all duration-300 ease-in-out`}
                   >
-                    <div className="flex flex-col gap-2 mt-4">
+                    <div className="flex flex-col gap-2 mt-4 bg-black/80 rounded-lg p-4 border border-gray-700">
                       <a 
                         href="#hero" 
                         onClick={(e) => {
@@ -153,7 +153,7 @@ function AppContent() {
                           document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
+                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
                       >
                         Inicio
                       </a>
@@ -165,7 +165,7 @@ function AppContent() {
                           document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
+                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
                       >
                         Servicios
                       </a>
@@ -177,22 +177,11 @@ function AppContent() {
                           document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
+                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
                       >
                         Tecnologías
                       </a>
-                      <a 
-                        href="#cases"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange('home');
-                          document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center"
-                      >
-                        Casos
-                      </a>
+
                       <a 
                         href="/tools"
                         onClick={(e) => {
@@ -200,7 +189,7 @@ function AppContent() {
                           handlePageChange('tools');
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
+                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
                       >
                         <Wrench size={16} />
                         Tools
@@ -213,7 +202,7 @@ function AppContent() {
                           document.getElementById('ai-agents')?.scrollIntoView({ behavior: 'smooth' });
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-[#222] rounded-lg transition-all text-center flex items-center justify-center gap-2"
+                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
                       >
                         <Bot size={16} />
                         IA Agents
@@ -278,17 +267,7 @@ function AppContent() {
                         >
                           Tecnologías
                         </a>
-                        <a 
-                          href="#cases"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handlePageChange('home');
-                            document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
-                        >
-                          Casos
-                        </a>
+
                                               <a 
                         href="/tools"
                         onClick={(e) => {
@@ -349,18 +328,17 @@ function AppContent() {
                     <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
                       Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
                     </p>
-                    <div className="mb-8">
+                    <div className="mb-8 flex justify-center md:justify-start">
                       
-                      </div>
-                      
-                                          <button 
+                      <button 
                       onClick={() => setIsContactModalOpen(true)}
                       onMouseEnter={() => setIsButtonHovered(true)}
                       onMouseLeave={() => setIsButtonHovered(false)}
-                      className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center md:justify-start transform hover:scale-105"
+                      className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center transform hover:scale-105"
                     >
                       {isButtonHovered ? "Tu proyecto te espera" : "Innovemos"} <ArrowRight size={20} />
                     </button>
+                    </div>
                     
 
                   </div>
@@ -377,47 +355,47 @@ function AppContent() {
 
             {/* Global Presence Cards - Full Width */}
             <div className="w-full bg-gradient-to-r from-purple-900/20 to-blue-900/20 py-4">
-              <div className="grid grid-cols-6 gap-4 px-4">
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇦🇷</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Buenos Aires</p>
-                    <p className="text-xs text-gray-400">Argentina</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4 px-4">
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇦🇷</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Buenos Aires</p>
+                    <p className="text-xs text-gray-400 truncate">Argentina</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇨🇱</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Santiago</p>
-                    <p className="text-xs text-gray-400">Chile</p>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇨🇱</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Santiago</p>
+                    <p className="text-xs text-gray-400 truncate">Chile</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇪🇨</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Quito</p>
-                    <p className="text-xs text-gray-400">Ecuador</p>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇪🇨</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Quito</p>
+                    <p className="text-xs text-gray-400 truncate">Ecuador</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇵🇪</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Lima</p>
-                    <p className="text-xs text-gray-400">Perú</p>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇵🇪</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Lima</p>
+                    <p className="text-xs text-gray-400 truncate">Perú</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇪🇸</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Ibiza</p>
-                    <p className="text-xs text-gray-400">España</p>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇪🇸</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Ibiza</p>
+                    <p className="text-xs text-gray-400 truncate">España</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
-                  <span className="text-lg text-white">🇨🇦</span>
-                  <div>
-                    <p className="text-xs font-medium text-white">Montreal</p>
-                    <p className="text-xs text-gray-400">Canadá</p>
+                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-2 sm:p-3 rounded-lg border border-purple-500/30 hover:border-purple-500/60 transition-all">
+                  <span className="text-base sm:text-lg text-white">🇨🇦</span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-white truncate">Montreal</p>
+                    <p className="text-xs text-gray-400 truncate">Canadá</p>
                   </div>
                 </div>
               </div>
@@ -496,18 +474,18 @@ function AppContent() {
                     Tres servicios especializados en IA: desde automatización con agentes hasta consultoría de adopción empresarial
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                   {services.map((service, index) => (
-                    <div key={index} className="border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-8 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border group relative">
-                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                    <div key={index} className="border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6 md:p-8 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border group relative">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
                         {service.icon}
                       </div>
-                      <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">{service.title}</h3>
-                      <p className="text-gray-300 mb-6">{service.description}</p>
-                      <ul className="space-y-3">
+                      <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">{service.title}</h3>
+                      <p className="text-gray-300 mb-4 md:mb-6 text-sm md:text-base">{service.description}</p>
+                      <ul className="space-y-2 md:space-y-3">
                         {service.features.map((feature, i) => (
-                          <li key={i} className="flex items-center gap-2 text-gray-300">
-                            <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"></div>
+                          <li key={i} className="flex items-start gap-2 text-gray-300 text-sm md:text-base">
+                            <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                             <span>{feature}</span>
                           </li>
                         ))}
@@ -536,14 +514,14 @@ function AppContent() {
                     Dominamos las últimas tecnologías para crear soluciones modernas y escalables
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                   {technologies.map((tech, index) => (
                     <div key={index} className={`${index === 0 ? 'border-purple-500 bg-gradient-to-br from-purple-900/20 to-blue-900/20' : 'bg-gradient-to-br from-gray-900 to-gray-800'} p-6 rounded-2xl hover:bg-gradient-to-br hover:from-gray-800 hover:to-gray-700 transition-all border ${index === 0 ? 'border-purple-500' : 'border-gray-700 hover:border-purple-500'}`}>
                       <div className="w-12 h-12 mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
                         {tech.icon}
                       </div>
-                      <h3 className={`text-xl font-semibold mb-2 ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400' : 'text-white'}`}>{tech.name}</h3>
-                      <p className="text-gray-300">{tech.description}</p>
+                      <h3 className={`text-lg md:text-xl font-semibold mb-2 ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400' : 'text-white'}`}>{tech.name}</h3>
+                      <p className="text-gray-300 text-sm md:text-base">{tech.description}</p>
                     </div>
                   ))}
                 </div>
@@ -567,18 +545,18 @@ function AppContent() {
                   <p className="text-lg text-gray-300 mb-12">
                     GYO Agents son programas de IA que automatizan tareas. Optimizan procesos, liberando tu tiempo valioso.
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Automatiza <span className="font-normal text-white">tareas</span></h3>
-                      <p className="text-gray-300">Nuestros agentes aumentan la productividad en un 30%.</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Automatiza <span className="font-normal text-white">tareas</span></h3>
+                      <p className="text-gray-300 text-sm md:text-base">Nuestros agentes aumentan la productividad en un 30%.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Optimiza <span className="font-normal text-white">procesos</span></h3>
-                      <p className="text-gray-300">Reducen costos operativos en un 20%.</p>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Optimiza <span className="font-normal text-white">procesos</span></h3>
+                      <p className="text-gray-300 text-sm md:text-base">Reducen costos operativos en un 20%.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Libera tu <span className="font-normal text-white">tiempo</span></h3>
-                      <p className="text-gray-300">Enfócate en el crecimiento estratégico de tu negocio.</p>
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Libera tu <span className="font-normal text-white">tiempo</span></h3>
+                      <p className="text-gray-300 text-sm md:text-base">Enfócate en el crecimiento estratégico de tu negocio.</p>
                     </div>
                   </div>
                 </div>
@@ -598,41 +576,41 @@ function AppContent() {
                   <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 leading-tight">
                     Beneficios Clave para tu negocio
                   </h2>
-                  <div className="space-y-6">
-                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 2a2 2 0 012 2v2h-4V4a2 2 0 012-2zm6 6V4a6 6 0 00-12 0v4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 8a2 2 0 110-4 2 2 0 010 4z' /></svg>
+                  <div className="space-y-4 md:space-y-6">
+                    <div className="flex items-start gap-3 md:gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-4 h-4 md:w-6 md:h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 2a2 2 0 012 2v2h-4V4a2 2 0 012-2zm6 6V4a6 6 0 00-12 0v4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 8a2 2 0 110-4 2 2 0 010 4z' /></svg>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Automatización de tareas</h3>
-                        <p className="text-gray-300">Libera a tu equipo de tareas repetitivas. La automatización de facturación reduce errores en un 15%.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M3 3v18h18M3 9h18M9 21V3' /></svg>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Optimización de procesos</h3>
-                        <p className="text-gray-300">Identifica cuellos de botella y mejora la eficiencia. Optimización de cadena de suministro baja los costos un 10%.</p>
+                      <div className="min-w-0">
+                        <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Automatización de tareas</h3>
+                        <p className="text-gray-300 text-sm md:text-base">Libera a tu equipo de tareas repetitivas. La automatización de facturación reduce errores en un 15%.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 17v-2a4 4 0 018 0v2M9 17a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2m0 0a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2' /></svg>
+                    <div className="flex items-start gap-3 md:gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-4 h-4 md:w-6 md:h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M3 3v18h18M3 9h18M9 21V3' /></svg>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Toma de decisiones inteligentes</h3>
-                        <p className="text-gray-300">Obtén insights valiosos de tus datos. El análisis de datos de ventas aumenta la conversión en un 8%.</p>
+                      <div className="min-w-0">
+                        <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Optimización de procesos</h3>
+                        <p className="text-gray-300 text-sm md:text-base">Identifica cuellos de botella y mejora la eficiencia. Optimización de cadena de suministro baja los costos un 10%.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-                        <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 11c0-1.104.896-2 2-2s2 .896 2 2-.896 2-2 2-2-.896-2-2zm0 0V7m0 4v4m0 0a2 2 0 100 4 2 2 0 000-4z' /></svg>
+                    <div className="flex items-start gap-3 md:gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-4 h-4 md:w-6 md:h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 17v-2a4 4 0 018 0v2M9 17a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2zm0 0a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v-2a4 4 0 018 0v2' /></svg>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Mejora la experiencia del cliente</h3>
-                        <p className="text-gray-300">Ofrece servicio personalizado 24/7. Los chatbots de IA resuelven el 80% de las consultas.</p>
+                      <div className="min-w-0">
+                        <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Toma de decisiones inteligentes</h3>
+                        <p className="text-gray-300 text-sm md:text-base">Obtén insights valiosos de tus datos. El análisis de datos de ventas aumenta la conversión en un 8%.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 md:gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+                        <svg xmlns='http://www.w3.org/2000/svg' className='w-4 h-4 md:w-6 md:h-6 text-[#252525]' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 11c0-1.104.896-2 2-2s2 .896 2 2-.896 2-2 2-2-.896-2-2zm0 0V7m0 4v4m0 0a2 2 0 100 4 2 2 0 000-4z' /></svg>
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-1">Mejora la experiencia del cliente</h3>
+                        <p className="text-gray-300 text-sm md:text-base">Ofrece servicio personalizado 24/7. Los chatbots de IA resuelven el 80% de las consultas.</p>
                       </div>
                     </div>
                   </div>
@@ -656,27 +634,27 @@ function AppContent() {
                   <p className="text-lg text-gray-300 mb-12">
                     Desarrollo de software potenciado con inteligencia artificial para crear soluciones más rápidas y eficientes.
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
-                        <Brain className="text-[#252525]" size={32} />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Brain className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Generación Automatizada</h3>
-                      <p className="text-gray-300">Código generado automáticamente con modelos de IA avanzados, reduciendo tiempo de desarrollo en un 60%.</p>
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Generación Automatizada</h3>
+                      <p className="text-gray-300 text-sm md:text-base">Código generado automáticamente con modelos de IA avanzados, reduciendo tiempo de desarrollo en un 60%.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
-                        <Code className="text-[#252525]" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Code className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Análisis Predictivo</h3>
-                      <p className="text-gray-300">Optimización de arquitecturas y detección temprana de problemas con análisis de código inteligente.</p>
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Análisis Predictivo</h3>
+                      <p className="text-gray-300 text-sm md:text-base">Optimización de arquitecturas y detección temprana de problemas con análisis de código inteligente.</p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
-                        <Wrench className="text-[#252525]" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center">
+                        <Wrench className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Testing Inteligente</h3>
-                      <p className="text-gray-300">Testing automatizado y detección de errores con machine learning, garantizando calidad superior.</p>
+                      <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-2">Testing Inteligente</h3>
+                      <p className="text-gray-300 text-sm md:text-base">Testing automatizado y detección de errores con machine learning, garantizando calidad superior.</p>
                     </div>
                   </div>
                   <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700">
@@ -831,68 +809,68 @@ function AppContent() {
                   </div>
 
                   {/* Razones Principales */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
-                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Brain className="text-[#252525]" size={32} />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Brain className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-4">Experiencia Especializada en IA</h3>
-                      <p className="text-gray-300 mb-4">Más de 5 años aplicando IA. Conocemos los desafíos únicos de las empresas medianas y pequeñas.</p>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Experiencia Especializada en IA</h3>
+                      <p className="text-gray-300 mb-4 text-sm md:text-base">Más de 5 años aplicando IA. Conocemos los desafíos únicos de las empresas medianas y pequeñas.</p>
                       <ul className="space-y-2 text-gray-300">
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Especialización en automatización y transformación digital</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Metodologías probadas</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Casos de éxito documentados</span>
                         </li>
                       </ul>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
-                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Users className="text-[#252525]" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Users className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-4">Soluciones 100% Personalizadas</h3>
-                      <p className="text-gray-300 mb-4">Cada proyecto es único. Adaptamos nuestras soluciones a tus necesidades específicas, presupuesto y cronograma.</p>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Soluciones 100% Personalizadas</h3>
+                      <p className="text-gray-300 mb-4 text-sm md:text-base">Cada proyecto es único. Adaptamos nuestras soluciones a tus necesidades específicas, presupuesto y cronograma.</p>
                       <ul className="space-y-2 text-gray-300">
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Análisis personalizado</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Desarrollo a medida</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Integración con sistemas existentes</span>
                         </li>
                       </ul>
                     </div>
                     
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
-                      <div className="w-16 h-16 mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <MessageSquare className="text-[#252525]" size={32} />
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
+                      <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <MessageSquare className="text-[#252525]" size={24} />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-4">Soporte Especializado Continuo</h3>
-                      <p className="text-gray-300 mb-4">No solo desarrollamos, acompañamos. Soporte técnico 24/7 y capacitación continua para tu equipo.</p>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Soporte Especializado Continuo</h3>
+                      <p className="text-gray-300 mb-4 text-sm md:text-base">No solo desarrollamos, acompañamos. Soporte técnico 24/7 y capacitación continua para tu equipo.</p>
                       <ul className="space-y-2 text-gray-300">
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Soporte técnico 24/7</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Capacitación del equipo</span>
                         </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <li className="flex items-start gap-2 text-sm md:text-base">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
                           <span>Monitoreo y optimización</span>
                         </li>
                       </ul>
