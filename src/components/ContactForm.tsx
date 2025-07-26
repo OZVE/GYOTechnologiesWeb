@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { Send, Loader2 } from 'lucide-react';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    company: '',
+    service: '',
     message: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -38,7 +41,7 @@ const ContactForm = () => {
       }
 
       setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', company: '', service: '', message: '' });
     } catch (error) {
       setStatus('error');
       console.error('Error:', error);
@@ -46,11 +49,11 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Nombre
+          <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+            Nombre Completo *
           </label>
           <input
             type="text"
@@ -59,14 +62,14 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
-            placeholder="Tu nombre"
+            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            placeholder="Tu nombre completo"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
+          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            Email *
           </label>
           <input
             type="email"
@@ -75,15 +78,51 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
+            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
             placeholder="tu@email.com"
           />
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+            Empresa
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            placeholder="Nombre de tu empresa"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
+            Servicio de Interés
+          </label>
+          <select
+            id="service"
+            name="service"
+            value={formData.service}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+          >
+            <option value="">Selecciona un servicio</option>
+            <option value="ai-agents">AI Agents</option>
+            <option value="ai-development">AI-Driven Development</option>
+            <option value="ai-consulting">AI-Adoption Consultant</option>
+            <option value="custom">Solución Personalizada</option>
+          </select>
+        </div>
+      </div>
+
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-          Mensaje
+        <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+          Mensaje *
         </label>
         <textarea
           id="message"
@@ -91,9 +130,9 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           required
-          rows={6}
-          className="w-full px-4 py-2.5 rounded-md border border-gray-300 shadow-sm focus:border-black focus:ring-black text-base"
-          placeholder="Tu mensaje..."
+          rows={5}
+          className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+          placeholder="Cuéntanos sobre tu proyecto, necesidades o consultas..."
         />
       </div>
 
@@ -101,21 +140,33 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full flex justify-center py-3 px-6 text-base font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
+          className="w-full flex justify-center items-center gap-3 py-4 px-6 text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
         >
-          {status === 'loading' ? 'Enviando...' : 'Enviar Mensaje'}
+          {status === 'loading' ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Enviando Mensaje...
+            </>
+          ) : (
+            <>
+              <Send className="w-5 h-5" />
+              Enviar Mensaje
+            </>
+          )}
         </button>
       </div>
 
       {status === 'success' && (
-        <div className="text-green-600 text-center text-base">
-          ¡Mensaje enviado correctamente!
+        <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 p-4 rounded-xl text-center">
+          <div className="text-green-400 font-semibold mb-1">¡Mensaje Enviado Exitosamente!</div>
+          <div className="text-green-300 text-sm">Te responderemos en las próximas 24 horas.</div>
         </div>
       )}
 
       {status === 'error' && (
-        <div className="text-red-600 text-center text-base">
-          Error al enviar el mensaje. Por favor, intenta nuevamente.
+        <div className="bg-gradient-to-r from-red-900/20 to-red-800/20 border border-red-500/30 p-4 rounded-xl text-center">
+          <div className="text-red-400 font-semibold mb-1">Error al Enviar el Mensaje</div>
+          <div className="text-red-300 text-sm">Por favor, intenta nuevamente o contáctanos directamente.</div>
         </div>
       )}
     </form>

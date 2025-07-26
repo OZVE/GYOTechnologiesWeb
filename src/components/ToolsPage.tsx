@@ -130,7 +130,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
