@@ -87,37 +87,120 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
       <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20" />
-        <div className="container mx-auto text-center relative z-10">
+      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800" />
+        
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-green-400 rounded-full blur-3xl"></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-blue-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-purple-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-green-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto text-center relative z-10 py-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="max-w-6xl mx-auto"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded-full text-green-400 text-sm font-medium mb-12 mt-8"
+            >
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              Herramientas en Desarrollo Activo
+            </motion.div>
+
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
               GYO Tools Suite
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
               Estamos desarrollando un ecosistema de herramientas para emprendedores que revoluciona la forma de hacer negocios. 
               Más ágil que Office 365, más inteligente que cualquier suite tradicional.
             </p>
-            <div className="flex justify-center">
+
+            {/* Feature Pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap justify-center gap-3 mb-12"
+            >
+              <span className="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 text-sm">
+                ⚡ Automatización Inteligente
+              </span>
+              <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm">
+                🎯 Personalización Total
+              </span>
+              <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm">
+                📈 Escalabilidad Ilimitada
+              </span>
+            </motion.div>
+
+            <div className="flex justify-center mb-16">
               <button 
                 onClick={() => setIsContactModalOpen(true)}
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2 justify-center"
+                className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center gap-3 justify-center text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                Solicitar Demo <ArrowRight size={20} />
+                Solicitar Demo <ArrowRight size={24} />
               </button>
             </div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            >
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-400 mb-2">3+</div>
+                <div className="text-gray-400 text-sm">Herramientas en Desarrollo</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-400 mb-2">80%</div>
+                <div className="text-gray-400 text-sm">Reducción de Tareas Manuales</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-400 mb-2">24/7</div>
+                <div className="text-gray-400 text-sm">Disponibilidad Garantizada</div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
+
+        {/* Floating Icons */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-1/4 left-8 text-green-400/20">
+            <Package size={48} />
+          </div>
+          <div className="absolute top-1/3 right-12 text-blue-400/20">
+            <Settings size={40} />
+          </div>
+          <div className="absolute bottom-1/4 left-16 text-purple-400/20">
+            <BarChart3 size={36} />
+          </div>
+          <div className="absolute bottom-1/3 right-8 text-green-400/20">
+            <Zap size={44} />
+          </div>
+        </motion.div>
       </section>
 
       {/* Benefits Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-gray-900 to-gray-800">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16">
+          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             ¿Por qué elegir GYO Tools Suite?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -130,10 +213,10 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-gray-200 to-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
                   {benefit.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-green-400">{benefit.title}</h3>
                 <p className="text-gray-300">{benefit.description}</p>
               </motion.div>
             ))}
@@ -184,7 +267,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
       <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
               Nuestras Herramientas
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -259,9 +342,9 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-purple-900 to-blue-900">
+      <section className="py-20 px-4 bg-gradient-to-r from-gray-900 to-gray-800">
         <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
             Transforma tu negocio hoy mismo
           </h2>
           <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
@@ -270,7 +353,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
           <div className="flex justify-center">
             <button 
               onClick={() => setIsContactModalOpen(true)}
-              className="px-8 py-4 bg-white text-purple-900 rounded-full font-semibold hover:bg-gray-100 transition-all"
+              className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Comenzar Ahora
             </button>

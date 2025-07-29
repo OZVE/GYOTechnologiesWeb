@@ -10,7 +10,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 p-4 md:p-6 z-50 bg-black/95 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 right-0 p-4 md:p-6 z-50 bg-transparent">
       {/* Mobile Navigation */}
       <div className="md:hidden container mx-auto">
         <div className="flex items-center justify-between">
@@ -20,7 +20,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
           </div>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 hover:bg-[#222] rounded-lg transition-all"
+            className="p-2 hover:bg-gray-700/50 rounded-lg transition-all"
           >
             {isMenuOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-white" />}
           </button>
@@ -30,7 +30,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
             isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
           } overflow-hidden transition-all duration-300 ease-in-out`}
         >
-          <div className="flex flex-col gap-2 mt-4 bg-black/80 rounded-lg p-4 border border-gray-700">
+          <div className="flex flex-col gap-2 mt-4 bg-black/80 backdrop-blur-md rounded-lg p-4 border border-gray-700">
             <a 
               href="#hero" 
               onClick={(e) => {
@@ -130,7 +130,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                   onPageChange('home');
                   document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all text-white"
+                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all text-white"
               >
                 Inicio
               </a>
@@ -141,7 +141,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                   onPageChange('home');
                   document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all text-white"
+                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all text-white"
               >
                 Servicios
               </a>
@@ -152,7 +152,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                   onPageChange('home');
                   document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all text-white"
+                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all text-white"
               >
                 Tecnologías
               </a>
@@ -163,7 +163,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                   e.preventDefault();
                   onPageChange('tools');
                 }}
-                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2 text-white"
+                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all flex items-center gap-2 text-white"
               >
                 <Wrench size={16} />
                 Tools
@@ -174,7 +174,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                   e.preventDefault();
                   onPageChange('ia-agents');
                 }}
-                className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2 text-white"
+                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all flex items-center gap-2 text-white"
               >
                 <Bot size={16} />
                 IA Agents
