@@ -1,4 +1,4 @@
-import { Menu, X, Bot, Wrench } from 'lucide-react';
+import { Menu, X, Wrench } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavbarProps {
@@ -80,18 +80,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
               <Wrench size={16} />
               Tools
             </a>
-            <a 
-              href="#ia-agents"
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange('ia-agents');
-                setIsMenuOpen(false);
-              }}
-              className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
-            >
-              <Bot size={16} />
-              IA Agents
-            </a>
+            
             <button 
               onClick={() => {
                 if (onContactClick) {
@@ -168,17 +157,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                 <Wrench size={16} />
                 Tools
               </a>
-              <a 
-                href="#ia-agents"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('ia-agents');
-                }}
-                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all flex items-center gap-2 text-white"
-              >
-                <Bot size={16} />
-                IA Agents
-              </a>
+              
               <button 
                 onClick={() => {
                   if (onContactClick) {
