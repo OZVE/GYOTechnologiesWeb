@@ -54,6 +54,13 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
           <p>© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
         </div>
+        
+        {/* Hidden SEO Text for Search Engines */}
+        <div className="sr-only">
+          <p>GYO Technologies - Especialistas en Agentes de IA, Bots de IA, MCP Clients y desarrollo web inteligente. Transformamos tu visión en software inteligente con IA avanzada.</p>
+          <p>Servicios de agentes de IA personalizados, bots de IA para automatización, MCP clients para integración de sistemas, y consultoría en inteligencia artificial empresarial.</p>
+          <p>GYO Technologies, GYOtechnologies, agentes de IA, bots de IA, inteligencia artificial, desarrollo web, MCP clients, consultoría IT, software inteligente.</p>
+        </div>
       </div>
     </footer>
   );

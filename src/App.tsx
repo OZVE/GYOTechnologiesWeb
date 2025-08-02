@@ -194,19 +194,7 @@ function AppContent() {
                         <Wrench size={16} />
                         Tools
                       </a>
-                      <a 
-                        href="#ai-agents"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange('home');
-                          document.getElementById('ai-agents')?.scrollIntoView({ behavior: 'smooth' });
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
-                      >
-                        <Bot size={16} />
-                        IA Agents
-                      </a>
+
                       <button 
                         onClick={() => {
                           // First navigate to home page if not already there
@@ -279,18 +267,7 @@ function AppContent() {
                         <Wrench size={16} />
                         Tools
                       </a>
-                      <a 
-                        href="#ai-agents"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange('home');
-                          document.getElementById('ai-agents')?.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                        className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
-                      >
-                        <Bot size={16} />
-                        IA Agents
-                      </a>
+
                         <button 
                           onClick={() => {
                             // First navigate to home page if not already there
@@ -352,6 +329,16 @@ function AppContent() {
                 </div>
               </motion.div>
             </header>
+
+            {/* Hidden SEO Text for Search Engines */}
+            <div className="sr-only">
+              <h1>GYO Technologies - Agentes de IA, Bots de IA, Desarrollo Web Inteligente</h1>
+              <h2>Especialistas en Agentes de IA y Bots de IA</h2>
+              <h3>MCP Clients y Desarrollo Web con Inteligencia Artificial</h3>
+              <p>GYO Technologies es líder en el desarrollo de agentes de IA personalizados, bots de IA y soluciones de inteligencia artificial para empresas. Nuestros servicios incluyen agentes de IA, bots de IA, MCP clients y desarrollo web inteligente.</p>
+              <p>Somos expertos en GYO Technologies, GYOtechnologies, agentes de IA, bots de IA, inteligencia artificial, desarrollo web, MCP clients, consultoría IT y software inteligente.</p>
+              <p>Desarrollo de agentes de IA personalizados, bots de IA para automatización, MCP clients para integración de sistemas, y soluciones de inteligencia artificial empresarial.</p>
+            </div>
 
             {/* Global Presence Cards - Full Width */}
             <div className="w-full bg-gradient-to-r from-purple-900/20 to-blue-900/20 py-4">
