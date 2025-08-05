@@ -19,6 +19,7 @@ import ContactSection from './components/ContactSection';
 import ToolsPage from './components/ToolsPage';
 import PageTransition from './components/PageTransition';
 import ContactModal from './components/ContactModal';
+import AskPageWidget from './components/AskPageWidget';
 
 function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -951,6 +952,9 @@ function AppContent() {
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
       />
+      
+      {/* Ask Page Widget */}
+      <AskPageWidget />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { askPageHandler } from './routes/askPage';
 
 dotenv.config();
 
@@ -69,6 +70,9 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error al enviar el email' });
   }
 });
+
+// Ask Page Widget endpoint
+app.post('/api/ask-page', askPageHandler);
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
