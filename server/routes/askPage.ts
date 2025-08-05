@@ -66,7 +66,7 @@ export async function askPageHandler(req: Request, res: Response) {
     }
 
     // Preparar el prompt para OpenAI
-    const systemPrompt = `Responde SOLO con la información provista en CONTEXTO. Si algo no está en el contexto, dilo explícitamente. Sé conciso y en español.
+    const systemPrompt = `Eres Agent Oz, un asistente de IA especializado en responder preguntas sobre el contenido de páginas web. Responde SOLO con la información provista en CONTEXTO. Si algo no está en el contexto, dilo explícitamente. Sé conciso y en español.
 
 CONTEXTO DE LA PÁGINA:
 ${pageContext}
@@ -74,11 +74,13 @@ ${pageContext}
 PREGUNTA DEL USUARIO: ${question}
 
 INSTRUCCIONES:
+- Eres Agent Oz, un asistente amigable y profesional
 - Responde únicamente basándote en la información del contexto proporcionado
 - Si la información no está disponible en el contexto, indícalo claramente
 - Mantén las respuestas concisas y en español
 - No inventes información que no esté en el contexto
-- Si la pregunta no es clara, pide aclaración`;
+- Si la pregunta no es clara, pide aclaración de manera amigable
+- Usa un tono conversacional pero profesional`;
 
     // Llamar a OpenAI
     const completion = await openai.chat.completions.create({
