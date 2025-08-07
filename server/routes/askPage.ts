@@ -32,6 +32,15 @@ export async function askPageHandler(req: Request, res: Response) {
 
     // Validar body
     const { question, pageContext, url }: AskPageRequest = req.body;
+    
+    // DEBUG: Log de los datos recibidos
+    console.log('🔍 DEBUG - Datos recibidos:');
+    console.log('  Question:', question);
+    console.log('  PageContext length:', pageContext?.length || 0);
+    console.log('  URL:', url);
+    console.log('  Body completo:', JSON.stringify(req.body, null, 2));
+    console.log('  Content-Type:', req.headers['content-type']);
+    console.log('  Raw body:', req.body);
 
     if (!question || typeof question !== 'string') {
       return res.status(400).json({ error: 'La pregunta es requerida y debe ser una cadena de texto' });
@@ -54,12 +63,17 @@ export async function askPageHandler(req: Request, res: Response) {
     }
 
     // Validar API key
+    console.log('🔍 DEBUG - Validación de API key:');
+    console.log('  OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
+    console.log('  OPENAI_API_KEY length:', process.env.OPENAI_API_KEY?.length || 0);
+    console.log('  OPENAI_API_KEY preview:', process.env.OPENAI_API_KEY?.substring(0, 10) + '...');
+    
     if (!process.env.OPENAI_API_KEY) {
-      console.error('OPENAI_API_KEY no está configurada');
+      console.error('❌ OPENAI_API_KEY no está configurada');
       return res.status(500).json({ error: 'Error de configuración del servidor' });
     }
 
-    // PROTECCIÓN CONTRA PROMPT INJECTION Y VALIDACIÓN DE PREGUNTAS
+    // PROTECCIÓN CONTRA PROMPT INJECTION
     const maliciousPatterns = [
       // Intentos de prompt injection
       /ignora\s+(todo\s+)?lo\s+anterior/i,
@@ -109,8 +123,11 @@ export async function askPageHandler(req: Request, res: Response) {
       /innerHTML|innerText|outerHTML/i,
       /document\.|window\.|process\./i,
       /<script>|<\/script>/i,
-      /javascript:|data:/i,
-      // Preguntas irrelevantes
+      /javascript:|data:/i
+    ];
+
+    // VALIDACIÓN DE PREGUNTAS IRRELEVANTES
+    const irrelevantPatterns = [
       /^(hola|hi|hello)\s*$/i,
       /^(gracias|thanks)\s*$/i,
       /^(adiós|bye|goodbye)\s*$/i,
@@ -133,36 +150,69 @@ export async function askPageHandler(req: Request, res: Response) {
       console.warn(`   Patrón detectado: ${maliciousPatterns.find(p => p.test(question))?.toString()}`);
       console.warn(`   URL: ${url}`);
       console.warn(`   Timestamp: ${new Date().toISOString()}`);
-      return res.status(400).json({ 
-        error: 'Tu pregunta contiene contenido no permitido. Solo puedo responder preguntas sobre el contenido de esta página.' 
+      return res.status(200).json({ 
+        answer: 'Entiendo tu curiosidad, pero mi única tarea es ayudar a los usuarios de esta página con sus consultas sobre GYO Technologies y asistirlos en su proceso de descubrimiento y contacto con nuestros servicios. ¿Hay algo específico sobre lo que aparece en esta página que te gustaría saber? Estoy aquí para ayudarte a encontrar la información que necesitas.',
+        timestamp: new Date().toISOString()
       });
     }
 
-    // Verificar longitud mínima de contexto para preguntas generales
-    const seemsIrrelevant = maliciousPatterns.slice(-11).some(pattern => pattern.test(question));
-    if (seemsIrrelevant && pageContext.length < 100) {
-      return res.status(400).json({ 
-        error: 'Solo puedo responder preguntas sobre el contenido específico de esta página.' 
+    // Verificar si la pregunta es irrelevante
+    const isIrrelevant = irrelevantPatterns.some(pattern => pattern.test(question));
+    
+    // Verificar longitud mínima de contexto solo para preguntas relevantes
+    console.log('🔍 DEBUG - Validación de contexto:');
+    console.log('  PageContext length:', pageContext.length);
+    console.log('  Is irrelevant:', isIrrelevant);
+    
+    if (isIrrelevant) {
+      const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
+      console.log(`ℹ️ PREGUNTA IRRELEVANTE DETECTADA:`);
+      console.log(`   IP: ${clientIP}`);
+      console.log(`   Pregunta: ${question}`);
+      console.log(`   URL: ${url}`);
+      console.log(`   Timestamp: ${new Date().toISOString()}`);
+      return res.status(200).json({ 
+        answer: '¡Hola! 👋 Soy Agent Oz y estoy aquí para ayudarte con preguntas específicas sobre GYO Technologies y el contenido de esta página. Mi tarea es asistirte en tu proceso de descubrimiento y contacto con nuestros servicios. ¿Hay algo en particular sobre lo que aparece aquí que te gustaría saber?',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Solo verificar longitud mínima si la pregunta NO es irrelevante
+    if (pageContext.length < 100) {
+      console.log('❌ Contexto muy corto, devolviendo respuesta amigable');
+      return res.status(200).json({ 
+        answer: 'Parece que esta página no tiene suficiente contenido para que pueda ayudarte de manera efectiva. Mi tarea es asistirte con preguntas específicas sobre GYO Technologies y el contenido de esta página. Te sugiero navegar a otra sección de nuestro sitio web donde pueda encontrar más información para ayudarte mejor.',
+        timestamp: new Date().toISOString()
       });
     }
 
 
 
     // Validación adicional: verificar que la pregunta no sea demasiado larga (posible prompt injection)
+    console.log('🔍 DEBUG - Validación de longitud:');
+    console.log('  Question length:', question.length);
+    
     if (question.length > 500) {
-      console.warn(`Pregunta demasiado larga detectada: ${question.length} caracteres`);
-      return res.status(400).json({ 
-        error: 'La pregunta es demasiado larga. Por favor, sé más específico sobre el contenido de esta página.' 
+      console.warn(`❌ Pregunta demasiado larga detectada: ${question.length} caracteres`);
+      return res.status(200).json({ 
+        answer: 'Tu pregunta es muy extensa. Para poder ayudarte mejor, te sugiero que la dividas en preguntas más específicas sobre el contenido de esta página. Mi tarea es asistirte con consultas concretas sobre GYO Technologies y nuestros servicios.',
+        timestamp: new Date().toISOString()
       });
     }
 
     // Validación: verificar que no haya caracteres sospechosos
     const suspiciousChars = /[<>{}[\]()\\\/`~!@#$%^&*+=|;:'"`]/g;
     const suspiciousCount = (question.match(suspiciousChars) || []).length;
+    
+    console.log('🔍 DEBUG - Validación de caracteres:');
+    console.log('  Suspicious count:', suspiciousCount);
+    console.log('  Question:', question);
+    
     if (suspiciousCount > 5) {
-      console.warn(`Demasiados caracteres sospechosos detectados: ${suspiciousCount}`);
-      return res.status(400).json({ 
-        error: 'Tu pregunta contiene caracteres no permitidos. Solo puedo responder preguntas sobre el contenido de esta página.' 
+      console.warn(`❌ Demasiados caracteres sospechosos detectados: ${suspiciousCount}`);
+      return res.status(200).json({ 
+        answer: 'Tu pregunta contiene caracteres especiales que no puedo procesar correctamente. Para ayudarte mejor, te sugiero reformular tu consulta usando texto simple. Mi tarea es asistirte con preguntas sobre GYO Technologies y el contenido de esta página.',
+        timestamp: new Date().toISOString()
       });
     }
 
@@ -225,16 +275,23 @@ IMPORTANTE: Analiza si la pregunta se relaciona directamente con el contenido de
     ];
 
     const hasServiceInterest = serviceInterestPatterns.some(pattern => pattern.test(question));
+    
+    // Preparar el prompt final
     let finalSystemPrompt = systemPrompt;
-
+    
     if (hasServiceInterest) {
       // Agregar contexto adicional para que el AI sepa que debe ofrecer contacto
-      const enhancedContext = `${pageContext}
+      finalSystemPrompt = systemPrompt + `
 
 INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. Si es apropiado, ofrece amablemente nuestros datos de contacto para ayudarlo mejor.`;
-      
-      finalSystemPrompt = systemPrompt.replace('${pageContext}', enhancedContext);
     }
+
+    // DEBUG: Log del prompt final
+    console.log('🔍 DEBUG - OpenAI Request:');
+    console.log('  Model:', 'gpt-4o-mini');
+    console.log('  Has service interest:', hasServiceInterest);
+    console.log('  System prompt length:', finalSystemPrompt.length);
+    console.log('  Question:', question);
 
     // Llamar a OpenAI
     const completion = await openai.chat.completions.create({
@@ -242,7 +299,11 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. S
       messages: [
         {
           role: 'system',
-          content: systemPrompt
+          content: finalSystemPrompt
+        },
+        {
+          role: 'user',
+          content: question
         }
       ],
       max_tokens: 400,
@@ -254,7 +315,14 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. S
 
     const answer = completion.choices[0]?.message?.content?.trim();
 
+    // DEBUG: Log de la respuesta de OpenAI
+    console.log('🔍 DEBUG - OpenAI Response:');
+    console.log('  Answer length:', answer?.length || 0);
+    console.log('  Answer preview:', answer?.substring(0, 200) + '...');
+    console.log('  Usage:', completion.usage);
+
     if (!answer) {
+      console.error('❌ OpenAI no devolvió respuesta');
       return res.status(500).json({ error: 'No se pudo generar una respuesta' });
     }
 
@@ -275,10 +343,16 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. S
     });
 
   } catch (error) {
-    console.error('Error en askPageHandler:', error);
+    console.error('❌ Error en askPageHandler:', error);
     
     // Manejar errores específicos de OpenAI
     if (error instanceof OpenAI.APIError) {
+      console.error('❌ OpenAI API Error:', {
+        status: error.status,
+        message: error.message,
+        type: error.type
+      });
+      
       if (error.status === 401) {
         return res.status(500).json({ error: 'Error de autenticación con OpenAI' });
       } else if (error.status === 429) {
@@ -289,6 +363,7 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. S
     }
     
     // Error genérico
+    console.error('❌ Error genérico:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 } 

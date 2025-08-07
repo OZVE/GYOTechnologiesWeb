@@ -159,16 +159,27 @@ export default function AskPageWidget() {
     try {
       const pageContext = getPageContext();
       
+      // DEBUG: Log del contexto de la página
+      console.log('🔍 DEBUG - Frontend:');
+      console.log('  Question:', currentQuestion);
+      console.log('  PageContext length:', pageContext?.length || 0);
+      console.log('  PageContext preview:', pageContext?.substring(0, 200) + '...');
+      console.log('  URL:', window.location.href);
+      
+      const requestBody = {
+        question: currentQuestion,
+        pageContext,
+        url: window.location.href
+      };
+      
+      console.log('  Request body:', JSON.stringify(requestBody, null, 2));
+      
       const response = await fetch('/api/ask-page', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          question: currentQuestion,
-          pageContext,
-          url: window.location.href
-        })
+        body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) {
