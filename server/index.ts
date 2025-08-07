@@ -1,13 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { askPageHandler } from './routes/askPage';
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -37,6 +37,16 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Headers de seguridad
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  next();
+});
 
 // Configurar el transportador de correo
 const transporter = nodemailer.createTransport({
@@ -87,62 +97,45 @@ if (isProduction) {
     path.join(__dirname, '../dist')
   ];
 
-  // Encontrar la primera ruta que existe y contiene index.html
-  for (const p of possiblePaths) {
-    const indexPath = path.join(p, 'index.html');
-    if (fs.existsSync(indexPath)) {
-      console.log(`Encontrado index.html en ${indexPath}`);
-      distPath = p;
-      break;
-    }
-  }
-
-  if (!distPath) {
-    console.error('No se pudo encontrar la carpeta dist con index.html');
-    console.log('Rutas intentadas:', possiblePaths);
-    // Intentar crear el directorio y copiar archivos
-    distPath = '/opt/render/project/src/dist';
-    try {
-      fs.mkdirSync(distPath, { recursive: true });
-      console.log(`Directorio ${distPath} creado exitosamente`);
-      
-      // Intentar copiar archivos desde la carpeta dist local
-      const localDist = path.join(__dirname, '../../../dist');
-      if (fs.existsSync(localDist)) {
-        console.log('Copiando archivos desde:', localDist);
-        fs.cpSync(localDist, distPath, { recursive: true });
-      } else {
-        console.error('No se encontró la carpeta dist local en:', localDist);
+      // Encontrar la primera ruta que existe y contiene index.html
+    for (const p of possiblePaths) {
+      const indexPath = path.join(p, 'index.html');
+      if (fs.existsSync(indexPath)) {
+        distPath = p;
+        break;
       }
-    } catch (error) {
-      console.error('Error al crear/copiar archivos:', error);
     }
-  }
-} else {
-  distPath = path.join(__dirname, '../../dist');
-}
 
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('Dist path:', distPath);
-console.log('__dirname:', __dirname);
-console.log('Current working directory:', process.cwd());
+    if (!distPath) {
+      console.error('No se pudo encontrar la carpeta dist con index.html');
+      // Intentar crear el directorio y copiar archivos
+      distPath = '/opt/render/project/src/dist';
+      try {
+        fs.mkdirSync(distPath, { recursive: true });
+        
+        // Intentar copiar archivos desde la carpeta dist local
+        const localDist = path.join(__dirname, '../../../dist');
+        if (fs.existsSync(localDist)) {
+          fs.cpSync(localDist, distPath, { recursive: true });
+        } else {
+          console.error('No se encontró la carpeta dist local en:', localDist);
+        }
+      } catch (error) {
+        console.error('Error al crear/copiar archivos:', error);
+      }
+    }
+} else {
+  distPath = path.join(__dirname, '../dist');
+}
 
 // Verificar si el archivo index.html existe
 try {
   const indexPath = path.join(distPath, 'index.html');
   const exists = fs.existsSync(indexPath);
-  console.log('index.html exists:', exists);
-  console.log('index.html path:', indexPath);
   
-  if (exists) {
-    // Leer y mostrar el contenido del index.html para debug
-    const content = fs.readFileSync(indexPath, 'utf8');
-    console.log('index.html content preview:', content.substring(0, 200));
+  if (!exists) {
+    console.error('index.html no encontrado en:', indexPath);
   }
-  
-  // Listar contenido del directorio dist
-  const files = fs.readdirSync(distPath);
-  console.log('Contenido del directorio dist:', files);
 } catch (error) {
   console.error('Error verificando archivos:', error);
 }
@@ -156,14 +149,13 @@ app.use(express.static(distPath, {
 
 // Manejar todas las demás rutas
 app.get('*', (req, res) => {
-  console.log('Requested path:', req.path);
-  const indexPath = path.join(distPath, 'index.html');
-  
-  if (!fs.existsSync(indexPath)) {
-    console.error(`index.html no encontrado en ${indexPath}`);
-    res.status(404).send('File not found');
-    return;
-  }
+      const indexPath = path.join(distPath, 'index.html');
+    
+    if (!fs.existsSync(indexPath)) {
+      console.error(`index.html no encontrado en ${indexPath}`);
+      res.status(404).send('File not found');
+      return;
+    }
   
   res.sendFile(indexPath);
 });

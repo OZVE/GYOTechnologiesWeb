@@ -18,8 +18,7 @@ export default defineConfig({
         target: process.env.NODE_ENV === 'production'
           ? 'https://www.gyotechnologies.com.ar'
           : 'http://localhost:3001',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        changeOrigin: true
       }
     }
   },
