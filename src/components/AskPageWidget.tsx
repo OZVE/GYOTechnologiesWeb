@@ -174,7 +174,15 @@ export default function AskPageWidget() {
       
       console.log('  Request body:', JSON.stringify(requestBody, null, 2));
       
-      const response = await fetch('/api/ask-page', {
+      // Determinar la URL base según el ambiente
+      const isDevelopment = window.location.hostname === 'localhost';
+      const baseUrl = isDevelopment 
+        ? '/api/ask-page' 
+        : 'https://gyotechnologies-web.onrender.com/api/ask-page';
+      
+      console.log('🔍 DEBUG - URL de la petición:', baseUrl);
+      
+      const response = await fetch(baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

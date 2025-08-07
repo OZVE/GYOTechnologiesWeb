@@ -19,7 +19,9 @@ const allowedOrigins = [
   'https://gyotechnologies.github.io/project-bolt', // GitHub Pages con subpath
   'https://www.gyotechnologies.com.ar', // Dominio personalizado
   'https://ozve.github.io', // Tu GitHub Pages
-  'https://ozve.github.io/project-bolt' // Tu GitHub Pages con subpath
+  'https://ozve.github.io/project-bolt', // Tu GitHub Pages con subpath
+  'https://gyotechnologies-web.onrender.com', // Render backend
+  'https://gyotechnologies-web.render.com' // Render backend alternativo
 ];
 
 app.use(cors({
@@ -61,6 +63,15 @@ const transporter = nodemailer.createTransport({
 });
 
 // API endpoints primero
+app.get('/api/health', (req: Request, res: Response) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    port: port
+  });
+});
+
 app.post('/api/contact', async (req: Request, res: Response) => {
   try {
     const { name, email, message } = req.body;
@@ -85,7 +96,14 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 });
 
 // Ask Page Widget endpoint
-app.post('/api/ask-page', askPageHandler);
+app.post('/api/ask-page', (req, res, next) => {
+  console.log('🔍 DEBUG - Endpoint /api/ask-page llamado:');
+  console.log('  Method:', req.method);
+  console.log('  Headers:', req.headers);
+  console.log('  Origin:', req.headers.origin);
+  console.log('  User-Agent:', req.headers['user-agent']);
+  next();
+}, askPageHandler);
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
