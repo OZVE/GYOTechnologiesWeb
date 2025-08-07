@@ -236,9 +236,9 @@ export default function AskPageWidget() {
     <>
              {/* ChatGPT-style Input Bar */}
        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-4">
-         <div className={`bg-white rounded-3xl shadow-2xl border border-gray-200 transition-all duration-300 ${
-           isExpanded ? (isChatOpen ? 'w-full max-w-2xl h-96' : 'w-full max-w-2xl h-12') : 'w-64 h-12'
-         }`}>
+                 <div className={`bg-white rounded-3xl shadow-2xl border border-gray-200 transition-all duration-300 ${
+          isExpanded ? (isChatOpen ? 'w-full max-w-2xl h-[500px]' : 'w-full max-w-2xl h-12') : 'w-64 h-12'
+        }`}>
                      {!isExpanded ? (
              /* Initial State - Narrow Centered Input Bar */
              <div className="flex items-center justify-center h-full px-3">
