@@ -19,7 +19,8 @@ export default defineConfig({
           ? 'https://www.gyotechnologies.com.ar'
           : 'http://localhost:3001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        secure: false,
+        logLevel: 'debug'
       }
     }
   },
