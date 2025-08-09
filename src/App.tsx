@@ -279,7 +279,7 @@ function AppContent() {
                         }}
                         className="group px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
                       >
-                        <span>Free demo</span>
+                         <span>FREE Demo Try</span>
                         <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                       </button>
                     </div>
@@ -350,7 +350,7 @@ function AppContent() {
                           }}
                           className="group px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all flex items-center gap-2"
                         >
-                          <span>Free demo</span>
+                           <span>FREE Demo Try</span>
                           <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </button>
                       </div>
@@ -545,6 +545,20 @@ function AppContent() {
                       <p className="text-gray-300">Proceso transparente y comunicación constante</p>
                     </div>
                   </div>
+                  <div className="mt-10 flex justify-center">
+                    <button
+                      onClick={() => {
+                        handlePageChange('home');
+                        setTimeout(() => {
+                          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                      }}
+                      className="group px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2"
+                    >
+                      <span>FREE Demo Try</span>
+                      <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </section>
@@ -586,6 +600,20 @@ function AppContent() {
                     </div>
                   ))}
                 </div>
+                <div className="mt-10 flex justify-center">
+                  <button
+                    onClick={() => {
+                      handlePageChange('home');
+                      setTimeout(() => {
+                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
+                    className="group px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2"
+                  >
+                    <span>FREE Demo Try</span>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </button>
+                </div>
               </div>
             </motion.section>
 
@@ -617,6 +645,20 @@ function AppContent() {
                       <p className="text-gray-300 text-sm md:text-base">{tech.description}</p>
                     </div>
                   ))}
+                </div>
+                <div className="mt-10 flex justify-center">
+                  <button
+                    onClick={() => {
+                      handlePageChange('home');
+                      setTimeout(() => {
+                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
+                    className="group px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2"
+                  >
+                    <span>FREE Demo Try</span>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </button>
                 </div>
               </div>
             </motion.section>
@@ -716,7 +758,7 @@ function AppContent() {
                   onClick={() => smoothScrollTo('#contact', 8)}
                   className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
                 >
-                  <span>Free demo</span>
+                  <span>FREE Demo Try</span>
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
@@ -789,7 +831,7 @@ function AppContent() {
                       onClick={() => smoothScrollTo('#contact', 8)}
                       className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
                     >
-                      <span>Free demo</span>
+                      <span>FREE Demo Try</span>
                       <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                     </button>
                   </div>
@@ -895,7 +937,7 @@ function AppContent() {
                   onClick={() => smoothScrollTo('#contact', 8)}
                   className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
                 >
-                  <span>Free demo</span>
+                  <span>FREE Demo Try</span>
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
@@ -1014,7 +1056,7 @@ function AppContent() {
                   onClick={() => smoothScrollTo('#contact', 8)}
                   className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
                 >
-                  <span>Free demo</span>
+                  <span>FREE Demo Try</span>
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
