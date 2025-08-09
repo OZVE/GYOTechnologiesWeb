@@ -12,6 +12,7 @@ import {
   ArrowRight,
   MessageSquare
 } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BrowserRouter as Router, useNavigate, useLocation } from 'react-router-dom';
@@ -26,8 +27,31 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState('home');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [leadEmail, setLeadEmail] = useState('');
+  const [isSendingLead, setIsSendingLead] = useState(false);
+  const [leadMessage, setLeadMessage] = useState<string | null>(null);
+  const [leadError, setLeadError] = useState<string | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Scroll suave con offset dinámico según altura del navbar fijo
+  const smoothScrollTo = (selector: string | Element, extraOffset: number = 0) => {
+    const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+    if (!el) return;
+    const nav = document.querySelector('nav') as HTMLElement | null;
+    let fixedHeaderHeight = 0;
+    if (nav) {
+      const navStyle = window.getComputedStyle(nav);
+      if (navStyle.position === 'fixed') {
+        fixedHeaderHeight = nav.offsetHeight;
+      }
+    }
+    const offset = fixedHeaderHeight + extraOffset;
+    const rect = (el as Element).getBoundingClientRect();
+    const absoluteY = window.scrollY + rect.top - offset;
+    window.scrollTo({ top: absoluteY, behavior: 'smooth' });
+  };
 
   // Sincronizar URL con currentPage
   useEffect(() => {
@@ -41,6 +65,22 @@ function AppContent() {
     }
   }, [location.pathname]);
 
+  // Mostrar botón "volver al inicio" cuando el header/nav ya no está visible
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        const rect = header.getBoundingClientRect();
+        setShowBackToTop(rect.bottom < 0);
+      } else {
+        setShowBackToTop(window.scrollY > 200);
+      }
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Función para cambiar página (actualizar tanto state como URL)
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
@@ -51,6 +91,38 @@ function AppContent() {
       default:
         navigate('/');
         break;
+    }
+  };
+
+  const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const handleSendLead = async () => {
+    setLeadMessage(null);
+    setLeadError(null);
+    if (!isValidEmail(leadEmail)) {
+      setLeadError('Ingresá un email válido');
+      return;
+    }
+    try {
+      setIsSendingLead(true);
+      const isDevelopment = window.location.hostname === 'localhost';
+      const baseUrl = isDevelopment
+        ? '/api/lead'
+        : 'https://gyotechnologiesweb.onrender.com/api/lead';
+      const response = await fetch(baseUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: leadEmail })
+      });
+      if (!response.ok) {
+        throw new Error('Error de envío');
+      }
+      setLeadMessage('¡Gracias! Nuestro equipo se contactará pronto.');
+      setLeadEmail('');
+    } catch (error) {
+      setLeadError('No pudimos enviar tu email. Intenta nuevamente.');
+    } finally {
+      setIsSendingLead(false);
     }
   };
 
@@ -151,7 +223,8 @@ function AppContent() {
                         onClick={(e) => {
                           e.preventDefault();
                           handlePageChange('home');
-                          document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
+                          // header está por debajo de la barra; desplazamos sin tapar
+                          smoothScrollTo('header', 8);
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
@@ -163,7 +236,7 @@ function AppContent() {
                         onClick={(e) => {
                           e.preventDefault();
                           handlePageChange('home');
-                          document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                          smoothScrollTo('#services', 12);
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
@@ -175,7 +248,7 @@ function AppContent() {
                         onClick={(e) => {
                           e.preventDefault();
                           handlePageChange('home');
-                          document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
+                          smoothScrollTo('#technologies', 12);
                           setIsMenuOpen(false);
                         }}
                         className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center text-white"
@@ -201,14 +274,13 @@ function AppContent() {
                           // First navigate to home page if not already there
                           handlePageChange('home');
                           // Then scroll to contact section after a small delay to ensure page change is complete
-                          setTimeout(() => {
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                          }, 100);
+                          setTimeout(() => smoothScrollTo('#contact', 8), 100);
                           setIsMenuOpen(false);
                         }}
-                        className="px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all"
+                        className="group px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
                       >
-                        Contacto
+                        <span>Free demo</span>
+                        <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                       </button>
                     </div>
                   </div>
@@ -228,7 +300,7 @@ function AppContent() {
                           onClick={(e) => {
                             e.preventDefault();
                             handlePageChange('home');
-                            document.querySelector('header')?.scrollIntoView({ behavior: 'smooth' });
+                            smoothScrollTo('header', 8);
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
                         >
@@ -239,7 +311,7 @@ function AppContent() {
                           onClick={(e) => {
                             e.preventDefault();
                             handlePageChange('home');
-                            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                            smoothScrollTo('#services', 12);
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
                         >
@@ -250,7 +322,7 @@ function AppContent() {
                           onClick={(e) => {
                             e.preventDefault();
                             handlePageChange('home');
-                            document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' });
+                            smoothScrollTo('#technologies', 12);
                           }}
                           className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all"
                         >
@@ -274,13 +346,12 @@ function AppContent() {
                             // First navigate to home page if not already there
                             handlePageChange('home');
                             // Then scroll to contact section after a small delay to ensure page change is complete
-                            setTimeout(() => {
-                              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                            }, 100);
+                            setTimeout(() => smoothScrollTo('#contact', 8), 100);
                           }}
-                          className="px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all"
+                          className="group px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all flex items-center gap-2"
                         >
-                          Contacto
+                          <span>Free demo</span>
+                          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </button>
                       </div>
                     </div>
@@ -306,16 +377,50 @@ function AppContent() {
                     <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
                       Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
                     </p>
-                    <div className="mb-8 flex justify-center md:justify-start">
-                      
-                      <button 
-                      onClick={() => setIsContactModalOpen(true)}
-                      onMouseEnter={() => setIsButtonHovered(true)}
-                      onMouseLeave={() => setIsButtonHovered(false)}
-                      className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center transform hover:scale-105"
-                    >
-                      {isButtonHovered ? "Tu proyecto te espera" : "Innovemos"} <ArrowRight size={20} />
-                    </button>
+                    <div className="mb-8 flex flex-col items-center md:items-start">
+                      <div className="flex w-full max-w-xl justify-center md:justify-start gap-3">
+                        <input
+                          type="email"
+                          value={leadEmail}
+                          onChange={(e) => setLeadEmail(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              handleSendLead();
+                            }
+                          }}
+                          placeholder="Tu email"
+                          className="w-64 md:w-80 h-14 px-5 rounded-full border border-purple-600/60 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm"
+                        />
+                        <button 
+                          onClick={handleSendLead}
+                          onMouseEnter={() => setIsButtonHovered(true)}
+                          onMouseLeave={() => setIsButtonHovered(false)}
+                          disabled={isSendingLead}
+                          className="px-8 h-14 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center disabled:opacity-60"
+                        >
+                          {isSendingLead ? 'Enviando…' : (isButtonHovered ? 'Tu proyecto te espera' : 'Innovemos')} <ArrowRight size={20} />
+                        </button>
+                      </div>
+                      {leadMessage && <span className="text-green-400 text-sm mt-2">{leadMessage}</span>}
+                      {leadError && <span className="text-red-400 text-sm mt-2">{leadError}</span>}
+
+                      {/* Subtítulo con enlace a Servicios */}
+                      <div className="mt-4 text-sm text-gray-300">
+                        <span>¿Aún no estás listo para comenzar?</span>
+                        <a
+                          href="#services"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            // Asegura estar en home y luego hace scroll a servicios
+                            handlePageChange('home');
+                            setTimeout(() => smoothScrollTo('#services', 12), 100);
+                          }}
+                          className="ml-2 underline underline-offset-4 decoration-gray-500/60 hover:text-purple-400 hover:decoration-purple-400 transition-colors"
+                        >
+                          Conoce más
+                        </a>
+                      </div>
                     </div>
                     
 
@@ -549,6 +654,7 @@ function AppContent() {
                   </div>
                 </div>
               </div>
+              
             </motion.section>
 
             {/* Benefits Section */}
@@ -604,6 +710,16 @@ function AppContent() {
                   </div>
                 </div>
               </div>
+              {/* CTA dentro de la sección para mantener el fondo */}
+              <div className="mt-10 flex justify-center">
+                <button
+                  onClick={() => smoothScrollTo('#contact', 8)}
+                  className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
+                >
+                  <span>Free demo</span>
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
             </motion.section>
 
             {/* AI-Driven Development Section */}
@@ -612,6 +728,7 @@ function AppContent() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              id="ai-driven"
               className="py-20 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
             >
               <div className="container mx-auto px-4">
@@ -647,7 +764,7 @@ function AppContent() {
                   </div>
                   <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700">
                     <h3 className="text-2xl font-bold text-white mb-4">¿Por qué AI-Driven Development?</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                       <div>
                         <h4 className="text-lg font-semibold text-purple-400 mb-2">Velocidad</h4>
                         <p className="text-gray-300">Desarrollo 3x más rápido con generación automática de código y componentes reutilizables.</p>
@@ -666,6 +783,16 @@ function AppContent() {
                       </div>
                     </div>
                   </div>
+                  {/* CTA dentro del bloque "¿Por qué AI-Driven Development?" */}
+                  <div className="mt-6 flex justify-center">
+                    <button
+                      onClick={() => smoothScrollTo('#contact', 8)}
+                      className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
+                    >
+                      <span>Free demo</span>
+                      <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.section>
@@ -676,6 +803,7 @@ function AppContent() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+              id="ai-adoption"
               className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
             >
               <div className="container mx-auto px-4">
@@ -760,6 +888,16 @@ function AppContent() {
                     </div>
                   </div>
                 </div>
+              </div>
+              {/* CTA dentro de la sección para mantener el fondo */}
+              <div className="mt-10 flex justify-center">
+                <button
+                  onClick={() => smoothScrollTo('#contact', 8)}
+                  className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
+                >
+                  <span>Free demo</span>
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </button>
               </div>
             </motion.section>
 
@@ -870,6 +1008,16 @@ function AppContent() {
 
                 </div>
               </div>
+              {/* CTA dentro de la sección para mantener el fondo */}
+              <div className="mt-10 flex justify-center">
+                <button
+                  onClick={() => smoothScrollTo('#contact', 8)}
+                  className="group px-6 h-11 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold border-2 border-purple-600 hover:from-purple-700 hover:to-blue-700 hover:border-purple-700 hover:shadow-lg hover:shadow-purple-600/25 transition-all flex items-center gap-2 justify-center"
+                >
+                  <span>Free demo</span>
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
             </motion.section>
 
 
@@ -881,7 +1029,7 @@ function AppContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               id="contact"
-              className="py-20 bg-gradient-to-r from-gray-900 to-gray-800"
+              className="pt-10 md:pt-12 pb-20 bg-gradient-to-r from-gray-900 to-gray-800"
             >
               <ContactSection />
             </motion.section>
@@ -900,10 +1048,58 @@ function AppContent() {
                   <div>
                     <h4 className="font-semibold mb-4 text-white">Servicios</h4>
                     <ul className="space-y-2 text-gray-300">
-                      <li className="hover:text-purple-400 transition-colors">AI Agents</li>
-                      <li className="hover:text-purple-400 transition-colors">AI-Driven Development</li>
-                      <li className="hover:text-purple-400 transition-colors">AI-Adoption Consultant</li>
-                      <li className="hover:text-purple-400 transition-colors">Custom App Development</li>
+                      <li>
+                        <a
+                          href="#ai-agents"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange('home');
+                            setTimeout(() => smoothScrollTo('#ai-agents', 8), 50);
+                          }}
+                          className="hover:text-purple-400 transition-colors"
+                        >
+                          AI Agents
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#ai-driven"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange('home');
+                            setTimeout(() => smoothScrollTo('#ai-driven', 8), 50);
+                          }}
+                          className="hover:text-purple-400 transition-colors"
+                        >
+                          AI-Driven Development
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#ai-adoption"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange('home');
+                            setTimeout(() => smoothScrollTo('#ai-adoption', 8), 50);
+                          }}
+                          className="hover:text-purple-400 transition-colors"
+                        >
+                          AI-Adoption Consultant
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#contact"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange('home');
+                            setTimeout(() => smoothScrollTo('#contact', 8), 50);
+                          }}
+                          className="hover:text-purple-400 transition-colors"
+                        >
+                          Custom App Development
+                        </a>
+                      </li>
                     </ul>
                   </div>
                   <div>
@@ -955,6 +1151,28 @@ function AppContent() {
       
       {/* Ask Page Widget */}
       <AskPageWidget />
+
+      {/* Botón flotante de WhatsApp */}
+      <a
+        href="https://wa.me/541139486971?text=Hola%20GYO%20Technologies%2C%20quiero%20hablar%20con%20ustedes"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Abrir chat de WhatsApp"
+        className="fixed bottom-6 right-6 z-50 inline-flex items-center justify-center rounded-full transition-transform duration-200 hover:scale-110 hover:ring-4 ring-[#25D366]/40"
+      >
+        <img src="/whatsapp.png" alt="WhatsApp" className="w-16 h-16 select-none" />
+      </a>
+
+      {/* Botón volver al inicio */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Volver al inicio"
+          className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-white text-black shadow-2xl border border-white/20 flex items-center justify-center hover:bg-gray-100 hover:shadow-purple-500/20 transition-all"
+        >
+          <ArrowUp size={18} />
+        </button>
+      )}
     </div>
   );
 }

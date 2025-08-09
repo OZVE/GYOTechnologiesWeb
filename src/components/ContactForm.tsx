@@ -49,10 +49,10 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="name" className="block text-xs font-medium text-gray-300 mb-1">
             Nombre Completo *
           </label>
           <input
@@ -62,13 +62,13 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
             placeholder="Tu nombre completo"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-xs font-medium text-gray-300 mb-1">
             Email *
           </label>
           <input
@@ -78,15 +78,15 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
             placeholder="tu@email.com"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="company" className="block text-xs font-medium text-gray-300 mb-1">
             Empresa
           </label>
           <input
@@ -95,13 +95,13 @@ const ContactForm = () => {
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
             placeholder="Nombre de tu empresa"
           />
         </div>
 
         <div>
-          <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="service" className="block text-xs font-medium text-gray-300 mb-1">
             Servicio de Interés
           </label>
           <select
@@ -109,7 +109,7 @@ const ContactForm = () => {
             name="service"
             value={formData.service}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
           >
             <option value="">Selecciona un servicio</option>
             <option value="ai-agents">AI Agents</option>
@@ -121,7 +121,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+        <label htmlFor="message" className="block text-xs font-medium text-gray-300 mb-1">
           Mensaje *
         </label>
         <textarea
@@ -130,8 +130,8 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           required
-          rows={5}
-          className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+          rows={4}
+          className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
           placeholder="Cuéntanos sobre tu proyecto, necesidades o consultas..."
         />
       </div>
@@ -140,7 +140,7 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full flex justify-center items-center gap-3 py-4 px-6 text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+          className="w-full flex justify-center items-center gap-3 py-3 px-5 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {status === 'loading' ? (
             <>

@@ -235,9 +235,13 @@ export default function AskPageWidget() {
   return (
     <>
              {/* ChatGPT-style Input Bar */}
-       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-4">
-                 <div className={`bg-white rounded-3xl shadow-2xl border border-gray-200 transition-all duration-300 ${
-          isExpanded ? (isChatOpen ? 'w-full max-w-2xl h-[500px]' : 'w-full max-w-2xl h-12') : 'w-64 h-12'
+       <div className="fixed bottom-6 left-0 right-0 z-50 px-4">
+                 <div className={`mx-auto bg-white rounded-3xl shadow-2xl border border-gray-200 transition-all duration-300 ${
+          !isExpanded
+            ? 'w-56 h-12'
+            : isChatOpen
+              ? 'w-full max-w-2xl h-[500px]'
+              : 'w-full max-w-2xl h-12'
         }`}>
                      {!isExpanded ? (
              /* Initial State - Narrow Centered Input Bar */
@@ -246,7 +250,7 @@ export default function AskPageWidget() {
                  <input
                    ref={inputRef}
                    type="text"
-                   placeholder="Ask Agent Oz..."
+                   placeholder="Ask Agent GYO..."
                    className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-500 text-sm text-center"
                    onClick={() => setIsExpanded(true)}
                    readOnly
@@ -270,7 +274,7 @@ export default function AskPageWidget() {
                    value={question}
                    onChange={(e) => setQuestion(e.target.value)}
                    onKeyPress={handleInputKeyPress}
-                   placeholder="Ask Agent Oz..."
+                   placeholder="Ask Agent GYO..."
                    className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-500 text-sm"
                  />
                </div>
@@ -292,7 +296,7 @@ export default function AskPageWidget() {
                   <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
                     <MessageSquare size={16} className="text-white" />
                   </div>
-                  <h3 className="font-semibold text-gray-800">Agent Oz</h3>
+                  <h3 className="font-semibold text-gray-800">Agent GYO</h3>
                 </div>
                 <button
                   onClick={handleClose}
@@ -348,7 +352,7 @@ export default function AskPageWidget() {
                       </div>
                       <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl rounded-bl-md flex items-center gap-2 shadow-sm">
                         <Loader2 size={16} className="animate-spin text-purple-600" />
-                        <span className="text-sm">Agent Oz está pensando...</span>
+                         <span className="text-sm">Agent GYO está pensando...</span>
                       </div>
                     </div>
                   </div>
@@ -368,17 +372,17 @@ export default function AskPageWidget() {
 
               {/* Input Form */}
               <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200">
-                <div className="flex gap-3">
+                 <div className="flex gap-3">
                                      <textarea
                      ref={textareaRef}
                      value={question}
                      onChange={(e) => setQuestion(e.target.value)}
                      onKeyPress={handleTextareaKeyPress}
-                     placeholder="Ask Agent Oz..."
+                     placeholder="Ask Agent GYO..."
                      className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                      rows={1}
                      disabled={isLoading}
-                     aria-label="Pregunta para Agent Oz"
+                     aria-label="Pregunta para Agent GYO"
                    />
                   <button
                     type="submit"

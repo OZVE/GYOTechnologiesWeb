@@ -95,6 +95,31 @@ app.post('/api/contact', async (req: Request, res: Response) => {
   }
 });
 
+// Lead simple desde el botón "Innovemos"
+app.post('/api/lead', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body as { email?: string };
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Email inválido' });
+    }
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      // Pedido explícito: enviar a info@gyotechnologies.com
+      to: 'info@gyotechnologies.com',
+      subject: 'Nuevo lead desde botón Innovemos',
+      text: `Se capturó un nuevo lead desde el CTA Innovemos.\n\nEmail del interesado: ${email}`
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Lead enviado correctamente' });
+  } catch (error) {
+    console.error('Error al enviar lead:', error);
+    res.status(500).json({ error: 'Error al enviar el lead' });
+  }
+});
+
 // Ask Page Widget endpoint
 app.post('/api/ask-page', (req, res, next) => {
   console.log('🔍 DEBUG - Endpoint /api/ask-page llamado:');
