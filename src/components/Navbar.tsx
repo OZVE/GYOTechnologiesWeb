@@ -1,4 +1,4 @@
-import { Menu, X, Wrench } from 'lucide-react';
+import { Menu, X, Wrench, Package, GraduationCap, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavbarProps {
@@ -8,6 +8,7 @@ interface NavbarProps {
 
 const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 p-4 md:p-6 z-50 bg-transparent">
@@ -18,21 +19,20 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
             <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
             <span className="text-sm text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400">GYO TECHNOLOGIES</span>
           </div>
-          <button 
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 hover:bg-gray-700/50 rounded-lg transition-all"
           >
             {isMenuOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-white" />}
           </button>
         </div>
-        <div 
-          className={`${
-            isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
-          } overflow-hidden transition-all duration-300 ease-in-out`}
+        <div
+          className={`${isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+            } overflow-hidden transition-all duration-300 ease-in-out`}
         >
           <div className="flex flex-col gap-2 mt-4 bg-black/80 backdrop-blur-md rounded-lg p-4 border border-gray-700">
-            <a 
-              href="#hero" 
+            <a
+              href="#hero"
               onClick={(e) => {
                 e.preventDefault();
                 onPageChange('home');
@@ -43,7 +43,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
             >
               Inicio
             </a>
-            <a 
+            <a
               href="#services"
               onClick={(e) => {
                 e.preventDefault();
@@ -55,7 +55,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
             >
               Servicios
             </a>
-            <a 
+            <a
               href="#technologies"
               onClick={(e) => {
                 e.preventDefault();
@@ -68,20 +68,47 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
               Tecnologías
             </a>
 
-            <a 
-              href="#tools"
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange('tools');
-                setIsMenuOpen(false);
-              }}
-              className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
+            <button
+              onClick={() => setIsToolsDropdownOpen(!isToolsDropdownOpen)}
+              className="w-full px-4 py-3 text-sm font-medium hover:bg-gray-700/50 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
             >
               <Wrench size={16} />
               Tools
-            </a>
-            
-            <button 
+              <ArrowRight size={16} className={`transition-transform duration-300 ${isToolsDropdownOpen ? '-rotate-90' : 'rotate-90'}`} />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 ${isToolsDropdownOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="flex flex-col gap-1 pl-4 mt-1 border-l border-gray-700 ml-4">
+                <button
+                  onClick={() => {
+                    onPageChange('agile-stock');
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-left py-2 px-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
+                >
+                  GYO Agile Stock
+                </button>
+                <button
+                  onClick={() => {
+                    onPageChange('agile-academy');
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-left py-2 px-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
+                >
+                  GYO Agile Academy
+                </button>
+                <button
+                  onClick={() => {
+                    onPageChange('tools');
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-left py-2 px-2 text-sm text-green-400 hover:text-green-300 hover:bg-white/5 rounded transition-colors"
+                >
+                  Ver Todo
+                </button>
+              </div>
+            </div>
+
+            <button
               onClick={() => {
                 if (onContactClick) {
                   // If onContactClick is provided, use it (for Tools and IA Agents pages)
@@ -112,8 +139,8 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <a 
-                href="#hero" 
+              <a
+                href="#hero"
                 onClick={(e) => {
                   e.preventDefault();
                   onPageChange('home');
@@ -123,7 +150,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
               >
                 Inicio
               </a>
-              <a 
+              <a
                 href="#services"
                 onClick={(e) => {
                   e.preventDefault();
@@ -134,7 +161,7 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
               >
                 Servicios
               </a>
-              <a 
+              <a
                 href="#technologies"
                 onClick={(e) => {
                   e.preventDefault();
@@ -146,19 +173,54 @@ const Navbar = ({ onPageChange, onContactClick }: NavbarProps) => {
                 Tecnologías
               </a>
 
-              <a 
-                href="#tools"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange('tools');
-                }}
-                className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all flex items-center gap-2 text-white"
-              >
-                <Wrench size={16} />
-                Tools
-              </a>
-              
-              <button 
+              <div className="relative group/dropdown">
+                <button
+                  className="px-4 py-2 text-sm font-medium hover:bg-gray-700/50 rounded-full transition-all flex items-center gap-2 text-white"
+                  onMouseEnter={() => setIsToolsDropdownOpen(true)}
+                  onClick={() => onPageChange('tools')}
+                >
+                  <Wrench size={16} />
+                  Tools
+                </button>
+
+                {/* Dropdown Menu */}
+                <div
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-56 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200"
+                >
+                  <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-1 overflow-hidden">
+                    <button
+                      onClick={() => onPageChange('agile-stock')}
+                      className="text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 group/item"
+                    >
+                      <div className="p-1.5 bg-green-500/10 rounded-lg group-hover/item:bg-green-500/20 text-green-400 transition-colors">
+                        <Package size={14} />
+                      </div>
+                      <span className="font-medium">Agile Stock</span>
+                    </button>
+
+                    <button
+                      onClick={() => onPageChange('agile-academy')}
+                      className="text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 group/item"
+                    >
+                      <div className="p-1.5 bg-purple-500/10 rounded-lg group-hover/item:bg-purple-500/20 text-purple-400 transition-colors">
+                        <GraduationCap size={14} />
+                      </div>
+                      <span className="font-medium">Agile Academy</span>
+                    </button>
+
+                    <div className="h-px bg-white/10 my-1" />
+
+                    <button
+                      onClick={() => onPageChange('tools')}
+                      className="text-left px-4 py-2 text-xs text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all text-center"
+                    >
+                      Ver Todo
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <button
                 onClick={() => {
                   if (onContactClick) {
                     // If onContactClick is provided, use it (for Tools and IA Agents pages)

@@ -10,7 +10,9 @@ import {
   Bot,
   Wrench,
   ArrowRight,
-  MessageSquare
+  MessageSquare,
+  Package,
+  GraduationCap
 } from 'lucide-react';
 import { ArrowUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -21,6 +23,8 @@ import ToolsPage from './components/ToolsPage';
 import PageTransition from './components/PageTransition';
 import ContactModal from './components/ContactModal';
 import AskPageWidget from './components/AskPageWidget';
+import AgileStockPage from './components/AgileStockPage';
+import AgileAcademyPage from './components/AgileAcademyPage';
 
 function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,6 +36,7 @@ function AppContent() {
   const [leadMessage, setLeadMessage] = useState<string | null>(null);
   const [leadError, setLeadError] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -58,6 +63,12 @@ function AppContent() {
     switch (location.pathname) {
       case '/tools':
         setCurrentPage('tools');
+        break;
+      case '/agile-stock':
+        setCurrentPage('agile-stock');
+        break;
+      case '/agile-academy':
+        setCurrentPage('agile-academy');
         break;
       default:
         setCurrentPage('home');
@@ -87,6 +98,12 @@ function AppContent() {
     switch (page) {
       case 'tools':
         navigate('/tools');
+        break;
+      case 'agile-stock':
+        navigate('/agile-stock');
+        break;
+      case 'agile-academy':
+        navigate('/agile-academy');
         break;
       default:
         navigate('/');
@@ -190,9 +207,9 @@ function AppContent() {
               {/* Background Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20"></div>
               <div className="absolute inset-0 z-0 bg-grid-pattern opacity-10"></div>
-              
+
               {/* Navigation */}
-              <motion.nav 
+              <motion.nav
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
@@ -205,21 +222,20 @@ function AppContent() {
                       <img src="/gyo-banner2.png" alt="GYO Technologies" className="h-8" />
                       <span className="text-sm font-bold">GYO TECHNOLOGIES</span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setIsMenuOpen(!isMenuOpen)}
                       className="p-2 hover:bg-[#222] rounded-lg transition-all"
                     >
                       {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                   </div>
-                  <div 
-                    className={`${
-                      isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
-                    } overflow-hidden transition-all duration-300 ease-in-out`}
+                  <div
+                    className={`${isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+                      } overflow-hidden transition-all duration-300 ease-in-out`}
                   >
                     <div className="flex flex-col gap-2 mt-4 bg-black/80 rounded-lg p-4 border border-gray-700">
-                      <a 
-                        href="#hero" 
+                      <a
+                        href="#hero"
                         onClick={(e) => {
                           e.preventDefault();
                           handlePageChange('home');
@@ -231,7 +247,7 @@ function AppContent() {
                       >
                         Inicio
                       </a>
-                      <a 
+                      <a
                         href="#services"
                         onClick={(e) => {
                           e.preventDefault();
@@ -243,7 +259,7 @@ function AppContent() {
                       >
                         Servicios
                       </a>
-                      <a 
+                      <a
                         href="#technologies"
                         onClick={(e) => {
                           e.preventDefault();
@@ -256,20 +272,47 @@ function AppContent() {
                         Tecnologías
                       </a>
 
-                      <a 
-                        href="/tools"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange('tools');
-                          setIsMenuOpen(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
+                      <button
+                        onClick={() => setIsToolsDropdownOpen(!isToolsDropdownOpen)}
+                        className="w-full px-4 py-3 text-sm font-medium hover:bg-gray-700 rounded-lg transition-all text-center flex items-center justify-center gap-2 text-white"
                       >
                         <Wrench size={16} />
                         Tools
-                      </a>
+                        <ArrowRight size={16} className={`transition-transform duration-300 ${isToolsDropdownOpen ? '-rotate-90' : 'rotate-90'}`} />
+                      </button>
+                      <div className={`overflow-hidden transition-all duration-300 ${isToolsDropdownOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="flex flex-col gap-1 pl-4 mt-1 border-l border-gray-700 ml-4">
+                          <button
+                            onClick={() => {
+                              handlePageChange('agile-stock');
+                              setIsMenuOpen(false);
+                            }}
+                            className="text-left py-2 px-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
+                          >
+                            GYO Agile Stock
+                          </button>
+                          <button
+                            onClick={() => {
+                              handlePageChange('agile-academy');
+                              setIsMenuOpen(false);
+                            }}
+                            className="text-left py-2 px-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
+                          >
+                            GYO Agile Academy
+                          </button>
+                          <button
+                            onClick={() => {
+                              handlePageChange('tools');
+                              setIsMenuOpen(false);
+                            }}
+                            className="text-left py-2 px-2 text-sm text-green-400 hover:text-green-300 hover:bg-white/5 rounded transition-colors"
+                          >
+                            Ver Todo
+                          </button>
+                        </div>
+                      </div>
 
-                      <button 
+                      <button
                         onClick={() => {
                           // First navigate to home page if not already there
                           handlePageChange('home');
@@ -279,7 +322,7 @@ function AppContent() {
                         }}
                         className="group px-4 py-3 text-sm font-medium bg-white text-black rounded-lg hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
                       >
-                         <span>FREE Demo Try</span>
+                        <span>FREE Demo Try</span>
                         <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                       </button>
                     </div>
@@ -295,8 +338,8 @@ function AppContent() {
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-2">
-                        <a 
-                          href="#hero" 
+                        <a
+                          href="#hero"
                           onClick={(e) => {
                             e.preventDefault();
                             handlePageChange('home');
@@ -306,7 +349,7 @@ function AppContent() {
                         >
                           Inicio
                         </a>
-                        <a 
+                        <a
                           href="#services"
                           onClick={(e) => {
                             e.preventDefault();
@@ -317,7 +360,7 @@ function AppContent() {
                         >
                           Servicios
                         </a>
-                        <a 
+                        <a
                           href="#technologies"
                           onClick={(e) => {
                             e.preventDefault();
@@ -329,19 +372,54 @@ function AppContent() {
                           Tecnologías
                         </a>
 
-                                              <a 
-                        href="/tools"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePageChange('tools');
-                        }}
-                        className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
-                      >
-                        <Wrench size={16} />
-                        Tools
-                      </a>
+                        <div className="relative group/dropdown">
+                          <button
+                            className="px-4 py-2 text-sm font-medium hover:bg-[#222] rounded-full transition-all flex items-center gap-2"
+                            onMouseEnter={() => setIsToolsDropdownOpen(true)}
+                            onClick={() => handlePageChange('tools')}
+                          >
+                            <Wrench size={16} />
+                            Tools
+                          </button>
 
-                        <button 
+                          {/* Dropdown Menu */}
+                          <div
+                            className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-56 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200"
+                          >
+                            <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-1 overflow-hidden">
+                              <button
+                                onClick={() => handlePageChange('agile-stock')}
+                                className="text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 group/item"
+                              >
+                                <div className="p-1.5 bg-green-500/10 rounded-lg group-hover/item:bg-green-500/20 text-green-400 transition-colors">
+                                  <Package size={14} />
+                                </div>
+                                <span className="font-medium">Agile Stock</span>
+                              </button>
+
+                              <button
+                                onClick={() => handlePageChange('agile-academy')}
+                                className="text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-all flex items-center gap-2 group/item"
+                              >
+                                <div className="p-1.5 bg-purple-500/10 rounded-lg group-hover/item:bg-purple-500/20 text-purple-400 transition-colors">
+                                  <GraduationCap size={14} />
+                                </div>
+                                <span className="font-medium">Agile Academy</span>
+                              </button>
+
+                              <div className="h-px bg-white/10 my-1" />
+
+                              <button
+                                onClick={() => handlePageChange('tools')}
+                                className="text-left px-4 py-2 text-xs text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all text-center"
+                              >
+                                Ver Todo
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button
                           onClick={() => {
                             // First navigate to home page if not already there
                             handlePageChange('home');
@@ -350,7 +428,7 @@ function AppContent() {
                           }}
                           className="group px-6 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all flex items-center gap-2"
                         >
-                           <span>FREE Demo Try</span>
+                          <span>FREE Demo Try</span>
                           <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </button>
                       </div>
@@ -360,7 +438,7 @@ function AppContent() {
               </motion.nav>
 
               {/* Hero Content */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
@@ -370,9 +448,9 @@ function AppContent() {
                   <div className="w-full md:w-1/2 text-center md:text-left">
                     <h1 className="font-inter text-3xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-400 mb-6 md:mb-8 leading-tight">
                       <span className="block whitespace-pre-line">TRANSFORMAMOS<br />
-                      TU VISIÓN EN<br />
-                      SOFTWARE<br />
-                      INTELIGENTE</span>
+                        TU VISIÓN EN<br />
+                        SOFTWARE<br />
+                        INTELIGENTE</span>
                     </h1>
                     <p className="text-base md:text-xl mb-8 md:mb-12 text-gray-300 max-w-xl mx-auto md:mx-0">
                       Desarrollo ágil con IA y experiencia humana para crear soluciones digitales excepcionales
@@ -392,7 +470,7 @@ function AppContent() {
                           placeholder="Tu email"
                           className="w-64 md:w-80 h-14 px-5 rounded-full border border-purple-600/60 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm"
                         />
-                        <button 
+                        <button
                           onClick={handleSendLead}
                           onMouseEnter={() => setIsButtonHovered(true)}
                           onMouseLeave={() => setIsButtonHovered(false)}
@@ -422,13 +500,13 @@ function AppContent() {
                         </a>
                       </div>
                     </div>
-                    
+
 
                   </div>
                   <div className="hidden md:block md:w-1/2">
-                    <img 
-                      src="/gyo-banner2.png" 
-                      alt="GYO Technologies" 
+                    <img
+                      src="/gyo-banner2.png"
+                      alt="GYO Technologies"
                       className="w-4/5 ml-auto object-contain animate-float"
                     />
                   </div>
@@ -564,7 +642,7 @@ function AppContent() {
             </section>
 
             {/* Services Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -618,7 +696,7 @@ function AppContent() {
             </motion.section>
 
             {/* Technologies Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -664,7 +742,7 @@ function AppContent() {
             </motion.section>
 
             {/* AI Agents Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -696,11 +774,11 @@ function AppContent() {
                   </div>
                 </div>
               </div>
-              
+
             </motion.section>
 
             {/* Benefits Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -765,7 +843,7 @@ function AppContent() {
             </motion.section>
 
             {/* AI-Driven Development Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -806,7 +884,7 @@ function AppContent() {
                   </div>
                   <div className="mt-12 bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-700">
                     <h3 className="text-2xl font-bold text-white mb-4">¿Por qué AI-Driven Development?</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                       <div>
                         <h4 className="text-lg font-semibold text-purple-400 mb-2">Velocidad</h4>
                         <p className="text-gray-300">Desarrollo 3x más rápido con generación automática de código y componentes reutilizables.</p>
@@ -840,7 +918,7 @@ function AppContent() {
             </motion.section>
 
             {/* AI-Adoption Consultant Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -944,7 +1022,7 @@ function AppContent() {
             </motion.section>
 
             {/* Why Choose GYO Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -959,7 +1037,7 @@ function AppContent() {
                   <p className="text-lg text-gray-300 text-center mb-16 max-w-3xl mx-auto">
                     Somos expertos en transformar empresas con inteligencia artificial. Nuestra experiencia, metodología probada y resultados medibles nos distinguen en el mercado.
                   </p>
-                  
+
                   {/* Métricas Principales */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                     <div className="text-center">
@@ -999,7 +1077,7 @@ function AppContent() {
                         </li>
                       </ul>
                     </div>
-                    
+
                     <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
                       <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Users className="text-[#252525]" size={24} />
@@ -1021,7 +1099,7 @@ function AppContent() {
                         </li>
                       </ul>
                     </div>
-                    
+
                     <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group">
                       <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 bg-gradient-to-r from-gray-200 to-gray-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                         <MessageSquare className="text-[#252525]" size={24} />
@@ -1043,7 +1121,7 @@ function AppContent() {
                         </li>
                       </ul>
                     </div>
-                    
+
 
                   </div>
 
@@ -1065,7 +1143,7 @@ function AppContent() {
 
 
             {/* Contact Section */}
-            <motion.section 
+            <motion.section
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -1156,9 +1234,9 @@ function AppContent() {
                     <h4 className="font-semibold mb-4 text-white">Contacto</h4>
                     <ul className="space-y-2 text-gray-300">
                       <li>
-                        <a 
-                          href="https://www.linkedin.com/company/gyo-technologies" 
-                          target="_blank" 
+                        <a
+                          href="https://www.linkedin.com/company/gyo-technologies"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 hover:text-purple-400 transition-colors"
                         >
@@ -1180,17 +1258,21 @@ function AppContent() {
           </>
         ) : currentPage === 'tools' ? (
           <ToolsPage onPageChange={handlePageChange} />
+        ) : currentPage === 'agile-stock' ? (
+          <AgileStockPage onPageChange={handlePageChange} />
+        ) : currentPage === 'agile-academy' ? (
+          <AgileAcademyPage onPageChange={handlePageChange} />
         ) : (
-          <ToolsPage onPageChange={handlePageChange} />
+          <div />
         )}
       </PageTransition>
-      
+
       {/* Contact Modal */}
       <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
       />
-      
+
       {/* Ask Page Widget */}
       <AskPageWidget />
 
@@ -1206,16 +1288,18 @@ function AppContent() {
       </a>
 
       {/* Botón volver al inicio */}
-      {showBackToTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Volver al inicio"
-          className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-white text-black shadow-2xl border border-white/20 flex items-center justify-center hover:bg-gray-100 hover:shadow-purple-500/20 transition-all"
-        >
-          <ArrowUp size={18} />
-        </button>
-      )}
-    </div>
+      {
+        showBackToTop && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Volver al inicio"
+            className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-white text-black shadow-2xl border border-white/20 flex items-center justify-center hover:bg-gray-100 hover:shadow-purple-500/20 transition-all"
+          >
+            <ArrowUp size={18} />
+          </button>
+        )
+      }
+    </div >
   );
 }
 

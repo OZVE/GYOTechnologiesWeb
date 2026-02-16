@@ -1,6 +1,6 @@
-import { 
-  Settings, 
-  BarChart3, 
+import {
+  Settings,
+  BarChart3,
   Zap,
   ArrowRight,
   CheckCircle,
@@ -47,7 +47,8 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
         "Reportes académicos detallados"
       ],
       category: "Educación",
-      status: "coming-soon"
+      url: "https://academy.gyotechnologies.com.ar/auth/login",
+      status: "available"
     },
     {
       icon: <Palette className="w-8 h-8 text-[#252525]" />,
@@ -85,11 +86,11 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800" />
-        
+
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-32 h-32 bg-green-400 rounded-full blur-3xl"></div>
@@ -119,9 +120,9 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
             <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
               GYO Tools Suite
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Estamos desarrollando un ecosistema de herramientas para emprendedores que revoluciona la forma de hacer negocios. 
+              Estamos desarrollando un ecosistema de herramientas para emprendedores que revoluciona la forma de hacer negocios.
               Más ágil que Office 365, más inteligente que cualquier suite tradicional.
             </p>
 
@@ -144,7 +145,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
             </motion.div>
 
             <div className="flex justify-center mb-16">
-              <button 
+              <button
                 onClick={() => setIsContactModalOpen(true)}
                 className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center gap-3 justify-center text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
               >
@@ -232,33 +233,79 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
               ¡Ya Disponible!
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Nuestra primera herramienta ya está en funcionamiento, ayudando a emprendedores a gestionar su inventario de manera eficiente.
+              Nuestras herramientas ya están en funcionamiento, ayudando a emprendedores a gestionar sus negocios de manera eficiente.
             </p>
-            <div className="max-w-2xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border border-green-500/30">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
-                  <Package className="w-10 h-10 text-[#252525]" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              {/* GYO Agile Stock */}
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border border-green-500/30 flex flex-col h-full">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
+                    <Package className="w-10 h-10 text-[#252525]" />
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold mb-4 text-green-400">GYO Agile Stock</h3>
+                <p className="text-gray-300 mb-6 flex-grow">
+                  Gestión de inventario completa y personalizada. Controla tu stock en tiempo real con una interfaz moderna y fácil de usar.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Disponible Ahora</span>
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">✓ En Producción</span>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-auto">
+                  <a
+                    href="https://agilestock.gyotechnologies.com.ar/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center justify-center gap-2"
+                  >
+                    Probar Gratis
+                    <ArrowRight size={18} />
+                  </a>
+                  <button
+                    onClick={() => onPageChange('agile-stock')}
+                    className="px-6 py-3 bg-white/10 border border-white/10 text-white rounded-full font-semibold hover:bg-white/20 transition-all"
+                  >
+                    Ver Detalles
+                  </button>
                 </div>
               </div>
-              <h3 className="text-3xl font-bold mb-4 text-green-400">GYO Agile Stock</h3>
-              <p className="text-gray-300 mb-6">
-                Gestión de inventario completa y personalizada. Controla tu stock en tiempo real con una interfaz moderna y fácil de usar.
-              </p>
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Disponible Ahora</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">✓ En Producción</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">✓ Casos de Éxito</span>
+
+              {/* GYO Agile Academy */}
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border border-purple-500/30 flex flex-col h-full">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
+                    <GraduationCap className="w-10 h-10 text-[#252525]" />
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold mb-4 text-purple-400">GYO Agile Academy</h3>
+                <p className="text-gray-300 mb-6 flex-grow">
+                  Gestión educativa integral. Administra alumnos, cursos y contenido con una plataforma diseñada para el aprendizaje moderno.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Disponible Ahora</span>
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">✓ En Producción</span>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-auto">
+                  <a
+                    href="https://academy.gyotechnologies.com.ar/auth/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
+                  >
+                    Ir al Campus
+                    <ArrowRight size={18} />
+                  </a>
+                  <button
+                    onClick={() => onPageChange('agile-academy')}
+                    className="px-6 py-3 bg-white/10 border border-white/10 text-white rounded-full font-semibold hover:bg-white/20 transition-all"
+                  >
+                    Ver Detalles
+                  </button>
+                </div>
               </div>
-              <a 
-                href="https://agilestock.gyotechnologies.com.ar/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all"
-              >
-                Probar Ahora Gratis
-                <ArrowRight size={20} />
-              </a>
             </div>
+
           </div>
         </div>
       </section>
@@ -271,11 +318,11 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
               Nuestras Herramientas
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Cada herramienta es diseñada en colaboración con emprendedores reales, 
+              Cada herramienta es diseñada en colaboración con emprendedores reales,
               solucionando problemas específicos del mundo empresarial actual.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {tools.map((tool, index) => (
               <motion.div
@@ -317,15 +364,26 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
                   ))}
                 </ul>
                 {tool.status === 'available' && tool.url ? (
-                  <a 
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full mt-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2"
-                  >
-                    Acceder a la Herramienta
-                    <ArrowRight size={16} />
-                  </a>
+                  <div className="flex flex-col gap-2 mt-6">
+                    <a
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2"
+                    >
+                      Acceder a la Herramienta
+                      <ArrowRight size={16} />
+                    </a>
+                    <button
+                      onClick={() => {
+                        if (tool.title === "GYO Agile Stock") onPageChange('agile-stock');
+                        if (tool.title === "GYO Agile Academy") onPageChange('agile-academy');
+                      }}
+                      className="w-full py-3 bg-white/10 border border-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      Más Información
+                    </button>
+                  </div>
                 ) : tool.status === 'coming-soon' ? (
                   <button className="w-full mt-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 text-white rounded-lg font-semibold cursor-not-allowed transition-all opacity-0 group-hover:opacity-100">
                     Próximamente
@@ -351,7 +409,7 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
             Únete a los emprendedores que ya están usando nuestras herramientas para optimizar sus negocios.
           </p>
           <div className="flex justify-center">
-            <button 
+            <button
               onClick={() => setIsContactModalOpen(true)}
               className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
             >
@@ -362,9 +420,9 @@ const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
       </section>
 
       <Footer />
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={() => setIsContactModalOpen(false)} 
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
     </div>
   );

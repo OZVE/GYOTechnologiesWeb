@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -7,6 +7,11 @@ interface PageTransitionProps {
 }
 
 const PageTransition = ({ children, currentPage }: PageTransitionProps) => {
+  // Scroll to top whenever the page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
