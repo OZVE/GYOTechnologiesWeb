@@ -254,7 +254,7 @@ const AgileStockPage = ({ onPageChange }: AgileStockPageProps) => {
                             <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
                                 <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                                 <img
-                                    src="/as-pedido.png"
+                                    src="/as-pedidos.png"
                                     alt="Detalle de Pedido y Trazabilidad"
                                     className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
                                 />
