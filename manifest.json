@@ -1,0 +1,24 @@
+{
+  "name": "GYO Technologies - Agentes de IA, Bots de IA, Desarrollo Web Inteligente",
+  "short_name": "GYO Technologies",
+  "description": "Especialistas en Agentes de IA, Bots de IA, MCP Clients y desarrollo web inteligente",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#1f2937",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/gyo-banner.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity", "technology"],
+  "lang": "es",
+  "dir": "ltr"
+} 
