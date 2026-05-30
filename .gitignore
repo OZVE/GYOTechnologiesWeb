@@ -42,6 +42,15 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Local agent/tooling state
+.agents/
+.claude/
+skills-lock.json
+
+# Python virtual environments
+venv/
+.venv/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

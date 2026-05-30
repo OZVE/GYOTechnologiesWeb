@@ -1,48 +1,54 @@
-import { Linkedin } from 'lucide-react';
+import { ArrowUpRight, Linkedin } from 'lucide-react';
+
+const footerColumns = [
+  {
+    title: 'Estudio',
+    items: ['Direccion creativa', 'Diseno web', 'UX/UI', 'Contenido comercial']
+  },
+  {
+    title: 'Tecnologia',
+    items: ['Desarrollo web', 'Ecommerce', 'Automatizaciones', 'Agentes de IA']
+  },
+  {
+    title: 'Tools',
+    items: ['GYO Agile Stock', 'GYO Agile Academy', 'Brief Builder', 'AI Agent Starter']
+  }
+];
 
 const Footer = () => {
   return (
-    <footer className="bg-[#111] text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-[#171411] px-4 py-16 text-[#efe7da]">
+      <div className="container">
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_1.4fr_0.7fr]">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/gyo-banner.png" alt="GYO Technologies" className="h-8" />
-              <h3 className="text-2xl font-bold">GYO</h3>
+            <div className="mb-6 flex items-center gap-3">
+              <img src="/gyo-banner.png" alt="GYO Technologies" loading="lazy" decoding="async" className="h-10" />
+              <h3 className="text-3xl font-black tracking-[-0.06em]">GYO</h3>
             </div>
-            <p className="text-gray-400">Transformando el futuro con tecnología inteligente</p>
+            <p className="max-w-sm text-lg leading-8 text-[#efe7da]/68">
+              Diseno con pulso. Tecnologia con columna. Un estudio creativo-tecnologico para ideas que necesitan verse mejor, vender mejor y operar mejor.
+            </p>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4">Servicios</h4>
-            <ul className="space-y-2 text-gray-400 flex flex-col flex-wrap break-words">
-              <li>AI Agents</li>
-              <li>AI-Driven Development</li>
-              <li>IT Consulting</li>
-              <li>Project Digitalization</li>
-              <li>Custom App Development</li>
-            </ul>
+
+          <div className="grid gap-8 sm:grid-cols-3">
+            {footerColumns.map((column) => (
+              <div key={column.title}>
+                <h4 className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-[#d75f32]">{column.title}</h4>
+                <ul className="space-y-3 text-sm text-[#efe7da]/60">
+                  {column.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
+
           <div>
-            <h4 className="font-semibold mb-4">Compañía</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>Sobre Nosotros</li>
-              <li>Casos de Éxito</li>
-              <li>Blog</li>
-              <li>Carreras</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Contacto</h4>
-            <ul className="space-y-2 text-gray-400">
+            <h4 className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-[#7fa36b]">Contacto</h4>
+            <ul className="space-y-3 text-sm text-[#efe7da]/60">
               <li>
-                <a 
-                  href="https://www.linkedin.com/company/gyo-technologies" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-white transition-colors"
-                >
-                  <Linkedin size={18} />
-                  <span>LinkedIn</span>
+                <a href="https://www.linkedin.com/company/gyo-technologies" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 transition hover:text-[#efe7da]">
+                  <Linkedin size={18} /> LinkedIn <ArrowUpRight size={14} />
                 </a>
               </li>
               <li>info@gyotechnologies.com.ar</li>
@@ -51,19 +57,19 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+
+        <div className="mt-14 flex flex-col gap-4 border-t border-[#efe7da]/10 pt-8 text-sm text-[#efe7da]/45 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} GYO Technologies. Todos los derechos reservados.</p>
+          <p>Estudio creativo-tecnologico de diseno, desarrollo, automatizacion e IA.</p>
         </div>
-        
-        {/* Hidden SEO Text for Search Engines */}
+
         <div className="sr-only">
-          <p>GYO Technologies - Especialistas en Agentes de IA, Bots de IA, MCP Clients y desarrollo web inteligente. Transformamos tu visión en software inteligente con IA avanzada.</p>
-          <p>Servicios de agentes de IA personalizados, bots de IA para automatización, MCP clients para integración de sistemas, y consultoría en inteligencia artificial empresarial.</p>
-          <p>GYO Technologies, GYOtechnologies, agentes de IA, bots de IA, inteligencia artificial, desarrollo web, MCP clients, consultoría IT, software inteligente.</p>
+          <p>GYO Technologies - Estudio creativo-tecnologico especializado en diseno web, desarrollo web, ecommerce, automatizaciones, agentes de IA y herramientas digitales.</p>
+          <p>Servicios de direccion creativa, UX/UI, agentes de IA personalizados, bots de IA, MCP clients, consultoria IT y software inteligente.</p>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;

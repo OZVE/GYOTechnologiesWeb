@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Loader2 } from 'lucide-react';
+import { getApiUrl } from '../lib/api';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -24,11 +25,7 @@ const ContactForm = () => {
     setStatus('loading');
 
     try {
-      const apiUrl = import.meta.env.PROD 
-        ? 'https://GYOTechnologiesWeb.onrender.com' // URL de Render en producción
-        : 'http://localhost:3001';
-
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      const response = await fetch(getApiUrl('/api/contact'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,18 +39,20 @@ const ContactForm = () => {
 
       setStatus('success');
       setFormData({ name: '', email: '', company: '', service: '', message: '' });
-    } catch (error) {
+    } catch {
       setStatus('error');
-      console.error('Error:', error);
     }
   };
 
+  const fieldClass = "w-full rounded-2xl border border-[#efe7da]/10 bg-[#efe7da]/10 px-4 py-3 text-[#efe7da] placeholder:text-[#efe7da]/35 outline-none transition focus:border-[#d75f32] focus:bg-[#efe7da]/15";
+  const labelClass = "mb-2 block text-xs font-black uppercase tracking-[0.2em] text-[#efe7da]/55";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="name" className="block text-xs font-medium text-gray-300 mb-1">
-            Nombre Completo *
+          <label htmlFor="name" className={labelClass}>
+            Nombre completo *
           </label>
           <input
             type="text"
@@ -62,13 +61,14 @@ const ContactForm = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            autoComplete="name"
+            className={fieldClass}
             placeholder="Tu nombre completo"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-xs font-medium text-gray-300 mb-1">
+          <label htmlFor="email" className={labelClass}>
             Email *
           </label>
           <input
@@ -78,7 +78,8 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            autoComplete="email"
+            className={fieldClass}
             placeholder="tu@email.com"
           />
         </div>
@@ -86,7 +87,7 @@ const ContactForm = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="company" className="block text-xs font-medium text-gray-300 mb-1">
+          <label htmlFor="company" className={labelClass}>
             Empresa
           </label>
           <input
@@ -95,33 +96,35 @@ const ContactForm = () => {
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            autoComplete="organization"
+            className={fieldClass}
             placeholder="Nombre de tu empresa"
           />
         </div>
 
         <div>
-          <label htmlFor="service" className="block text-xs font-medium text-gray-300 mb-1">
-            Servicio de Interés
+          <label htmlFor="service" className={labelClass}>
+            Servicio de interes
           </label>
           <select
             id="service"
             name="service"
             value={formData.service}
             onChange={handleChange}
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+            className={fieldClass}
           >
             <option value="">Selecciona un servicio</option>
-            <option value="ai-agents">AI Agents</option>
-            <option value="ai-development">AI-Driven Development</option>
-            <option value="ai-consulting">AI-Adoption Consultant</option>
-            <option value="custom">Solución Personalizada</option>
+            <option value="design">Diseno / UX/UI</option>
+            <option value="development">Desarrollo web</option>
+            <option value="tools">Tools / producto</option>
+            <option value="automation">Automatizacion / IA</option>
+            <option value="custom">Solucion personalizada</option>
           </select>
         </div>
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-xs font-medium text-gray-300 mb-1">
+        <label htmlFor="message" className={labelClass}>
           Mensaje *
         </label>
         <textarea
@@ -131,8 +134,8 @@ const ContactForm = () => {
           onChange={handleChange}
           required
           rows={4}
-          className="w-full px-3 py-2.5 rounded-xl border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
-          placeholder="Cuéntanos sobre tu proyecto, necesidades o consultas..."
+          className={`${fieldClass} resize-none`}
+          placeholder="Cuentanos que queres construir, ordenar o vender..."
         />
       </div>
 
@@ -140,33 +143,33 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full flex justify-center items-center gap-3 py-3 px-5 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="flex w-full items-center justify-center gap-3 rounded-full bg-[#efe7da] px-5 py-4 text-sm font-black uppercase tracking-[0.18em] text-[#171411] transition hover:bg-[#d75f32] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {status === 'loading' ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              Enviando Mensaje...
+              Enviando mensaje...
             </>
           ) : (
             <>
               <Send className="w-5 h-5" />
-              Enviar Mensaje
+              Enviar mensaje
             </>
           )}
         </button>
       </div>
 
       {status === 'success' && (
-        <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 p-4 rounded-xl text-center">
-          <div className="text-green-400 font-semibold mb-1">¡Mensaje Enviado Exitosamente!</div>
-          <div className="text-green-300 text-sm">Te responderemos en las próximas 24 horas.</div>
+        <div className="rounded-2xl border border-[#7fa36b]/35 bg-[#7fa36b]/10 p-4 text-center">
+          <div role="status" className="mb-1 font-black text-[#7fa36b]">Mensaje enviado correctamente.</div>
+          <div className="text-sm text-[#efe7da]/65">Te responderemos en las proximas 24 horas.</div>
         </div>
       )}
 
       {status === 'error' && (
-        <div className="bg-gradient-to-r from-red-900/20 to-red-800/20 border border-red-500/30 p-4 rounded-xl text-center">
-          <div className="text-red-400 font-semibold mb-1">Error al Enviar el Mensaje</div>
-          <div className="text-red-300 text-sm">Por favor, intenta nuevamente o contáctanos directamente.</div>
+        <div className="rounded-2xl border border-[#d75f32]/40 bg-[#d75f32]/10 p-4 text-center">
+          <div role="alert" className="mb-1 font-black text-[#d75f32]">Error al enviar el mensaje.</div>
+          <div className="text-sm text-[#efe7da]/65">Por favor, intenta nuevamente o contactanos directamente.</div>
         </div>
       )}
     </form>

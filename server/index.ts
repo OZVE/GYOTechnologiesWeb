@@ -4,13 +4,44 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { askPageHandler } from './routes/askPage';
 
 const app = express();
 const port = process.env.PORT || 3001;
+app.set('trust proxy', 1);
+
+const isValidEmail = (value: unknown): value is string => (
+  typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+);
+
+const isNonEmptyString = (value: unknown, maxLength: number): value is string => (
+  typeof value === 'string' && value.trim().length > 0 && value.length <= maxLength
+);
+
+function createRateLimiter(windowMs: number, maxRequests: number) {
+  const hits = new Map<string, { count: number; resetAt: number }>();
+
+  return (req: Request, res: Response, next: NextFunction) => {
+    const key = req.ip || req.connection.remoteAddress || 'unknown';
+    const now = Date.now();
+    const current = hits.get(key);
+
+    if (!current || current.resetAt <= now) {
+      hits.set(key, { count: 1, resetAt: now + windowMs });
+      return next();
+    }
+
+    if (current.count >= maxRequests) {
+      return res.status(429).json({ error: 'Demasiadas solicitudes. Intentá nuevamente más tarde.' });
+    }
+
+    current.count += 1;
+    return next();
+  };
+}
 
 // Configuración de CORS
 const allowedOrigins = [
@@ -20,6 +51,7 @@ const allowedOrigins = [
   'https://www.gyotechnologies.com.ar', // Dominio personalizado
   'https://ozve.github.io', // Tu GitHub Pages
   'https://ozve.github.io/project-bolt', // Tu GitHub Pages con subpath
+  'https://gyotechnologiesweb.onrender.com', // Render backend actual
   'https://gyotechnologies-web.onrender.com', // Render backend
   'https://gyotechnologies-web.render.com' // Render backend alternativo
 ];
@@ -38,7 +70,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '256kb' }));
 
 // Headers de seguridad (solo para rutas no-API)
 app.use((req, res, next) => {
@@ -72,9 +104,21 @@ app.get('/api/health', (req: Request, res: Response) => {
   });
 });
 
-app.post('/api/contact', async (req: Request, res: Response) => {
+app.post('/api/contact', createRateLimiter(60 * 1000, 5), async (req: Request, res: Response) => {
   try {
     const { name, email, message } = req.body;
+
+    if (!isNonEmptyString(name, 120)) {
+      return res.status(400).json({ error: 'Nombre inválido' });
+    }
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: 'Email inválido' });
+    }
+
+    if (!isNonEmptyString(message, 5000)) {
+      return res.status(400).json({ error: 'Mensaje inválido' });
+    }
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -96,11 +140,11 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 });
 
 // Lead simple desde el botón "Innovemos"
-app.post('/api/lead', async (req: Request, res: Response) => {
+app.post('/api/lead', createRateLimiter(60 * 1000, 5), async (req: Request, res: Response) => {
   try {
     const { email } = req.body as { email?: string };
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!isValidEmail(email)) {
       return res.status(400).json({ error: 'Email inválido' });
     }
 
@@ -121,14 +165,7 @@ app.post('/api/lead', async (req: Request, res: Response) => {
 });
 
 // Ask Page Widget endpoint
-app.post('/api/ask-page', (req, res, next) => {
-  console.log('🔍 DEBUG - Endpoint /api/ask-page llamado:');
-  console.log('  Method:', req.method);
-  console.log('  Headers:', req.headers);
-  console.log('  Origin:', req.headers.origin);
-  console.log('  User-Agent:', req.headers['user-agent']);
-  next();
-}, askPageHandler);
+app.post('/api/ask-page', askPageHandler);
 
 // Configuración para servir archivos estáticos
 const isProduction = process.env.NODE_ENV === 'production';
@@ -209,4 +246,4 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en puerto ${port}`);
   console.log(`Ambiente: ${process.env.NODE_ENV}`);
-}); 
+});

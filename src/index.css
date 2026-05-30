@@ -7,8 +7,22 @@
     scroll-behavior: smooth;
   }
 
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+
   body {
-    @apply antialiased text-gray-900;
+    @apply antialiased text-gray-900 bg-[#efe7da];
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }
 

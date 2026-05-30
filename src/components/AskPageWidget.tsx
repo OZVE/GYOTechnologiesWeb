@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2, ChevronUp } from 'lucide-react';
 import { getPageContext } from '../lib/getPageContext';
+import { getApiUrl } from '../lib/api';
 
 // Función para formatear el texto de las respuestas
 const formatAnswer = (text: string): JSX.Element[] => {
@@ -13,7 +14,7 @@ const formatAnswer = (text: string): JSX.Element[] => {
     // Detectar títulos (líneas que terminan con :)
     if (paragraph.endsWith(':') && paragraph.length < 50) {
       return (
-        <h4 key={index} className="font-semibold text-gray-900 text-sm mb-2 mt-4 first:mt-0">
+        <h4 key={index} className="mb-2 mt-4 text-sm font-black text-[#171411] first:mt-0">
           {paragraph}
         </h4>
       );
@@ -23,10 +24,10 @@ const formatAnswer = (text: string): JSX.Element[] => {
     if (/^\d+\.\s/.test(paragraph)) {
       return (
         <div key={index} className="flex items-start gap-2 mb-2">
-          <span className="text-purple-600 font-semibold text-sm min-w-[20px] flex-shrink-0">
+          <span className="min-w-[20px] flex-shrink-0 text-sm font-black text-[#d75f32]">
             {paragraph.match(/^\d+/)?.[0]}.
           </span>
-          <span className="text-gray-800 text-sm leading-relaxed">
+          <span className="text-sm leading-relaxed text-[#171411]/80">
             {formatInlineText(paragraph.replace(/^\d+\.\s/, ''))}
           </span>
         </div>
@@ -37,8 +38,8 @@ const formatAnswer = (text: string): JSX.Element[] => {
     if (/^[-•]\s/.test(paragraph)) {
       return (
         <div key={index} className="flex items-start gap-2 mb-2">
-          <span className="text-purple-600 text-sm mt-1 flex-shrink-0">•</span>
-          <span className="text-gray-800 text-sm leading-relaxed">
+          <span className="mt-1 flex-shrink-0 text-sm text-[#d75f32]">•</span>
+          <span className="text-sm leading-relaxed text-[#171411]/80">
             {formatInlineText(paragraph.replace(/^[-•]\s/, ''))}
           </span>
         </div>
@@ -47,7 +48,7 @@ const formatAnswer = (text: string): JSX.Element[] => {
     
     // Párrafos normales con formateo inline
     return (
-      <p key={index} className="text-gray-800 text-sm leading-relaxed mb-3">
+      <p key={index} className="mb-3 text-sm leading-relaxed text-[#171411]/80">
         {formatInlineText(paragraph)}
       </p>
     );
@@ -63,7 +64,7 @@ const formatInlineText = (text: string): JSX.Element[] => {
     const parts = text.split('**');
     return parts.map((part, i) => 
       i % 2 === 1 ? (
-        <strong key={i} className="font-semibold text-gray-900">
+        <strong key={i} className="font-black text-[#171411]">
           {part}
         </strong>
       ) : (
@@ -89,7 +90,7 @@ const formatLinks = (text: string): JSX.Element[] => {
           href={part}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-[#d75f32] underline hover:text-[#171411]"
         >
           {part}
         </a>
@@ -159,30 +160,13 @@ export default function AskPageWidget() {
     try {
       const pageContext = getPageContext();
       
-      // DEBUG: Log del contexto de la página
-      console.log('🔍 DEBUG - Frontend:');
-      console.log('  Question:', currentQuestion);
-      console.log('  PageContext length:', pageContext?.length || 0);
-      console.log('  PageContext preview:', pageContext?.substring(0, 200) + '...');
-      console.log('  URL:', window.location.href);
-      
       const requestBody = {
         question: currentQuestion,
         pageContext,
         url: window.location.href
       };
-      
-      console.log('  Request body:', JSON.stringify(requestBody, null, 2));
-      
-      // Determinar la URL base según el ambiente
-      const isDevelopment = window.location.hostname === 'localhost';
-      const baseUrl = isDevelopment 
-        ? '/api/ask-page' 
-        : 'https://gyotechnologiesweb.onrender.com/api/ask-page';
-      
-      console.log('🔍 DEBUG - URL de la petición:', baseUrl);
-      
-      const response = await fetch(baseUrl, {
+
+      const response = await fetch(getApiUrl('/api/ask-page'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -211,14 +195,14 @@ export default function AskPageWidget() {
     }
   };
 
-  const handleInputKeyPress = (e: React.KeyboardEvent) => {
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
     }
   };
 
-  const handleTextareaKeyPress = (e: React.KeyboardEvent) => {
+  const handleTextareaKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
@@ -234,31 +218,30 @@ export default function AskPageWidget() {
 
   return (
     <>
-             {/* ChatGPT-style Input Bar */}
-       <div className="fixed bottom-6 left-0 right-0 z-50 px-4">
-                 <div className={`mx-auto bg-white rounded-3xl shadow-2xl border border-gray-200 transition-all duration-300 ${
+      <div className="fixed bottom-6 left-0 right-0 z-50 px-4">
+        <div className={`mx-auto rounded-[1.75rem] border border-[#171411]/12 bg-[#f8f0e3]/95 shadow-2xl shadow-[#171411]/20 backdrop-blur-xl transition-all duration-300 ${
           !isExpanded
-            ? 'w-56 h-12'
+            ? 'w-64 h-12'
             : isChatOpen
               ? 'w-full max-w-2xl h-[500px]'
               : 'w-full max-w-2xl h-12'
         }`}>
-                     {!isExpanded ? (
+          {!isExpanded ? (
              /* Initial State - Narrow Centered Input Bar */
              <div className="flex items-center justify-center h-full px-3">
                <div className="w-full flex items-center">
                  <input
                    ref={inputRef}
                    type="text"
-                   placeholder="Ask Agent GYO..."
-                   className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-500 text-sm text-center"
+                    placeholder="Preguntale a esta pagina..."
+                    className="flex-1 bg-transparent border-none text-center text-sm font-bold text-[#171411] outline-none placeholder:text-[#171411]/55"
                    onClick={() => setIsExpanded(true)}
                    readOnly
                  />
                </div>
                <button
                  onClick={() => setIsExpanded(true)}
-                 className="ml-2 p-1.5 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="ml-2 rounded-full bg-[#171411] p-1.5 text-[#efe7da] transition-colors hover:bg-[#d75f32]"
                  aria-label="Expandir chat"
                >
                  <ChevronUp size={16} />
@@ -273,15 +256,15 @@ export default function AskPageWidget() {
                    type="text"
                    value={question}
                    onChange={(e) => setQuestion(e.target.value)}
-                   onKeyPress={handleInputKeyPress}
-                   placeholder="Ask Agent GYO..."
-                   className="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-500 text-sm"
+                    onKeyDown={handleInputKeyDown}
+                    placeholder="Preguntale a Agent GYO..."
+                    className="flex-1 bg-transparent border-none text-sm font-semibold text-[#171411] outline-none placeholder:text-[#171411]/50"
                  />
                </div>
                <button
                  type="submit"
                  disabled={!question.trim() || isLoading}
-                 className="ml-2 p-1.5 text-gray-500 hover:text-gray-700 transition-colors disabled:opacity-50"
+                  className="ml-2 rounded-full bg-[#171411] p-1.5 text-[#efe7da] transition hover:bg-[#d75f32] disabled:opacity-50"
                  aria-label="Enviar pregunta"
                >
                  <ChevronUp size={16} />
@@ -291,27 +274,30 @@ export default function AskPageWidget() {
             /* Full Chat Interface */
             <div className="flex flex-col h-full">
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between border-b border-[#171411]/10 p-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
-                    <MessageSquare size={16} className="text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#171411]">
+                    <MessageSquare size={16} className="text-[#efe7da]" />
                   </div>
-                  <h3 className="font-semibold text-gray-800">Agent GYO</h3>
+                  <div>
+                    <h3 className="font-black leading-none tracking-[-0.03em] text-[#171411]">Agent GYO</h3>
+                    <p className="mt-1 text-[10px] font-black uppercase tracking-[0.2em] text-[#171411]/45">Contexto de pagina</p>
+                  </div>
                 </div>
                 <button
                   onClick={handleClose}
-                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  className="rounded-full p-1 transition-colors hover:bg-[#171411]/10"
                   aria-label="Cerrar chat"
                 >
-                  <X size={18} className="text-gray-500" />
+                  <X size={18} className="text-[#171411]/65" />
                 </button>
               </div>
 
               {/* Messages Area */}
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.length === 0 && !isLoading && (
-                  <div className="text-center text-gray-500 text-sm py-8">
-                    <MessageSquare size={32} className="mx-auto mb-2 text-gray-300" />
+                  <div className="py-8 text-center text-sm text-[#171411]/55">
+                    <MessageSquare size={32} className="mx-auto mb-2 text-[#171411]/25" />
                     <p>Haz una pregunta sobre el contenido de esta página</p>
                   </div>
                 )}
@@ -320,7 +306,7 @@ export default function AskPageWidget() {
                   <div key={message.id} className="space-y-3">
                     {/* User Question */}
                     <div className="flex justify-end">
-                      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-2xl rounded-br-md max-w-[80%] text-sm">
+                      <div className="max-w-[80%] rounded-2xl rounded-br-md bg-[#171411] px-4 py-3 text-sm text-[#efe7da]">
                         {message.question}
                       </div>
                     </div>
@@ -329,10 +315,10 @@ export default function AskPageWidget() {
                     {message.answer && (
                       <div className="flex justify-start">
                         <div className="flex items-start gap-2 max-w-[80%]">
-                          <div className="w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <MessageSquare size={12} className="text-white" />
-                          </div>
-                          <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
+                           <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#d75f32]">
+                             <MessageSquare size={12} className="text-[#171411]" />
+                           </div>
+                           <div className="rounded-2xl rounded-bl-md bg-[#efe7da] px-4 py-3 text-[#171411] shadow-sm">
                             <div className="space-y-2">
                               {formatAnswer(message.answer)}
                             </div>
@@ -347,11 +333,11 @@ export default function AskPageWidget() {
                 {isLoading && (
                   <div className="flex justify-start">
                     <div className="flex items-start gap-2 max-w-[80%]">
-                      <div className="w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                        <MessageSquare size={12} className="text-white" />
-                      </div>
-                      <div className="bg-gray-100 text-gray-800 px-4 py-3 rounded-2xl rounded-bl-md flex items-center gap-2 shadow-sm">
-                        <Loader2 size={16} className="animate-spin text-purple-600" />
+                       <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#d75f32]">
+                         <MessageSquare size={12} className="text-[#171411]" />
+                       </div>
+                       <div className="flex items-center gap-2 rounded-2xl rounded-bl-md bg-[#efe7da] px-4 py-3 text-[#171411] shadow-sm">
+                         <Loader2 size={16} className="animate-spin text-[#d75f32]" />
                          <span className="text-sm">Agent GYO está pensando...</span>
                       </div>
                     </div>
@@ -361,7 +347,7 @@ export default function AskPageWidget() {
                 {/* Error message */}
                 {error && (
                   <div className="flex justify-start">
-                    <div className="bg-red-100 text-red-800 px-4 py-3 rounded-2xl rounded-bl-md max-w-[80%] text-sm">
+                    <div className="max-w-[80%] rounded-2xl rounded-bl-md border border-[#d75f32]/30 bg-[#d75f32]/10 px-4 py-3 text-sm text-[#171411]">
                       {error}
                     </div>
                   </div>
@@ -371,15 +357,15 @@ export default function AskPageWidget() {
               </div>
 
               {/* Input Form */}
-              <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200">
+              <form onSubmit={handleSubmit} className="border-t border-[#171411]/10 p-4">
                  <div className="flex gap-3">
                                      <textarea
                      ref={textareaRef}
                      value={question}
                      onChange={(e) => setQuestion(e.target.value)}
-                     onKeyPress={handleTextareaKeyPress}
-                     placeholder="Ask Agent GYO..."
-                     className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      onKeyDown={handleTextareaKeyDown}
+                      placeholder="Preguntale a Agent GYO..."
+                      className="flex-1 resize-none rounded-2xl border border-[#171411]/12 bg-[#efe7da] px-4 py-3 text-sm text-[#171411] outline-none transition placeholder:text-[#171411]/45 focus:border-[#d75f32]"
                      rows={1}
                      disabled={isLoading}
                      aria-label="Pregunta para Agent GYO"
@@ -387,7 +373,7 @@ export default function AskPageWidget() {
                   <button
                     type="submit"
                     disabled={!question.trim() || isLoading}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white p-3 rounded-xl transition-all duration-200 flex items-center justify-center"
+                     className="flex items-center justify-center rounded-2xl bg-[#171411] p-3 text-[#efe7da] transition-all duration-200 hover:bg-[#d75f32] disabled:bg-[#171411]/35"
                     aria-label="Enviar pregunta"
                   >
                     {isLoading ? (
@@ -404,4 +390,4 @@ export default function AskPageWidget() {
       </div>
     </>
   );
-} 
+}

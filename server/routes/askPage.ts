@@ -33,15 +33,6 @@ export async function askPageHandler(req: Request, res: Response) {
     // Validar body
     const { question, pageContext, url }: AskPageRequest = req.body;
     
-    // DEBUG: Log de los datos recibidos
-    console.log('🔍 DEBUG - Datos recibidos:');
-    console.log('  Question:', question);
-    console.log('  PageContext length:', pageContext?.length || 0);
-    console.log('  URL:', url);
-    console.log('  Body completo:', JSON.stringify(req.body, null, 2));
-    console.log('  Content-Type:', req.headers['content-type']);
-    console.log('  Raw body:', req.body);
-
     if (!question || typeof question !== 'string') {
       return res.status(400).json({ error: 'La pregunta es requerida y debe ser una cadena de texto' });
     }
@@ -63,11 +54,6 @@ export async function askPageHandler(req: Request, res: Response) {
     }
 
     // Validar API key
-    console.log('🔍 DEBUG - Validación de API key:');
-    console.log('  OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
-    console.log('  OPENAI_API_KEY length:', process.env.OPENAI_API_KEY?.length || 0);
-    console.log('  OPENAI_API_KEY preview:', process.env.OPENAI_API_KEY?.substring(0, 10) + '...');
-    
     if (!process.env.OPENAI_API_KEY) {
       console.error('❌ OPENAI_API_KEY no está configurada');
       return res.status(500).json({ error: 'Error de configuración del servidor' });
@@ -160,17 +146,9 @@ export async function askPageHandler(req: Request, res: Response) {
     const isIrrelevant = irrelevantPatterns.some(pattern => pattern.test(question));
     
     // Verificar longitud mínima de contexto solo para preguntas relevantes
-    console.log('🔍 DEBUG - Validación de contexto:');
-    console.log('  PageContext length:', pageContext.length);
-    console.log('  Is irrelevant:', isIrrelevant);
-    
     if (isIrrelevant) {
       const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
-      console.log(`ℹ️ PREGUNTA IRRELEVANTE DETECTADA:`);
-      console.log(`   IP: ${clientIP}`);
-      console.log(`   Pregunta: ${question}`);
-      console.log(`   URL: ${url}`);
-      console.log(`   Timestamp: ${new Date().toISOString()}`);
+      console.info(`ℹ️ Pregunta irrelevante detectada desde ${clientIP} en ${url}`);
       return res.status(200).json({ 
         answer: '¡Hola! 👋 Soy Agent Oz y estoy aquí para ayudarte con preguntas específicas sobre GYO Technologies y el contenido de esta página. Mi tarea es asistirte en tu proceso de descubrimiento y contacto con nuestros servicios. ¿Hay algo en particular sobre lo que aparece aquí que te gustaría saber?',
         timestamp: new Date().toISOString()
@@ -179,7 +157,6 @@ export async function askPageHandler(req: Request, res: Response) {
     
     // Solo verificar longitud mínima si la pregunta NO es irrelevante
     if (pageContext.length < 100) {
-      console.log('❌ Contexto muy corto, devolviendo respuesta amigable');
       return res.status(200).json({ 
         answer: 'Parece que esta página no tiene suficiente contenido para que pueda ayudarte de manera efectiva. Mi tarea es asistirte con preguntas específicas sobre GYO Technologies y el contenido de esta página. Te sugiero navegar a otra sección de nuestro sitio web donde pueda encontrar más información para ayudarte mejor.',
         timestamp: new Date().toISOString()
@@ -189,9 +166,6 @@ export async function askPageHandler(req: Request, res: Response) {
 
 
     // Validación adicional: verificar que la pregunta no sea demasiado larga (posible prompt injection)
-    console.log('🔍 DEBUG - Validación de longitud:');
-    console.log('  Question length:', question.length);
-    
     if (question.length > 500) {
       console.warn(`❌ Pregunta demasiado larga detectada: ${question.length} caracteres`);
       return res.status(200).json({ 
@@ -201,12 +175,8 @@ export async function askPageHandler(req: Request, res: Response) {
     }
 
     // Validación: verificar que no haya caracteres sospechosos
-    const suspiciousChars = /[<>{}[\]()\\\/`~!@#$%^&*+=|;:'"`]/g;
+    const suspiciousChars = /[<>{}[\]()\\`~!@#$%^&*+=|;:'"`]/g;
     const suspiciousCount = (question.match(suspiciousChars) || []).length;
-    
-    console.log('🔍 DEBUG - Validación de caracteres:');
-    console.log('  Suspicious count:', suspiciousCount);
-    console.log('  Question:', question);
     
     if (suspiciousCount > 5) {
       console.warn(`❌ Demasiados caracteres sospechosos detectados: ${suspiciousCount}`);
@@ -330,13 +300,6 @@ IMPORTANTE: Analiza la pregunta y decide si es una oportunidad de venta. Si es s
 INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. Esta es una excelente oportunidad de venta. Responde de manera positiva, menciona el valor que GYO Technologies puede aportar, y ofrece contacto de manera natural. Si preguntan sobre el proceso, menciona que tenemos una metodología clara: reunión para relevar requerimientos, definición de alcance, establecimiento de fechas, y podemos entregar agentes en un mes. No digas "no está disponible" - en su lugar, aprovecha para generar interés y conectar al usuario con el equipo de ventas.`;
      }
 
-    // DEBUG: Log del prompt final
-    console.log('🔍 DEBUG - OpenAI Request:');
-    console.log('  Model:', 'gpt-4o-mini');
-    console.log('  Has service interest:', hasServiceInterest);
-    console.log('  System prompt length:', finalSystemPrompt.length);
-    console.log('  Question:', question);
-
     // Llamar a OpenAI
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -358,12 +321,6 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. E
     });
 
     const answer = completion.choices[0]?.message?.content?.trim();
-
-    // DEBUG: Log de la respuesta de OpenAI
-    console.log('🔍 DEBUG - OpenAI Response:');
-    console.log('  Answer length:', answer?.length || 0);
-    console.log('  Answer preview:', answer?.substring(0, 200) + '...');
-    console.log('  Usage:', completion.usage);
 
     if (!answer) {
       console.error('❌ OpenAI no devolvió respuesta');
@@ -410,4 +367,4 @@ INFORMACIÓN ADICIONAL: El usuario ha mostrado interés en nuestros servicios. E
     console.error('❌ Error genérico:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
-} 
+}

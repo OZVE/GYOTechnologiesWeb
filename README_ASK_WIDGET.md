@@ -25,6 +25,7 @@ Edita el archivo `.env` y agrega tu API key de OpenAI:
 
 ```env
 OPENAI_API_KEY=sk-tu-api-key-de-openai-aqui
+VITE_API_BASE_URL=https://gyotechnologiesweb.onrender.com
 ```
 
 ### 2. Instalar dependencias
@@ -193,4 +194,4 @@ Para contribuir al widget:
 
 ## Licencia
 
-Este widget es parte del proyecto GYO Technologies y está sujeto a la misma licencia. 
+Este widget es parte del proyecto GYO Technologies y está sujeto a la misma licencia.

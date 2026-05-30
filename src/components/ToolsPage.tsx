@@ -1,431 +1,203 @@
-import {
-  Settings,
-  BarChart3,
-  Zap,
-  ArrowRight,
-  CheckCircle,
-  Package,
-  GraduationCap,
-  Palette
-} from 'lucide-react';
+import { ArrowRight, CheckCircle, GraduationCap, Package, Palette, Wrench, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
 import ContactModal from './ContactModal';
+import Footer from './Footer';
+import Navbar from './Navbar';
 
 interface ToolsPageProps {
   onPageChange: (page: string) => void;
 }
 
+const tools = [
+  {
+    icon: Package,
+    title: 'GYO Agile Stock',
+    category: 'Inventario',
+    status: 'Disponible',
+    description: 'Gestion de stock, pedidos, insumos y costos para negocios que necesitan operar con datos claros.',
+    features: ['Control en tiempo real', 'Reportes automaticos', 'Trazabilidad de pedidos', 'Costos por producto'],
+    page: 'agile-stock',
+    url: 'https://agilestock.gyotechnologies.com.ar/login',
+    accent: '#7fa36b'
+  },
+  {
+    icon: GraduationCap,
+    title: 'GYO Agile Academy',
+    category: 'Educacion',
+    status: 'Disponible',
+    description: 'Gestion academica, asistencia, pagos y reportes para instituciones, escuelas y cursos.',
+    features: ['Expedientes digitales', 'Control financiero', 'Reportes exportables', 'Roles seguros'],
+    page: 'agile-academy',
+    url: 'https://academy.gyotechnologies.com.ar/auth/login',
+    accent: '#7e6bd8'
+  },
+  {
+    icon: Palette,
+    title: 'GYO Agile Studio',
+    category: 'Creatividad',
+    status: 'Concept tool',
+    description: 'Gestion de encargos, entregas, portfolio y facturacion para equipos creativos y estudios boutique.',
+    features: ['Briefs ordenados', 'Seguimiento de entregas', 'Galeria de trabajos', 'Pipeline comercial'],
+    accent: '#d75f32'
+  }
+];
+
+const accelerators = [
+  'Brief Builder',
+  'Proposal Composer',
+  'Lead Qualifier',
+  'Content Engine',
+  'Ops Dashboard Kit',
+  'AI Agent Starter'
+];
+
+const principles = [
+  {
+    title: 'Activos propios',
+    description: 'Tools no es una lista de servicios: es el espacio donde GYO muestra sistemas, templates y agentes que pueden convertirse en producto.'
+  },
+  {
+    title: 'Operacion real',
+    description: 'Cada herramienta existe para ordenar un flujo concreto: inventario, academia, briefs, propuestas, leads o reportes.'
+  },
+  {
+    title: 'Base reutilizable',
+    description: 'Lo que aprendemos construyendo tools acelera entregas para clientes sin convertir cada proyecto en una pieza generica.'
+  }
+];
+
+const reveal = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] }
+};
+
 const ToolsPage = ({ onPageChange }: ToolsPageProps) => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  const tools = [
-    {
-      icon: <Package className="w-8 h-8 text-[#252525]" />,
-      title: "GYO Agile Stock",
-      description: "Gestión de stock completa de manera ágil y personalizada",
-      features: [
-        "Control de inventario en tiempo real",
-        "Gestión personalizada de productos",
-        "Reportes automáticos de stock",
-        "Interfaz intuitiva y moderna"
-      ],
-      category: "Inventario",
-      url: "https://agilestock.gyotechnologies.com.ar/login",
-      status: "available"
-    },
-    {
-      icon: <GraduationCap className="w-8 h-8 text-[#252525]" />,
-      title: "GYO Agile Academy",
-      description: "Gestión completa de academias, escuelas, cursos y similares",
-      features: [
-        "Gestión de estudiantes y profesores",
-        "Seguimiento de cursos y clases",
-        "Sistema de evaluaciones",
-        "Reportes académicos detallados"
-      ],
-      category: "Educación",
-      url: "https://academy.gyotechnologies.com.ar/auth/login",
-      status: "available"
-    },
-    {
-      icon: <Palette className="w-8 h-8 text-[#252525]" />,
-      title: "GYO Agile Studio",
-      description: "Gestión de trabajos por encargo y entregas para emprendedores creativos",
-      features: [
-        "Gestión de proyectos creativos",
-        "Seguimiento de entregas y deadlines",
-        "Galería de trabajos y portfolio",
-        "Facturación para servicios creativos"
-      ],
-      category: "Creatividad",
-      status: "coming-soon"
-    }
-  ];
-
-  const benefits = [
-    {
-      icon: <Zap className="w-6 h-6 text-white" />,
-      title: "Agilidad Extrema",
-      description: "Automatización inteligente que reduce tareas manuales en un 80%"
-    },
-    {
-      icon: <Settings className="w-6 h-6 text-white" />,
-      title: "Personalización Total",
-      description: "Cada herramienta se adapta a tu modelo de negocio específico"
-    },
-    {
-      icon: <BarChart3 className="w-6 h-6 text-white" />,
-      title: "Escalabilidad Ilimitada",
-      description: "Crece sin límites con herramientas que escalan contigo"
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#efe7da] text-[#171411]">
       <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800" />
-
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-green-400 rounded-full blur-3xl"></div>
-          <div className="absolute top-40 right-20 w-24 h-24 bg-blue-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-purple-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-green-400 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="container mx-auto text-center relative z-10 py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-6xl mx-auto"
-          >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded-full text-green-400 text-sm font-medium mb-12 mt-8"
-            >
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              Herramientas en Desarrollo Activo
-            </motion.div>
-
-            <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-              GYO Tools Suite
+      <header className="relative overflow-hidden px-4 pt-36 md:pt-44">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_18%,rgba(127,163,107,0.22),transparent_28%),radial-gradient(circle_at_88%_20%,rgba(126,107,216,0.18),transparent_30%),radial-gradient(circle_at_55%_82%,rgba(215,95,50,0.18),transparent_30%)]" />
+        <div className="container relative z-10 grid min-h-[72vh] items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#171411]/12 bg-[#f8f0e3]/70 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[#171411]/65">
+              <Wrench className="h-4 w-4 text-[#7fa36b]" /> GYO Tools
+            </div>
+            <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.075em] md:text-8xl">
+              Herramientas propias para acelerar ideas, procesos y entregas.
             </h1>
-
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Estamos desarrollando un ecosistema de herramientas para emprendedores que revoluciona la forma de hacer negocios.
-              Más ágil que Office 365, más inteligente que cualquier suite tradicional.
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171411]/70 md:text-xl">
+              Tools posiciona a GYO como un estudio que no solo entrega proyectos: crea activos reutilizables, sistemas internos, agentes y kits para operar mejor.
             </p>
-
-            {/* Feature Pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap justify-center gap-3 mb-12"
-            >
-              <span className="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 text-sm">
-                ⚡ Automatización Inteligente
-              </span>
-              <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm">
-                🎯 Personalización Total
-              </span>
-              <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm">
-                📈 Escalabilidad Ilimitada
-              </span>
-            </motion.div>
-
-            <div className="flex justify-center mb-16">
-              <button
-                onClick={() => setIsContactModalOpen(true)}
-                className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center gap-3 justify-center text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
-              >
-                Solicitar Demo <ArrowRight size={24} />
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <button onClick={() => document.getElementById('tools-grid')?.scrollIntoView({ behavior: 'smooth' })} className="group inline-flex items-center justify-center rounded-full bg-[#171411] px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#efe7da] transition hover:bg-[#d75f32]">
+                Ver herramientas <ArrowRight className="ml-3 h-4 w-4 transition group-hover:translate-x-1" />
+              </button>
+              <button onClick={() => setIsContactModalOpen(true)} className="inline-flex items-center justify-center rounded-full border border-[#171411]/20 bg-[#f8f0e3]/70 px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#171411] transition hover:border-[#171411]">
+                Solicitar demo
               </button>
             </div>
+          </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
-            >
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-400 mb-2">3+</div>
-                <div className="text-gray-400 text-sm">Herramientas en Desarrollo</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-400 mb-2">80%</div>
-                <div className="text-gray-400 text-sm">Reducción de Tareas Manuales</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-400 mb-2">24/7</div>
-                <div className="text-gray-400 text-sm">Disponibilidad Garantizada</div>
-              </div>
-            </motion.div>
+          <motion.div initial={{ opacity: 0, scale: 0.95, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="rounded-[2rem] border border-[#171411]/10 bg-[#f8f0e3]/75 p-5 shadow-2xl shadow-[#171411]/10">
+            <div className="grid gap-4">
+              {accelerators.map((item, index) => (
+                <div key={item} className="flex items-center justify-between rounded-2xl border border-[#171411]/10 bg-[#efe7da] px-5 py-4">
+                  <span className="text-xs font-black uppercase tracking-[0.26em] text-[#171411]/42">0{index + 1}</span>
+                  <span className="text-xl font-black tracking-[-0.04em]">{item}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
+      </header>
 
-        {/* Floating Icons */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="absolute inset-0 pointer-events-none"
-        >
-          <div className="absolute top-1/4 left-8 text-green-400/20">
-            <Package size={48} />
-          </div>
-          <div className="absolute top-1/3 right-12 text-blue-400/20">
-            <Settings size={40} />
-          </div>
-          <div className="absolute bottom-1/4 left-16 text-purple-400/20">
-            <BarChart3 size={36} />
-          </div>
-          <div className="absolute bottom-1/3 right-8 text-green-400/20">
-            <Zap size={44} />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-gray-900 to-gray-800">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-            ¿Por qué elegir GYO Tools Suite?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-green-400">{benefit.title}</h3>
-                <p className="text-gray-300">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Tool Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-green-900/20 to-blue-900/20">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-6 text-green-400">
-              ¡Ya Disponible!
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Nuestras herramientas ya están en funcionamiento, ayudando a emprendedores a gestionar sus negocios de manera eficiente.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {/* GYO Agile Stock */}
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border border-green-500/30 flex flex-col h-full">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
-                    <Package className="w-10 h-10 text-[#252525]" />
-                  </div>
-                </div>
-                <h3 className="text-3xl font-bold mb-4 text-green-400">GYO Agile Stock</h3>
-                <p className="text-gray-300 mb-6 flex-grow">
-                  Gestión de inventario completa y personalizada. Controla tu stock en tiempo real con una interfaz moderna y fácil de usar.
-                </p>
-                <div className="flex flex-wrap justify-center gap-2 mb-8">
-                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Disponible Ahora</span>
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">✓ En Producción</span>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-auto">
-                  <a
-                    href="https://agilestock.gyotechnologies.com.ar/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center justify-center gap-2"
-                  >
-                    Probar Gratis
-                    <ArrowRight size={18} />
-                  </a>
-                  <button
-                    onClick={() => onPageChange('agile-stock')}
-                    className="px-6 py-3 bg-white/10 border border-white/10 text-white rounded-full font-semibold hover:bg-white/20 transition-all"
-                  >
-                    Ver Detalles
-                  </button>
-                </div>
-              </div>
-
-              {/* GYO Agile Academy */}
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border border-purple-500/30 flex flex-col h-full">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
-                    <GraduationCap className="w-10 h-10 text-[#252525]" />
-                  </div>
-                </div>
-                <h3 className="text-3xl font-bold mb-4 text-purple-400">GYO Agile Academy</h3>
-                <p className="text-gray-300 mb-6 flex-grow">
-                  Gestión educativa integral. Administra alumnos, cursos y contenido con una plataforma diseñada para el aprendizaje moderno.
-                </p>
-                <div className="flex flex-wrap justify-center gap-2 mb-8">
-                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">✓ Disponible Ahora</span>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">✓ En Producción</span>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-auto">
-                  <a
-                    href="https://academy.gyotechnologies.com.ar/auth/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
-                  >
-                    Ir al Campus
-                    <ArrowRight size={18} />
-                  </a>
-                  <button
-                    onClick={() => onPageChange('agile-academy')}
-                    className="px-6 py-3 bg-white/10 border border-white/10 text-white rounded-full font-semibold hover:bg-white/20 transition-all"
-                  >
-                    Ver Detalles
-                  </button>
-                </div>
-              </div>
+      <motion.section className="px-4 py-20 md:py-28" {...reveal}>
+        <div className="container grid gap-5 md:grid-cols-3">
+          {principles.map((principle) => (
+            <div key={principle.title} className="rounded-[1.75rem] border border-[#171411]/10 bg-[#f8f0e3] p-7">
+              <Zap className="mb-10 h-5 w-5 text-[#d75f32]" />
+              <h2 className="text-3xl font-black tracking-[-0.05em]">{principle.title}</h2>
+              <p className="mt-4 leading-7 text-[#171411]/68">{principle.description}</p>
             </div>
-
-          </div>
+          ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* Tools Grid */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-              Nuestras Herramientas
+      <motion.section id="tools-grid" className="bg-[#171411] px-4 py-24 text-[#efe7da] md:py-32" {...reveal}>
+        <div className="container">
+          <div className="mb-14 max-w-4xl">
+            <p className="text-xs font-black uppercase tracking-[0.35em] text-[#7fa36b]">Suite actual</p>
+            <h2 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
+              Herramientas reales, conceptuales y en beta sin mezclarlas con servicios.
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Cada herramienta es diseñada en colaboración con emprendedores reales,
-              solucionando problemas específicos del mundo empresarial actual.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tools.map((tool, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all group"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center">
-                    {tool.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs text-purple-400 font-medium">{tool.category}</span>
-                      {tool.status === 'available' && (
-                        <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">
-                          ✓ Disponible
-                        </span>
-                      )}
-                      {tool.status === 'coming-soon' && (
-                        <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">
-                          ⏳ En desarrollo
-                        </span>
-                      )}
+          <div className="grid gap-5 lg:grid-cols-3">
+            {tools.map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <div key={tool.title} className="flex min-h-[520px] flex-col rounded-[2rem] border border-[#efe7da]/12 bg-[#efe7da]/7 p-7 transition hover:-translate-y-1 hover:bg-[#efe7da]/12">
+                  <div className="mb-10 flex items-start justify-between gap-4">
+                    <div className="rounded-2xl bg-[#efe7da] p-4 text-[#171411]">
+                      <Icon className="h-7 w-7" style={{ color: tool.accent }} />
                     </div>
-                    <h3 className="text-xl font-semibold">{tool.title}</h3>
+                    <span className="rounded-full border border-[#efe7da]/15 px-3 py-1 text-xs font-bold text-[#efe7da]/60">{tool.status}</span>
+                  </div>
+                  <p className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: tool.accent }}>{tool.category}</p>
+                  <h3 className="mt-4 text-4xl font-black leading-none tracking-[-0.06em]">{tool.title}</h3>
+                  <p className="mt-6 leading-7 text-[#efe7da]/68">{tool.description}</p>
+                  <ul className="mt-8 space-y-3">
+                    {tool.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-3 text-sm text-[#efe7da]/70">
+                        <CheckCircle className="h-4 w-4" style={{ color: tool.accent }} /> {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto flex flex-col gap-3 pt-10">
+                    {tool.url && (
+                      <a href={tool.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-full bg-[#efe7da] px-5 py-3 text-sm font-black uppercase tracking-[0.18em] text-[#171411] transition hover:bg-[#d75f32]">
+                        Acceder <ArrowRight className="ml-3 h-4 w-4" />
+                      </a>
+                    )}
+                    {tool.page && (
+                      <button onClick={() => onPageChange(tool.page)} className="rounded-full border border-[#efe7da]/15 px-5 py-3 text-sm font-black uppercase tracking-[0.18em] text-[#efe7da]/75 transition hover:border-[#efe7da] hover:text-[#efe7da]">
+                        Ver detalle
+                      </button>
+                    )}
                   </div>
                 </div>
-                <p className="text-gray-300 mb-4">{tool.description}</p>
-                <ul className="space-y-2">
-                  {tool.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center gap-2 text-sm text-gray-400">
-                      <CheckCircle size={16} className="text-green-400" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                {tool.status === 'available' && tool.url ? (
-                  <div className="flex flex-col gap-2 mt-6">
-                    <a
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2"
-                    >
-                      Acceder a la Herramienta
-                      <ArrowRight size={16} />
-                    </a>
-                    <button
-                      onClick={() => {
-                        if (tool.title === "GYO Agile Stock") onPageChange('agile-stock');
-                        if (tool.title === "GYO Agile Academy") onPageChange('agile-academy');
-                      }}
-                      className="w-full py-3 bg-white/10 border border-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
-                    >
-                      Más Información
-                    </button>
-                  </div>
-                ) : tool.status === 'coming-soon' ? (
-                  <button className="w-full mt-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 text-white rounded-lg font-semibold cursor-not-allowed transition-all opacity-0 group-hover:opacity-100">
-                    Próximamente
-                  </button>
-                ) : (
-                  <button className="w-full mt-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all opacity-0 group-hover:opacity-100">
-                    Más Información
-                  </button>
-                )}
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-gray-900 to-gray-800">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-            Transforma tu negocio hoy mismo
-          </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Únete a los emprendedores que ya están usando nuestras herramientas para optimizar sus negocios.
-          </p>
-          <div className="flex justify-center">
-            <button
-              onClick={() => setIsContactModalOpen(true)}
-              className="px-10 py-5 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-full font-semibold hover:from-green-700 hover:to-blue-700 transition-all text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              Comenzar Ahora
+      <section className="px-4 py-20 md:py-28">
+        <div className="container rounded-[2rem] bg-[#d75f32] p-8 md:p-12">
+          <div className="grid gap-8 md:grid-cols-[1fr_0.7fr] md:items-end">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#171411]/60">Implementacion</p>
+              <h2 className="mt-4 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
+                Una tool puede empezar como concepto y terminar sosteniendo una operacion real.
+              </h2>
+            </div>
+            <button onClick={() => setIsContactModalOpen(true)} className="inline-flex items-center justify-center rounded-full bg-[#171411] px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#efe7da] transition hover:bg-[#efe7da] hover:text-[#171411]">
+              Hablemos de una tool <ArrowRight className="ml-3 h-4 w-4" />
             </button>
           </div>
         </div>
       </section>
 
       <Footer />
-      <ContactModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
+      <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
     </div>
   );
 };
 
-export default ToolsPage; 
+export default ToolsPage;

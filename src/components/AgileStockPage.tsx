@@ -1,414 +1,212 @@
-import {
-    ArrowRight,
-    Package,
-    Zap,
-    LayoutDashboard,
-    Smartphone,
-    ShieldCheck,
-    Globe,
-    Server,
-    Lock,
-    FileText,
-    ClipboardList,
-    CheckCircle
-} from 'lucide-react';
+import { ArrowRight, CheckCircle, ClipboardList, FileText, Globe, LayoutDashboard, Package, ShieldCheck, Smartphone, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Navbar from './Navbar';
-import Footer from './Footer';
-import ContactModal from './ContactModal';
 import { useState } from 'react';
+import ContactModal from './ContactModal';
+import Footer from './Footer';
+import Navbar from './Navbar';
 
 interface AgileStockPageProps {
-    onPageChange: (page: string) => void;
+  onPageChange: (page: string) => void;
 }
 
+const valuePropositions = [
+  {
+    icon: LayoutDashboard,
+    title: 'Gestion 360',
+    description: 'Centraliza compras, insumos, productos, pedidos, costos y ventas en una sola operacion.'
+  },
+  {
+    icon: Globe,
+    title: 'Multi empresa',
+    description: 'Administra sucursales o unidades de negocio con datos ordenados y trazabilidad clara.'
+  },
+  {
+    icon: Zap,
+    title: 'Tiempo real',
+    description: 'Dashboards y alertas para decidir antes de que el stock critico se vuelva problema.'
+  },
+  {
+    icon: Smartphone,
+    title: 'Web responsive',
+    description: 'Acceso desde computadora, tablet o celular sin depender de planillas dispersas.'
+  }
+];
+
+const featureBlocks = [
+  {
+    eyebrow: 'Vision general',
+    title: 'Toma decisiones basadas en datos reales.',
+    description: 'El dashboard deja de ser decoracion: muestra ventas, productos mas vendidos, ingresos y alertas operativas para leer el negocio de un vistazo.',
+    image: '/as-dashboard.png',
+    icon: LayoutDashboard,
+    points: ['Ventas y productos mas vendidos', 'Proyeccion de ingresos mensuales', 'Alertas de stock critico'],
+    accent: '#7fa36b'
+  },
+  {
+    eyebrow: 'Stock inteligente',
+    title: 'Control de insumos con semaforo de reposicion.',
+    description: 'El sistema senala que insumos requieren accion y mantiene visible el patrimonio cargado en materia prima.',
+    image: '/as-insumos.png',
+    icon: Package,
+    points: ['Alertas rojo, amarillo y verde', 'Patrimonio en insumos', 'Historial de movimientos'],
+    accent: '#7e6bd8'
+  },
+  {
+    eyebrow: 'Pedidos',
+    title: 'Flujo de pedidos de punta a punta.',
+    description: 'Cada pedido puede seguirse desde el ingreso hasta la entrega, con comprobantes y estados claros para operar sin improvisar.',
+    image: '/as-pedidos.png',
+    icon: ClipboardList,
+    points: ['Estados personalizables', 'PDF con codigo QR', 'Descuento automatico de stock'],
+    accent: '#d75f32'
+  },
+  {
+    eyebrow: 'Recetas y costos',
+    title: 'Produccion exacta, costos precisos.',
+    description: 'Las recetas permiten calcular costos por unidad, descontar insumos y entender rentabilidad por producto.',
+    image: '/as-receta.png',
+    icon: FileText,
+    points: ['Costo automatico por unidad', 'Rentabilidad por producto', 'Produccion y stock intermedio'],
+    accent: '#7fa36b'
+  }
+];
+
+const reveal = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] }
+};
+
 const AgileStockPage = ({ onPageChange }: AgileStockPageProps) => {
-    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-    const valuePropositions = [
-        {
-            icon: <LayoutDashboard className="w-6 h-6 text-green-400" />,
-            title: "Gestión 360°",
-            description: "Centraliza tu negocio: desde la compra de materia prima hasta la venta final al cliente."
-        },
-        {
-            icon: <Globe className="w-6 h-6 text-green-400" />,
-            title: "Multi-Empresa",
-            description: "Administra múltiples sucursales o negocios con aislamiento total de datos."
-        },
-        {
-            icon: <Zap className="w-6 h-6 text-green-400" />,
-            title: "Control en Tiempo Real",
-            description: "Dashboard interactivo para tomar decisiones al instante con datos actualizados."
-        },
-        {
-            icon: <Smartphone className="w-6 h-6 text-green-400" />,
-            title: "Accesibilidad Total",
-            description: "Plataforma 100% web y responsiva. Accede desde tu PC, tablet o celular."
-        }
-    ];
+  return (
+    <div className="min-h-screen bg-[#efe7da] text-[#171411]">
+      <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
 
+      <header className="relative overflow-hidden px-4 pt-36 md:pt-44">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(127,163,107,0.25),transparent_30%),radial-gradient(circle_at_86%_20%,rgba(215,95,50,0.16),transparent_28%)]" />
+        <div className="container relative z-10 grid min-h-[76vh] items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+          <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#171411]/12 bg-[#f8f0e3]/70 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[#171411]/65">
+              <Package className="h-4 w-4 text-[#7fa36b]" /> Producto activo
+            </div>
+            <h1 className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.075em] md:text-8xl">
+              Stock, pedidos y costos con estructura operativa.
+            </h1>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171411]/70 md:text-xl">
+              GYO Agile Stock ordena el inventario como sistema: datos claros, trazabilidad, alertas y decisiones menos dependientes de planillas manuales.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a href="https://agilestock.gyotechnologies.com.ar/login" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center rounded-full bg-[#171411] px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#efe7da] transition hover:bg-[#7fa36b] hover:text-[#171411]">
+                Ingresar <ArrowRight className="ml-3 h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
+              <button onClick={() => setIsContactModalOpen(true)} className="inline-flex items-center justify-center rounded-full border border-[#171411]/20 bg-[#f8f0e3]/70 px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#171411] transition hover:border-[#171411]">
+                Solicitar demo
+              </button>
+            </div>
+          </motion.div>
 
-
-    return (
-        <div className="min-h-screen bg-black text-white">
-            <Navbar onPageChange={onPageChange} onContactClick={() => setIsContactModalOpen(true)} />
-
-            {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden pt-20">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-900/20" />
-
-                {/* Background Blobs */}
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-20 left-10 w-64 h-64 bg-green-500 rounded-full blur-[100px]" />
-                    <div className="absolute bottom-20 right-10 w-64 h-64 bg-blue-500 rounded-full blur-[100px]" />
-                </div>
-
-                <div className="container mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 text-sm font-medium mb-6">
-                            <Package size={16} />
-                            <span>Gestión de Inventario 2.0</span>
-                        </div>
-
-                        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                            Gestión de Stock <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">Ágil y Eficiente</span>
-                        </h1>
-
-                        <p className="text-xl text-gray-400 mb-8 leading-relaxed max-w-lg">
-                            Optimiza tu inventario, reduce pérdidas y toma decisiones basadas en datos reales. La herramienta definitiva para el comercio moderno.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <a
-                                href="https://agilestock.gyotechnologies.com.ar/login"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-green-500/25"
-                            >
-                                Ingresar al Sistema
-                                <ArrowRight size={20} />
-                            </a>
-                            <button
-                                onClick={() => setIsContactModalOpen(true)}
-                                className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-full font-semibold transition-all backdrop-blur-sm"
-                            >
-                                Solicitar Demo
-                            </button>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative"
-                    >
-                        <div className="relative z-10 bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-                            <img
-                                src="/agilestockbanner.png"
-                                alt="GYO Agile Stock Platform Interface"
-                                className="w-full h-auto object-cover"
-                            />
-                        </div>
-                        {/* Decorative Elements */}
-                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-green-500/20 to-transparent rounded-full blur-2xl" />
-                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-blue-500/20 to-transparent rounded-full blur-2xl" />
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Features Grid */}
-            <section className="py-24 px-4 bg-black/50">
-                <div className="container mx-auto">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6">Todo lo que necesitas para crecer</h2>
-                        <p className="text-gray-400 text-lg">
-                            Diseñado pensando en la escalabilidad y eficiencia de tu negocio.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {valuePropositions.map((prop, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="bg-gray-900/50 border border-white/5 p-6 rounded-2xl hover:bg-gray-800/50 hover:border-green-500/30 transition-all group"
-                            >
-                                <div className="bg-green-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    {prop.icon}
-                                </div>
-                                <h3 className="text-xl font-bold mb-3">{prop.title}</h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">{prop.description}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Feature Blocks with Screenshots */}
-            <section className="py-24 px-4 bg-black">
-                <div className="container mx-auto space-y-32">
-                    {/* Feature 1: Dashboard */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <div className="order-2 lg:order-1">
-                            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                                <img
-                                    src="/as-dashboard.png"
-                                    alt="Dashboard Interactivo de Agile Stock"
-                                    className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
-                                />
-                            </div>
-                        </div>
-                        <div className="order-1 lg:order-2 space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full text-green-400 text-sm font-medium">
-                                <LayoutDashboard size={14} />
-                                <span>Visión General</span>
-                            </div>
-                            <h3 className="text-3xl md:text-4xl font-bold">Toma decisiones basadas en datos reales</h3>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Olvídate de las planillas de cálculo. Nuestro dashboard interactivo te muestra la salud financiera y operativa de tu negocio al instante.
-                            </p>
-                            <ul className="space-y-3">
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-green-500" />
-                                    <span>Ventas y productos más vendidos.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-green-500" />
-                                    <span>Proyección de ingresos mensuales.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-green-500" />
-                                    <span>Alertas de stock crítico en tiempo real.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </motion.div>
-
-                    {/* Feature 2: Insumos & Semáforo */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 rounded-full text-blue-400 text-sm font-medium">
-                                <Package size={14} />
-                                <span>Stock Inteligente</span>
-                            </div>
-                            <h3 className="text-3xl md:text-4xl font-bold">Control de insumos con semáforo de stock</h3>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Evita el quiebre de stock y las compras de pánico. El sistema te avisa visualmente qué insumos necesitan reposición inmediata.
-                            </p>
-                            <ul className="space-y-3">
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-blue-500" />
-                                    <span>Alertas automáticas (Rojo/Amarillo/Verde).</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-blue-500" />
-                                    <span>Cálculo de patrimonio en insumos.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-blue-500" />
-                                    <span>Historial de movimientos por ingrediente.</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                            <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                            <img
-                                src="/as-insumos.png"
-                                alt="Listado de Insumos con Alertas"
-                                className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    </motion.div>
-
-                    {/* Feature 3: Pedidos & Trazabilidad */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <div className="order-2 lg:order-1">
-                            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                                <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                                <img
-                                    src="/as-pedidos.png"
-                                    alt="Detalle de Pedido y Trazabilidad"
-                                    className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
-                                />
-                            </div>
-                        </div>
-                        <div className="order-1 lg:order-2 space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 rounded-full text-purple-400 text-sm font-medium">
-                                <ClipboardList size={14} />
-                                <span>Gestión de Pedidos</span>
-                            </div>
-                            <h3 className="text-3xl md:text-4xl font-bold">Flujo de pedidos de punta a punta</h3>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Sigue cada pedido desde que ingresa hasta que se entrega. Genera comprobantes profesionales y mantén a tus clientes informados.
-                            </p>
-                            <ul className="space-y-3">
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-purple-500" />
-                                    <span>Estados personalizables (Pendiente, Preparado, Entregado).</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-purple-500" />
-                                    <span>Generación de PDF con código QR.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-purple-500" />
-                                    <span>Descuento automático de stock al confirmar.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </motion.div>
-
-                    {/* Feature 4: Recetas & Costos */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                    >
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 rounded-full text-orange-400 text-sm font-medium">
-                                <FileText size={14} />
-                                <span>Recetas y Costos</span>
-                            </div>
-                            <h3 className="text-3xl md:text-4xl font-bold">Producción exacta, costos precisos</h3>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Define la "receta" de tus productos. Al producir o vender, el sistema descuenta automáticamente las proporciones exactas de materia prima.
-                            </p>
-                            <ul className="space-y-3">
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-orange-500" />
-                                    <span>Cálculo automático de costo por unidad.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-orange-500" />
-                                    <span>Análisis de rentabilidad por producto.</span>
-                                </li>
-                                <li className="flex items-center gap-3 text-gray-300">
-                                    <CheckCircle size={18} className="text-orange-500" />
-                                    <span>Gestión de producción y stock intermedio.</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-                            <div className="absolute inset-0 bg-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                            <img
-                                src="/as-receta.png"
-                                alt="Detalle de Producto y Receta"
-                                className="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Technical Specs */}
-            <section className="py-24 px-4 bg-gray-900/30 border-y border-white/5">
-                <div className="container mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h2 className="text-3xl md:text-4xl font-bold mb-6">Tecnología Robusta y Segura</h2>
-                            <p className="text-gray-400 mb-8 leading-relaxed">
-                                GYO AgileStock está construido sobre una arquitectura moderna diseñada para la velocidad y la seguridad.
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div className="flex items-center gap-3">
-                                    <Server className="text-blue-400" />
-                                    <span className="font-medium">Python/Flask Core</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <Lock className="text-blue-400" />
-                                    <span className="font-medium">Encriptación Avanzada</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <Globe className="text-blue-400" />
-                                    <span className="font-medium">Cloud-Ready (Docker)</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <ShieldCheck className="text-blue-400" />
-                                    <span className="font-medium">Backups Automáticos</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full" />
-                            <div className="relative bg-black/50 border border-white/10 rounded-2xl p-8 backdrop-blur-xl">
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                                        <span className="text-gray-400">Status del Sistema</span>
-                                        <span className="text-green-400 font-mono">OPERATIVO 100%</span>
-                                    </div>
-                                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                                        <span className="text-gray-400">Latencia</span>
-                                        <span className="text-blue-400 font-mono">24ms</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-gray-400">Seguridad</span>
-                                        <span className="text-green-400 font-mono">ENCRIPTADO AES-256</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-24 px-4">
-                <div className="container mx-auto">
-                    <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 border border-white/10 rounded-3xl p-12 text-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-grid-white/[0.02]" />
-                        <div className="relative z-10 max-w-2xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-6">¿Listo para modernizar tu negocio?</h2>
-                            <p className="text-gray-300 mb-8 text-lg">
-                                Únete a cientos de empresas que ya gestionan su inventario de forma inteligente con GYO Agile Stock.
-                            </p>
-                            <button
-                                onClick={() => setIsContactModalOpen(true)}
-                                className="px-8 py-4 bg-white text-black hover:bg-gray-100 rounded-full font-bold transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
-                            >
-                                Comenzar Prueba Gratuita
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <Footer />
-            <ContactModal
-                isOpen={isContactModalOpen}
-                onClose={() => setIsContactModalOpen(false)}
-            />
+          <motion.div initial={{ opacity: 0, scale: 0.95, rotate: 1.5 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="relative">
+            <div className="rounded-[2rem] border border-[#171411]/12 bg-[#f8f0e3] p-3 shadow-2xl shadow-[#171411]/15">
+              <img src="/agilestockbanner.png" alt="GYO Agile Stock Platform Interface" loading="eager" decoding="async" className="w-full rounded-[1.5rem] object-cover" />
+            </div>
+            <div className="absolute -bottom-6 -left-5 rounded-3xl bg-[#171411] p-5 text-[#efe7da] shadow-2xl">
+              <p className="text-xs uppercase tracking-[0.28em] text-[#efe7da]/50">Status</p>
+              <p className="mt-2 text-2xl font-black">Operativo</p>
+            </div>
+          </motion.div>
         </div>
-    );
+      </header>
+
+      <motion.section className="px-4 py-20 md:py-28" {...reveal}>
+        <div className="container">
+          <div className="mb-12 max-w-4xl">
+            <p className="text-xs font-black uppercase tracking-[0.35em] text-[#7fa36b]">Operacion</p>
+            <h2 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
+              La herramienta no promete magia: ordena decisiones diarias.
+            </h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-4">
+            {valuePropositions.map((prop) => {
+              const Icon = prop.icon;
+              return (
+                <div key={prop.title} className="rounded-[1.75rem] border border-[#171411]/10 bg-[#f8f0e3] p-6">
+                  <Icon className="mb-10 h-6 w-6 text-[#7fa36b]" />
+                  <h3 className="text-2xl font-black tracking-[-0.04em]">{prop.title}</h3>
+                  <p className="mt-4 text-sm leading-6 text-[#171411]/68">{prop.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.section>
+
+      <section className="bg-[#171411] px-4 py-24 text-[#efe7da] md:py-32">
+        <div className="container space-y-24">
+          {featureBlocks.map((feature, index) => {
+            const Icon = feature.icon;
+            const isReversed = index % 2 === 1;
+            return (
+              <motion.div key={feature.title} className="grid gap-10 lg:grid-cols-2 lg:items-center" {...reveal}>
+                <div className={isReversed ? 'lg:order-2' : ''}>
+                  <div className="overflow-hidden rounded-[2rem] border border-[#efe7da]/12 bg-[#efe7da]/7 p-3">
+                    <img src={feature.image} alt={feature.title} loading="lazy" decoding="async" className="w-full rounded-[1.5rem] object-cover transition duration-700 hover:scale-[1.025]" />
+                  </div>
+                </div>
+                <div className={isReversed ? 'lg:order-1' : ''}>
+                  <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#efe7da]/12 px-4 py-2 text-xs font-black uppercase tracking-[0.24em]" style={{ color: feature.accent }}>
+                    <Icon className="h-4 w-4" /> {feature.eyebrow}
+                  </div>
+                  <h3 className="text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">{feature.title}</h3>
+                  <p className="mt-6 text-lg leading-8 text-[#efe7da]/68">{feature.description}</p>
+                  <ul className="mt-8 space-y-3">
+                    {feature.points.map((point) => (
+                      <li key={point} className="flex items-center gap-3 text-[#efe7da]/72">
+                        <CheckCircle className="h-5 w-5" style={{ color: feature.accent }} /> {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-4 py-20 md:py-28">
+        <div className="container grid gap-8 rounded-[2rem] bg-[#f8f0e3] p-8 md:grid-cols-[1fr_0.8fr] md:p-12">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.35em] text-[#d75f32]">Tecnologia</p>
+            <h2 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">Robusta, segura y lista para uso diario.</h2>
+            <p className="mt-6 leading-8 text-[#171411]/68">Una arquitectura web pensada para acceso continuo, backups, seguridad y operacion desde multiples dispositivos.</p>
+          </div>
+          <div className="grid gap-3 self-end">
+            {['Cloud-ready', 'Backups automaticos', 'Acceso responsive', 'Datos aislados por negocio'].map((item) => (
+              <div key={item} className="flex items-center gap-3 rounded-2xl border border-[#171411]/10 bg-[#efe7da] p-5 font-black tracking-[-0.03em]">
+                <ShieldCheck className="h-5 w-5 text-[#7fa36b]" /> {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-24">
+        <div className="container rounded-[2rem] bg-[#7fa36b] p-8 md:p-12">
+          <div className="grid gap-8 md:grid-cols-[1fr_0.7fr] md:items-end">
+            <h2 className="text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">Moderniza tu inventario sin perder control operativo.</h2>
+            <button onClick={() => setIsContactModalOpen(true)} className="inline-flex items-center justify-center rounded-full bg-[#171411] px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#efe7da] transition hover:bg-[#efe7da] hover:text-[#171411]">
+              Comenzar demo <ArrowRight className="ml-3 h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+    </div>
+  );
 };
 
 export default AgileStockPage;

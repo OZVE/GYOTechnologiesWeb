@@ -57,12 +57,6 @@ export function getPageContext(): string {
       fullContext = fullContext.substring(0, 12000) + '...';
     }
 
-    // DEBUG: Log del contexto generado
-    console.log('🔍 DEBUG - getPageContext:');
-    console.log('  Context length:', fullContext.length);
-    console.log('  Context preview:', fullContext.substring(0, 200) + '...');
-    console.log('  Context parts:', contextParts.length);
-    
     return fullContext;
   } catch (error) {
     console.error('Error al extraer contexto de la página:', error);
@@ -159,7 +153,7 @@ function extractVisibleText(element: HTMLElement): string {
 
   const textNodes: string[] = [];
   let node;
-  while (node = walker.nextNode()) {
+  while ((node = walker.nextNode())) {
     const text = node.textContent?.trim();
     if (text) {
       textNodes.push(text);
@@ -167,4 +161,4 @@ function extractVisibleText(element: HTMLElement): string {
   }
 
   return textNodes.join(' ');
-} 
+}
